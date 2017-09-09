@@ -26,7 +26,7 @@ class CrisisStrategyView(APIView):
             return Response({'detail': "Unable to find crisis with cmo crisis id %s" % cmo_crisis_id},
                             status=status.HTTP_404_NOT_FOUND)
 
-        strategy_detail = get_request_body_param(request, 'detail', None)
+        strategy_detail = get_request_body_param(request, 'detail', None).strip()
         if not strategy_detail:
             return Response({'detail': 'crisis strategy cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
 
