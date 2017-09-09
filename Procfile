@@ -1,1 +1,1 @@
-web: gunicorn eforce_api.wsgi --log-file -
+web: gunicorn eforce.wsgi --log-file -
