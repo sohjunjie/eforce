@@ -21,5 +21,6 @@ from rest_framework.authtoken import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('eforce_api.urls')),
+    url(r'^', include('eforce_front.urls')),
     url(r'^api/v1.0/login', views.obtain_auth_token),
 ]
