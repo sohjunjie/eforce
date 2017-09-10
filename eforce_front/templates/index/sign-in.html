@@ -1,0 +1,57 @@
+{% extends "base-index.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block top_title_text %}Sign In | SG-EF{% endblock %}
+
+{% block main_body %}
+<body class="login-page">
+    <div class="login-box">
+        <div class="logo">
+            <a href="javascript:void(0);"><b>SG</b> Emergency Force</a><br/>
+            <small>Your partner in crisis management</small>
+        </div>
+        <div class="card">
+            <div class="body">
+
+                {% if redirect_to %}
+                    <form id="sign_in"  action="?next={{redirect_to}}" method="post" >
+                {%else%}
+                    <form id="sign_in"  action="" method="post">
+                {% endif %}
+                {% csrf_token %}
+                    <div class="msg">Sign in to start your session</div>
+
+                    {% bootstrap_messages %}
+
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">person</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="material-icons">lock</i>
+                        </span>
+                        <div class="form-line">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 p-t-5">
+                            <a href="forgot-password.html">Forgot Password?</a>
+                        </div>
+                        <div class="col-xs-4">
+                            <button class="btn btn-block bg-pink waves-effect" type="submit">SIGN IN</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+{% endblock %}

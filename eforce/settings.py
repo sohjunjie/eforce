@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'eforce_api',
     'eforce_front',
     'rest_framework',
+    'bootstrap3',
 ]
 
 if os.environ.get('SELF_HOSTING'):
@@ -154,6 +155,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_REDIRECT_URL = '/home/'
+LOGIN_URL = '/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -161,3 +164,15 @@ STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# django-bootstrap3 settings
+BOOTSTRAP3 = {
+    'jquery_url': os.path.join(STATIC_URL, 'plugins/jquery/jquery.min.js'),
+    'base_url': os.path.join(STATIC_URL, 'plugins/bootstrap/'),
+    # 'jquery_url': 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
+    # 'base_url': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/',
+    'css_url': None,
+    'javascript_url': None,
+    'include_jquery': True,
+    'javascript_in_head': True,
+}
