@@ -10,4 +10,4 @@ CZ3003 Project - SG Emergency Force System
 - Crisis Management System
 
 ## Installation guide
-[Install>>](INSTALL.md)
+[Install here](INSTALL.md)
