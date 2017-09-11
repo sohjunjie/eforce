@@ -8,3 +8,6 @@ CZ3003 Project - SG Emergency Force System
 - Emergency Force HQ
 - EF Assets (Emergency Force HQ sub-divisions)
 - Crisis Management System
+
+## Installation guide
+[Install>>](INSTALL.md)
