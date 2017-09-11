@@ -1,6 +1,6 @@
 # Emergency Force System
 
-## Quick installation start (backend)
+## Quick installation start
 - Install postgres (pgadmin)
 - Install python 3
 - Install pip
