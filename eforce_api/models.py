@@ -57,6 +57,12 @@ class CrisisUpdate(models.Model):
     title = models.TextField(max_length=200, null=False)
     description = models.TextField(max_length=1000, null=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
+    force_lat = models.DecimalField(max_digits=18, decimal_places=13, default=0)
+    force_lng = models.DecimalField(max_digits=18, decimal_places=13, default=0)
+    force_size = models.IntegerField(default=0, null=False)
+    force_casualty = models.IntegerField(default=0, null=False)
+    known_casualty = models.IntegerField(default=0, null=False)
+    known_dead = models.IntegerField(default=0, null=False)
 
 
 class GroupInstruction(models.Model):

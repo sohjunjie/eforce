@@ -4,7 +4,7 @@
 <head>
     {% load staticfiles %}
     {% load bootstrap3 %}
-    {% bootstrap_javascript %}
+    {% bootstrap_javascript jquery=1 %}
     {% bootstrap_css %}
 
     <meta charset="UTF-8">
@@ -16,9 +16,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
-
-    <!-- Bootstrap Core Css -->
-    <link href="{% static "plugins/bootstrap/css/bootstrap.css" %}" rel="stylesheet" />
 
     <!-- Waves Effect Css -->
     <link href="{% static "plugins/node-waves/waves.css" %}" rel="stylesheet" />

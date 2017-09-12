@@ -4,7 +4,7 @@ from eforce_front.exceptions import AuthenticationError
 import re
 
 
-def try_login_user(username, password):
+def try_login_user(request, username, password):
 
     if not (username and password):
         raise AuthenticationError(error='Sign-in credentials not entered.')

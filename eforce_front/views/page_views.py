@@ -28,7 +28,7 @@ def index(request, redirect_field_name=REDIRECT_FIELD_NAME):
     password = request.POST.get('password', '')
 
     try:
-        if try_login_user(username, password):
+        if try_login_user(request, username, password):
             return redirect(redirect_to)
     except AuthenticationError as e:
         messages.error(request, e.error)
@@ -37,4 +37,4 @@ def index(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
 @login_required
 def homepage(request):
-    return render(request, 'index/sign-in.html', {'redirect_to': redirect_to})
+    return render(request, 'home/home.html')
