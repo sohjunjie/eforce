@@ -36,6 +36,11 @@ def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
 
 @login_required
+def go_to_manage_ef_assets_page(request):
+    return render(request, 'home/efassets.html')
+
+
+@login_required
 def go_to_homepage(request):
     return render(request, 'home/home.html')
 
