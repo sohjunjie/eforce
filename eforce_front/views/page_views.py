@@ -13,7 +13,7 @@ import re
 
 
 # TODO: REFACTOR POST LOGIN INTO AUTH_VIEWS.PY
-def index(request, redirect_field_name=REDIRECT_FIELD_NAME):
+def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
     redirect_to = request.POST.get(redirect_field_name,
                                    request.GET.get(redirect_field_name, reverse('ef-home')))
@@ -32,9 +32,14 @@ def index(request, redirect_field_name=REDIRECT_FIELD_NAME):
             return redirect(redirect_to)
     except AuthenticationError as e:
         messages.error(request, e.error)
-        return redirect(reverse('ef-index'))
+        return redirect(reverse('ef-signin'))
 
 
 @login_required
-def homepage(request):
+def go_to_homepage(request):
     return render(request, 'home/home.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect(reverse('ef-signin'))
