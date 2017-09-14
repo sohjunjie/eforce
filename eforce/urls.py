@@ -18,9 +18,15 @@ from django.contrib import admin
 from rest_framework import routers
 from rest_framework.authtoken import views
 
+import os
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('eforce_api.urls')),
     url(r'^', include('eforce_front.urls')),
     url(r'^api/v1.0/login', views.obtain_auth_token),
 ]
+
+if os.environ.get('SELF_HOSTING'):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
