@@ -177,3 +177,6 @@ BOOTSTRAP3 = {
     'include_jquery': True,
     'javascript_in_head': True,
 }
+
+# eforceapp constant
+EF_HQ_ROLENAME = 'EF_HQ'

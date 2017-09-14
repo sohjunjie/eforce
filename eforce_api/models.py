@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from eforce.settings import EF_HQ_ROLENAME
 
 
 def user_avatar_directory_path(instance, filename):
@@ -27,12 +28,18 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
-    def get_hq_crisis_cases(self):
-        pass
+    def is_EF_HQ_user(self):
+        return (self.usergroup.rolename == EF_HQ_ROLENAME)
+
+    def get_readable_groupname(self):
+        return self.usergroup.rolename.replace('_', ' ')
 
     # get instruction belonging to the user current group
     def get_group_instruction_notification(self):
-        return self.usergroup.instruction.all()
+        if self.is_EF_HQ_user():
+            return self.usergroup.instruction.all()
+        else:
+            return []
 
 
 class Crisis(models.Model):
@@ -67,6 +74,7 @@ class SummmarizedCrisisUpdate(models.Model):
     force_casualty = models.IntegerField(default=0, null=False)
     known_casualty = models.IntegerField(default=0, null=False)
     known_dead = models.IntegerField(default=0, null=False)
+    for_crisis = models.ForeignKey(Crisis, null=True, related_name="summarized_updates")
 
 
 class CrisisUpdate(models.Model):
@@ -79,6 +87,7 @@ class CrisisUpdate(models.Model):
     force_casualty = models.IntegerField(default=0, null=False)
     known_casualty = models.IntegerField(default=0, null=False)
     known_dead = models.IntegerField(default=0, null=False)
+    for_crisis = models.ForeignKey(Crisis, null=True, related_name="ef_assets_updates")
 
 
 class GroupInstruction(models.Model):
