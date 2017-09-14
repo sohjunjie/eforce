@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+def user_avatar_directory_path(instance, filename):
+    return 'user/{0}/{1}'.format(instance.id, filename)
+
+
 class UserGroup(models.Model):
     rolename = models.TextField(max_length=100, blank=False, null=False)
     instruction = models.ManyToManyField(
@@ -17,7 +21,7 @@ class UserGroup(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="userprofile")
     description = models.TextField(max_length=500, blank=True, null=True)
-    avatar = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_avatar_directory_path, blank=True, null=True)
     usergroup = models.OneToOneField(UserGroup, related_name='userprofile', null=True)
 
     def __str__(self):

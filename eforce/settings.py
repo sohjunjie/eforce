@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'eforce_front',
     'rest_framework',
     'bootstrap3',
+    'storages',
 ]
 
 if os.environ.get('SELF_HOSTING'):
