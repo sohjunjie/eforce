@@ -12,7 +12,6 @@ from django.shortcuts import render, redirect
 import re
 
 
-# TODO: REFACTOR POST LOGIN INTO AUTH_VIEWS.PY
 def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
     redirect_to = request.POST.get(redirect_field_name,
