@@ -13,10 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
+from django.conf.urls.static import static
 from django.contrib import admin
 from rest_framework import routers
 from rest_framework.authtoken import views
+
+import os
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,3 +29,6 @@ urlpatterns = [
     url(r'^', include('eforce_front.urls')),
     url(r'^api/v1.0/login', views.obtain_auth_token),
 ]
+
+if os.environ.get('SELF_HOSTING'):
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

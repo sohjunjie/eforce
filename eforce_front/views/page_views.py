@@ -16,7 +16,7 @@ import re
 def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
     redirect_to = request.POST.get(redirect_field_name,
-                                   request.GET.get(redirect_field_name, reverse('ef-home')))
+                                   request.GET.get(redirect_field_name, reverse('home')))
 
     if request.user.is_authenticated():
         return redirect(redirect_to)
@@ -24,7 +24,7 @@ def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
     if not request.POST:
         return render(request, 'index/sign-in.html', {'redirect_to': redirect_to})
 
-    username = request.POST.get('username', '').lower()
+    username = request.POST.get('username', '')
     password = request.POST.get('password', '')
 
     try:
@@ -32,19 +32,33 @@ def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
             return redirect(redirect_to)
     except AuthenticationError as e:
         messages.error(request, e.error)
-        return redirect(reverse('ef-signin'))
+        return redirect(reverse('signin'))
 
 
 @login_required
-def go_to_manage_ef_assets_page(request):
-    return render(request, 'home/efassets.html')
+def go_to_dispatch_ef_page(request):
+    return render(request, 'home/ef_hq/dispatch_ef.html')
+
+
+def go_to_manage_crisis_page(request):
+    return render(request, 'home/ef_hq/manage_crisis.html')
+
+
+def go_to_update_hq_page(request):
+    return render(request, 'home/ef_assets/update_hq.html')
 
 
 @login_required
 def go_to_homepage(request):
-    return render(request, 'home/home.html')
+
+    if request.user.userprofile.is_EF_HQ_user():
+        render_page = 'home/ef_hq/main.html'
+    else:
+        render_page = 'home/ef_assets/main.html'
+
+    return render(request, render_page)
 
 
 def logout_user(request):
     logout(request)
-    return redirect(reverse('ef-signin'))
+    return redirect(reverse('signin'))

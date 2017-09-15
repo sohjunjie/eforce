@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'eforce_front',
     'rest_framework',
     'bootstrap3',
+    'storages',
 ]
 
 if os.environ.get('SELF_HOSTING'):
@@ -176,3 +177,6 @@ BOOTSTRAP3 = {
     'include_jquery': True,
     'javascript_in_head': True,
 }
+
+# eforceapp constant
+EF_HQ_ROLENAME = 'EF_HQ'
