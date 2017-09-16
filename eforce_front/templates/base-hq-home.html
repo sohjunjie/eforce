@@ -5,9 +5,10 @@
 {% load staticfiles %}
 {% load tags %}
 
-{% url 'home' as home %}
-{% url 'hq-dispatch-ef' as hq_dispatch_ef %}
-{% url 'hq-manage-crisis' as hq_manage_crisis %}
+{% url 'home' as home_url %}
+{% url 'hq-dispatch-ef' as hq_dispatch_ef_url %}
+{% url 'hq-manage-crisis' as hq_manage_crisis_url %}
+{% url 'logout' as logout_url %}
 
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
@@ -188,7 +189,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/home/logout/" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{ logout_url }}" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -217,20 +218,20 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
 
-        <li class="{% active request home %}">
-          <a href="/home/">
+        <li class="{% active request home_url %}">
+          <a href="{{ home_url }}">
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
 
-        <li class="{% active request hq_dispatch_ef %}">
-          <a href="/dispatch/ef/">
+        <li class="{% active request hq_dispatch_ef_url %}">
+          <a href="{{ hq_dispatch_ef_url }}">
             <i class="fa fa-group"></i> <span>Dispatch EF</span>
           </a>
         </li>
 
-        <li class="{% active request hq_manage_crisis %}">
-          <a href="/crisis/manage/">
+        <li class="{% active request hq_manage_crisis_url %}">
+          <a href="{{ hq_manage_crisis_url }}">
             <i class="fa fa-space-shuttle"></i> <span>Manage Crisis</span>
           </a>
         </li>

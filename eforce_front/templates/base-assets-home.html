@@ -5,8 +5,9 @@
 {% load staticfiles %}
 {% load tags %}
 
-{% url 'home' as home %}
-{% url 'assets-update-hq' as assets_update_hq %}
+{% url 'assets-update-hq' as assets_update_hq_url %}
+{% url 'home' as home_url %}
+{% url 'logout' as logout_url %}
 
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
@@ -187,7 +188,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/home/logout/" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{ logout_url }}" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -216,14 +217,14 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
 
-        <li class="{% active request home %}">
-          <a href="/home/">
+        <li class="{% active request home_url %}">
+          <a href="{{ home_url }}">
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
 
-        <li class="{% active request assets_update_hq %}">
-          <a href="/update/hq/">
+        <li class="{% active request assets_update_hq_url %}">
+          <a href="{{ assets_update_hq_url }}">
             <i class="fa fa-paper-plane"></i> <span>Update HQ</span>
           </a>
         </li>
