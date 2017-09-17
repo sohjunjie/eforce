@@ -8,3 +8,9 @@ def active(request, pattern):
     if re.search(pattern, request.path):
         return 'active'
     return ''
+
+
+@register.simple_tag
+def google_api_key():
+    from eforce.settings import GOOGLE_SERVICE_API_KEY
+    return GOOGLE_SERVICE_API_KEY
