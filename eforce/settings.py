@@ -176,11 +176,9 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # django-bootstrap3 settings
-BOOTSTRAP3 = {
+BOOTSTRAP4 = {
     'jquery_url': os.path.join(STATIC_URL, 'bower_components/jquery/dist/jquery.min.js'),
     'base_url': os.path.join(STATIC_URL, 'bower_components/bootstrap/dist/'),
-    # 'jquery_url': 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
-    # 'base_url': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/',
     'css_url': None,
     'javascript_url': None,
     'include_jquery': True,
