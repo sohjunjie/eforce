@@ -31,7 +31,7 @@ def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
             return redirect(redirect_to)
     except AuthenticationError as e:
         messages.error(request, e.error)
-        return redirect(reverse('signin'))
+        return redirect(go_to_signin)
 
 
 @login_required
@@ -60,4 +60,4 @@ def go_to_homepage(request):
 
 def logout_user(request):
     logout(request)
-    return redirect(reverse('signin'))
+    return redirect(go_to_signin)
