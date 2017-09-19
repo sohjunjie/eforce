@@ -5,12 +5,29 @@
 {% block top_title_text %}Home | SG-EF{% endblock %}
 
 {% block page_plugins_css %}
+<link rel="stylesheet" href="{% static "pages/ef_hq/style.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
 {% endblock %}
 
 {% block page_scripts %}
+<script>
+  function initMap() {
+    var sgloc = {lat: 1.349914, lng: 103.830071};
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: sgloc
+    });
+    var marker = new google.maps.Marker({
+      position: sgloc,
+      map: map
+    });
+  }
+</script>
+<script async defer
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpEHFVr5vF8&callback=initMap">
+</script>
 {% endblock %}
 
 {% block main_body %}
@@ -33,77 +50,372 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-8">
-            <style>
-              #map {
-                width: 100%;
-                height: 800px;
-              }
-            </style>
             <body>
               <h3>Crisis Map</h3>
               <div id="map"></div>
             </body>
-            <script>
-              function initMap() {
-                var uluru = {lat: 1.349914, lng: 103.830071};
-                var map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 12,
-                  center: uluru
-                });
-                var marker = new google.maps.Marker({
-                  position: uluru,
-                  map: map
-                });
-              }
-            </script>
-            <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpEHFVr5vF8&callback=initMap">
-            </script>
           </div>
-        <div class="col-md-4">
-          <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                  Collapsible Group 1</a>
-                </h4>
-              </div>
-              <div id="collapse1" class="panel-collapse collapse in">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.</div>
+        <div class="col-md-4" style="height: 77vh; overflow-x: auto;">
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                  Collapsible Group 2</a>
-                </h4>
-              </div>
-              <div id="collapse2" class="panel-collapse collapse">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.</div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
               </div>
             </div>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                  Collapsible Group 3</a>
-                </h4>
-              </div>
-              <div id="collapse3" class="panel-collapse collapse">
-                <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.</div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
               </div>
             </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <div class="box box-success collapsed-box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Crisis Title Here</h3>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    Crisis details here
+                  </div>
+              </div>
+            </div>
+
+            <div class="box-header">
+              <h3 class="box-title">Instructions</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some instructions
+            </div>
+            <div class="box-body" style="display: none;">
+                More instructions
+            </div>
+            <div class="box-header">
+              <h3 class="box-title">Strategy</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="display: none;">
+                Some strategies
+            </div>
+            <div class="box-body" style="display: none;">
+                More strategies
+            </div>
+            <!-- /.box-body -->
+          </div>
           </div>
         </div>
       </div>
