@@ -17,14 +17,13 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
+    <link rel="stylesheet" href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}">
+
     <!-- Waves Effect Css -->
     <link href="{% static "plugins/node-waves/waves.css" %}" rel="stylesheet" />
 
     <!-- Animation Css -->
     <link href="{% static "plugins/animate-css/animate.css" %}" rel="stylesheet" />
-
-    <!-- Custom Css -->
-    <link href="{% static "css/style.css" %}" rel="stylesheet" />
 
     <!-- Waves Effect Plugin Js -->
     <script src="{% static "plugins/node-waves/waves.js" %}"></script>
@@ -32,9 +31,12 @@
     <!-- Validation Plugin Js -->
     <script src="{% static "plugins/jquery-validation/jquery.validate.js" %}"></script>
 
+    <!-- Custom Css -->
+    <link href="{% static "eforce_theme/index/css/style.css" %}" rel="stylesheet" />
+
     <!-- Custom Js -->
-    <script src="{% static "js/admin.js" %}"></script>
-    <script src="{% static "js/pages/examples/sign-in.js" %}"></script>
+    <script src="{% static "eforce_theme/index/js/admin.js" %}"></script>
+    <script src="{% static "eforce_theme/index/js/sign-in.js" %}"></script>
 
     <!-- BEGIN PAGE LEVEL PLUGINS -->
     {% block page_plugins_css %}

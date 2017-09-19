@@ -49,6 +49,7 @@ class Crisis(models.Model):
     resolve = models.BooleanField(default=False)
     cmo_crisis_id = models.IntegerField(unique=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
+    has_read = models.BooleanField(default=False)
 
 
 class CombatStrategy(models.Model):
@@ -106,3 +107,4 @@ class GroupInstruction(models.Model):
 class InstructionGroupAssoc(models.Model):
     instruction = models.ForeignKey(GroupInstruction)
     to_group = models.ForeignKey(UserGroup)
+    has_read = models.BooleanField(default=False)

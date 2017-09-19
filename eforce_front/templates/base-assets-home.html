@@ -5,9 +5,9 @@
 {% load staticfiles %}
 {% load tags %}
 
-{% url 'home' as home %}
-{% url 'hq-dispatch-ef' as hq_dispatch_ef %}
-{% url 'hq-manage-crisis' as hq_manage_crisis %}
+{% url 'assets-update-hq' as assets_update_hq_url %}
+{% url 'home' as home_url %}
+{% url 'logout' as logout_url %}
 
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
@@ -22,22 +22,23 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}">
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static "dist/css/AdminLTE.min.css" %}">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="{% static "dist/css/skins/_all-skins.min.css" %}">
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
   <!-- FastClick -->
   <script src="{% static "bower_components/fastclick/lib/fastclick.js" %}"></script>
+
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static "eforce_theme/home/css/AdminLTE.min.css" %}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="{% static "eforce_theme/home/css/skins/_all-skins.min.css" %}">
+
   <!-- AdminLTE App -->
-  <script src="{% static "dist/js/adminlte.min.js" %}"></script>
+  <script src="{% static "eforce_theme/home/js/adminlte.min.js" %}"></script>
 
   <!-- AdminLTE for demo purposes -->
-  <script src="{% static "dist/js/demo.js" %}"></script>
+  <script src="{% static "eforce_theme/home/js/demo.js" %}"></script>
 
   <!-- BEGIN PAGE LEVEL PLUGINS -->
   {% block page_plugins_css %}
@@ -57,7 +58,7 @@
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{ home_url }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>EF</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -87,7 +88,7 @@
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle" alt="User Image">
+                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Sales Department
@@ -99,7 +100,7 @@
                   <li>
                     <a href="#">
                       <div class="pull-left">
-                        <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle" alt="User Image">
+                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
                       </div>
                       <h4>
                         Reviewers
@@ -170,13 +171,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{% static "dist/img/user2-160x160.jpg" %}" class="user-image" alt="User Image">
+              <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="user-image" alt="User Image">
               <span class="hidden-xs">{{ user.last_name }} {{ user.first_name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle" alt="User Image">
+                <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
 
                 <p>
                   {{ user.last_name }} {{ user.first_name }} - {{ user.userprofile.get_readable_groupname }}
@@ -188,7 +189,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="/home/logout/" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{ logout_url }}" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -206,7 +207,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="{% static "dist/img/user2-160x160.jpg" %}" class="img-circle" alt="User Image">
+          <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>{{ user.username }}</p>
@@ -217,14 +218,14 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
 
-        <li class="{% active request home %}">
-          <a href="/home/">
+        <li class="{% active request home_url %}">
+          <a href="{{ home_url }}">
             <i class="fa fa-home"></i> <span>Home</span>
           </a>
         </li>
 
-        <li class="{% active request assets_update_hq %}">
-          <a href="/update/hq/">
+        <li class="{% active request assets_update_hq_url %}">
+          <a href="{{ assets_update_hq_url }}">
             <i class="fa fa-paper-plane"></i> <span>Update HQ</span>
           </a>
         </li>

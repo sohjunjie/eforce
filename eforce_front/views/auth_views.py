@@ -17,13 +17,14 @@ def try_login_user(request, username, password):
             username = None
 
     user = authenticate(username=username, password=password)
-    if user is not None:
-        if user.is_active:
-            login(request, user)
-            return True
-        else:
-            raise AuthenticationError(error='The account is currently disabled.')
-    else:
+    if user is None:
         raise AuthenticationError(error='Incorrect sign-in credentials provided.')
 
-    raise AuthenticationError(error='Unable to sign-in.')
+    if not user.is_active:
+        raise AuthenticationError(error='The account is currently disabled.')
+
+    if user.userprofile.usergroup is None:
+        raise AuthenticationError(error='This user is not registered with any EF group yet.')
+
+    login(request, user)
+    return True
