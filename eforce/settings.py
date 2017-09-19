@@ -52,6 +52,15 @@ if os.environ.get('SELF_HOSTING'):
 else:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_QUERYSTRING_AUTH = False
+AWS_HEADERS = {
+    'Cache-Control': 'max-age=86400',
+}
+GOOGLE_SERVICE_API_KEY = os.environ.get('GOOGLE_SERVICE_API_KEY')
+
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--cover-erase',
@@ -167,11 +176,9 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # django-bootstrap3 settings
-BOOTSTRAP3 = {
-    'jquery_url': os.path.join(STATIC_URL, 'plugins/jquery/jquery.min.js'),
-    'base_url': os.path.join(STATIC_URL, 'plugins/bootstrap/'),
-    # 'jquery_url': 'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js',
-    # 'base_url': 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/',
+BOOTSTRAP4 = {
+    'jquery_url': os.path.join(STATIC_URL, 'bower_components/jquery/dist/jquery.min.js'),
+    'base_url': os.path.join(STATIC_URL, 'bower_components/bootstrap/dist/'),
     'css_url': None,
     'javascript_url': None,
     'include_jquery': True,
