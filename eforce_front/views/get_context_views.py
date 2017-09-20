@@ -1,4 +1,4 @@
-from eforce_api.models import Crisis
+from eforce_api.models import Crisis, InstructionGroupAssoc
 import operator
 
 
@@ -31,3 +31,11 @@ def get_user_group_crisis_instructions(user):
             crisis_instructions[crisis_pk].add_instruction(instr)
 
     return (sorted(crisis_instructions.values(), key=operator.attrgetter('datetime'), reverse=True))
+
+
+def get_user_group_unread_instructions(user):
+
+    i = InstructionGroupAssoc.objects.filter(has_read=False,
+                                             to_group=user.userprofile.usergroup)
+
+    return i.order_by('instruction')
