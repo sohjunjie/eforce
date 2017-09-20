@@ -1,4 +1,6 @@
 from .auth_views import try_login_user
+from .get_context_views import get_user_group_crisis_instructions
+
 from eforce_front.exceptions import AuthenticationError
 
 from django.contrib import messages
@@ -39,10 +41,12 @@ def go_to_dispatch_ef_page(request):
     return render(request, 'home/ef_hq/dispatch_ef.html')
 
 
+@login_required
 def go_to_manage_crisis_page(request):
     return render(request, 'home/ef_hq/manage_crisis.html')
 
 
+@login_required
 def go_to_update_hq_page(request):
     return render(request, 'home/ef_assets/update_hq.html')
 
@@ -52,10 +56,13 @@ def go_to_homepage(request):
 
     if request.user.userprofile.is_EF_HQ_user():
         render_page = 'home/ef_hq/main.html'
+        context = {}
     else:
         render_page = 'home/ef_assets/main.html'
+        instruction_notify = get_user_group_crisis_instructions(request.user)
+        context = {'crisis_instructions': get_user_group_crisis_instructions(request.user)}
 
-    return render(request, render_page)
+    return render(request, render_page, context)
 
 
 def logout_user(request):
