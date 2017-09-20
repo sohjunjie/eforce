@@ -72,7 +72,7 @@
                       </div>
 
                       {% for instr in ci.instructions %}
-                      <div class="box-body" style="display: none;">
+                      <div id="instruction_id_{{instr.id}}" class="box-body" style="display: none;">
                           {{instr.text}}
                       </div>
                       {% endfor %}
