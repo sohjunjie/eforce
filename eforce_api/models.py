@@ -37,9 +37,9 @@ class UserProfile(models.Model):
     # get instruction belonging to the user current group
     def get_group_instruction_notification(self):
         if self.is_EF_HQ_user():
-            return self.usergroup.instruction.all()
-        else:
             return []
+        else:
+            return self.usergroup.instruction.all()
 
 
 class Crisis(models.Model):
@@ -50,6 +50,9 @@ class Crisis(models.Model):
     cmo_crisis_id = models.IntegerField(unique=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     has_read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.title
 
 
 class CombatStrategy(models.Model):
