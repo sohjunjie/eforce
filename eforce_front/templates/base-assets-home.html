@@ -5,6 +5,7 @@
 {% load staticfiles %}
 {% load tags %}
 
+{% ef_assets_user_instructions user as new_ef_assets_instrs %}
 {% url 'assets-update-hq' as assets_update_hq_url %}
 {% url 'home' as home_url %}
 {% url 'logout' as logout_url %}
@@ -74,66 +75,40 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-space-shuttle"></i>
-              <span class="label label-success">4</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">2 new crisis</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Sales Department
-                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Reviewers
-                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="/crisis/manage/">See All Crisis</a></li>
-            </ul>
-          </li>
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">1</span>
+              {% if new_ef_assets_instrs %}
+              <span class="label label-warning">{{ new_ef_assets_instrs|length }}</span>
+              {% endif %}
             </a>
+
             <ul class="dropdown-menu">
-              <li class="header">1 update from EF Assets</li>
+              <li class="header">{{ new_ef_assets_instrs|length }} new instruction{{ new_ef_assets_instrs|pluralize }} from EF HQ</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
+
+                  {% for instr in new_ef_assets_instrs %}
                   <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> New update coming up
+                    <a href="{{ home_url }}#crisis_id_{{ instr.instruction.for_strategy.crisis.id }}" data-toggle="collapse" data-target="#crisis_id_{{ instr.instruction.for_strategy.crisis.id }}_instructions">
+                      <i class="fa fa-user text-red"></i> {{ instr.instruction.text }}
                     </a>
                   </li>
+                  {% empty %}
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-user text-red"></i> No new instructions
+                    </a>
+                  </li>
+                  {% endfor %}
+
                 </ul>
               </li>
-              <li class="footer"><a href="#">View all</a></li>
+              <li class="footer"><a href="{{ home_url }}">View all</a></li>
             </ul>
+
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
@@ -243,14 +218,6 @@
 
   </div>
   <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2017 <b>SG Emergency Force</b>.</strong> All rights
-    reserved.
-  </footer>
 
 
   <!-- Add the sidebar's background. This div must be placed
