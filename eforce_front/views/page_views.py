@@ -48,6 +48,11 @@ def go_to_manage_crisis_page(request):
 
 
 @login_required
+def go_to_update_cmo_page(request):
+    return render(request, 'home/ef_hq/update_cmo.html')
+
+
+@login_required
 def go_to_update_hq_page(request):
     return render(request, 'home/ef_assets/update_hq.html')
 

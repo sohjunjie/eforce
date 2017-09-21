@@ -9,7 +9,7 @@
 {% block top_title_text %}Home | SG-EF{% endblock %}
 
 {% block page_plugins_css %}
-<link rel="stylesheet" href="{% static "pages/ef_assets/main/style.css" %}">
+<link rel="stylesheet" href="{% static "pages/ef_assets/main.style.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
@@ -27,6 +27,12 @@ $( document ).ready(function() {
       $("#crisis_instruction_wrapper").scrollTo(window.location.hash);
       $(window.location.hash + "_instructions").collapse('toggle');
   }
+
+  // set has_read = true on instruction when click
+  $('body').on('click', '.instruction-header', function(event) {
+      var instr = $(this).siblings('.crisis_instruction').find('.nav > li');
+  });
+
 
   // show marker on google map for crisis affected locations
   $('body').on('click', '#crisis_instruction_wrapper > div > div > .crisis-title', function(event) {
@@ -137,7 +143,7 @@ $( document ).ready(function() {
                   </div>
               </div>
             </div>
-            <div class="box-header" style="background-color: #f7f7f9;">
+            <div class="box-header instruction-header" style="background-color: #f7f7f9;">
               <a data-toggle="collapse" href="#crisis_id_{{ ci.crisis.id }}_instructions" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
                 <i class="fa fa-plus"></i> <h3 class="box-title">Instructions</h3>
               </a>
@@ -146,7 +152,7 @@ $( document ).ready(function() {
             <ul class="nav nav-pills nav-stacked">
             {% for instr in ci.instructions %}
 
-            <li role="button">
+            <li id="instruction_id_{{ instr.id }}" role="button">
               <div class="collapsible_text_item">
                   {{instr.text}}
               </div>

@@ -1,0 +1,123 @@
+{% extends "base-hq-home.html" %}
+{% load staticfiles %}
+{% load tags %}
+
+{% load bootstrap3 %}
+{% bootstrap_javascript jquery=1 %}
+{% bootstrap_css %}
+
+{% block top_title_text %}Update CMO | SG-EF{% endblock %}
+
+{% block page_plugins_css %}
+<link rel="stylesheet" href="{% static "pages/ef_hq/update_cmo.style.css" %}">
+{% endblock %}
+
+{% block page_plugins_js %}
+<script src="{% static "plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" %}"></script>
+<script src="{% static "plugins/jvectormap/jquery-jvectormap-world-mill-en.js" %}"></script>
+{% endblock %}
+
+{% block page_scripts %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
+<script>
+
+  var markers = [];
+  var sgmap;
+
+  function initMap() {
+    var sgloc = {lat: 1.3553794, lng: 103.8677444};
+    sgmap = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: sgloc,
+      mapTypeControl: false,
+			streetViewControl: false,
+			fullscreenControl: false
+    });
+
+    addMarker(sgloc);
+
+  }
+
+  function addMarker(location) {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: sgmap
+    });
+    markers.push(marker);
+  }
+
+</script>
+{% endblock %}
+
+{% block main_body %}
+<section class="content">
+    <div class="row">
+
+      <div class="col-xs-6 crisis-update-wrapper" style="padding-right: 0px;">
+
+      </div>
+
+      <div class="col-xs-6">
+
+
+
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Send summarized updates to CMO</h3></div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form>
+                      <div class="box-body">
+                        <div class="form-group">
+                          <label for="inputUpdateTitle" class="control-label">Title</label>
+                          <input id="inputUpdateTitle" class="form-control" name="sum_update_title" placeholder="Summary update title">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="inputUpdateDesc" class="control-label">Details</label>
+                          <textarea id="inputUpdateDesc" class="form-control" name="sum_update_desc"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="inputForceSize" class="control-label">Force size</label>
+                          <input id="inputForceSize" type="number" class="form-control" name="sum_update_force_size">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="inputForceCasualty" class="control-label">Force casualty</label>
+                          <input id="inputForceCasualty" type="number" class="form-control" name="sum_update_force_casualty">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="inputKnownCasualty" class="control-label">Known casualty</label>
+                          <input id="inputKnownCasualty" type="number" class="form-control" name="sum_update_known_casualty">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="inputKnownCasualty" class="control-label">Known dead</label>
+                          <input id="inputKnownDead" type="number" class="form-control" name="sum_update_known_dead">
+                        </div>
+
+
+                      </div>
+                      <!-- /.box-body -->
+                      <div class="box-footer">
+                        <button type="submit" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                      </div>
+                      <!-- /.box-footer -->
+                    </form>
+                  </div>
+
+
+            <!-- force_lat = models.DecimalField(max_digits=18, decimal_places=13, default=0)
+            force_lng = models.DecimalField(max_digits=18, decimal_places=13, default=0)
+            for_crisis = models.ForeignKey(Crisis, null=True, related_name="summarized_updates") -->
+
+          <div id="map" style="height:200px;"></div>
+
+      </div>
+
+    </div>
+</section>
+{% endblock %}
