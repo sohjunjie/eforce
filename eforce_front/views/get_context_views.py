@@ -39,3 +39,8 @@ def get_user_group_unread_instructions(user):
                                              to_group=user.userprofile.usergroup)
 
     return i.order_by('instruction')
+
+
+def get_unread_crisises():
+    i = Crisis.objects.filter(has_read=False)
+    return i

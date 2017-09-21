@@ -10,6 +10,9 @@
 {% url 'hq-manage-crisis' as hq_manage_crisis_url %}
 {% url 'logout' as logout_url %}
 
+{% get_unread_hq_crisises as new_hq_crisis_notifications %}
+
+
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
 {% bootstrap_css %}
@@ -79,42 +82,39 @@
           <li class="dropdown messages-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-space-shuttle"></i>
-              <span class="label label-success">4</span>
+              {% if new_hq_crisis_notifications %}
+              <span class="label label-success">{{ new_hq_crisis_notifications|length }}</span>
+              {% endif %}
             </a>
             <ul class="dropdown-menu">
-              <li class="header">2 new crisis</li>
+              <li class="header">{{ new_hq_crisis_notifications|length }} new instruction{{ new_hq_crisis_notifications|pluralize }} from CMO</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Sales Department
-                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#">
-                      <div class="pull-left">
-                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-                      </div>
-                      <h4>
-                        Reviewers
-                        <small><i class="fa fa-clock-o"></i> 2 days</small>
-                      </h4>
-                      <p>Why not buy a new awesome theme?</p>
-                    </a>
-                  </li>
+
+                {% for crisis_notify in new_hq_crisis_notifications %}
+
+                <li>
+                  <a href="{{ home_url }}#crisis_id_{{ crisis_notify.id }}" data-toggle="collapse" data-target="#crisis_id_{{ crisis_notify.id }}">
+                    <i class="fa fa-user text-red"></i> {{ crisis_notify.title }}
+                  </a>
+                </li>
+                {% empty %}
+                <li>
+                  <a href="#">
+                    <i class="fa fa-user text-red"></i> No new crisis
+                  </a>
+                </li>
+
+                {% endfor %}
+
+
                 </ul>
               </li>
               <li class="footer"><a href="/crisis/manage/">See All Crisis</a></li>
             </ul>
           </li>
+
           <!-- Notifications: style can be found in dropdown.less -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -250,15 +250,6 @@
 
   </div>
   <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
-    </div>
-    <strong>Copyright &copy; 2017 <b>SG Emergency Force</b>.</strong> All rights
-    reserved.
-  </footer>
-
 
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->

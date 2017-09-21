@@ -1,6 +1,7 @@
 from .auth_views import try_login_user
 from .get_context_views import get_user_group_crisis_instructions
 
+from eforce_api.models import Crisis
 from eforce_front.exceptions import AuthenticationError
 
 from django.contrib import messages
@@ -56,7 +57,7 @@ def go_to_homepage(request):
 
     if request.user.userprofile.is_EF_HQ_user():
         render_page = 'home/ef_hq/main.html'
-        context = {}
+        context = {'crisises': Crisis.objects.all()}
     else:
         render_page = 'home/ef_assets/main.html'
         crisis_instructions = get_user_group_crisis_instructions(request.user)
