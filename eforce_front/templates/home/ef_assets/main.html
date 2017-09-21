@@ -13,25 +13,94 @@
 {% endblock %}
 
 {% block page_plugins_js %}
+<script src="{% static "plugins/jquery.scrollto/jquery.scrollTo.min.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 <script>
+
+$( document ).ready(function() {
+
+  // scroll to and expand crisis boxes automatically when navigating url with #crisis_id
+  if(window.location.hash) {
+      $("#crisis_instruction_wrapper").scrollTo(window.location.hash);
+      $(window.location.hash + "_instructions").collapse('toggle');
+  }
+
+  // show marker on google map for crisis affected locations
+  $('body').on('click', '#crisis_instruction_wrapper > div > div > .crisis-title', function(event) {
+
+      locs = $(this).closest("div").find('.location_list > input');
+      clearMarkers();
+
+      for(i=0; i<locs.length; i++){
+        var loc_latlng = locs[i].value.split(",");
+        var pos_lat = Number(loc_latlng[0]);
+        var pos_lng = Number(loc_latlng[1]);
+
+        pos = {lat: pos_lat, lng: pos_lng};
+        addMarker(pos);
+        sgmap.setCenter(pos);
+
+      }
+
+  });
+
+
+  $('body').on('click', '.crisis_instruction > .nav-stacked > li', function(event) {
+
+      var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
+      var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
+
+
+      clearMarkers();
+
+      pos = {lat: pos_lat, lng: pos_lng};
+      addMarker(pos);
+      sgmap.setCenter(pos);
+
+
+  });
+
+
+});
+
+</script>
+<script>
+
+  var markers = [];
+  var sgmap;
+
   function initMap() {
-		var sgloc = {lat: 1.3553794, lng: 103.8677444};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    var sgloc = {lat: 1.3553794, lng: 103.8677444};
+    sgmap = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: sgloc,
       mapTypeControl: false,
 			streetViewControl: false,
 			fullscreenControl: false
     });
-    // var marker = new google.maps.Marker({
-    //   position: sgloc,
-    //   map: map
-    // });
+
+    addMarker(sgloc);
+
   }
+
+  function addMarker(location) {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: sgmap
+    });
+    markers.push(marker);
+  }
+
+  function clearMarkers() {
+    for (var j = 0; j < markers.length; j++) {
+      markers[j].setMap(null);
+    }
+    markers = [];
+  }
+
 </script>
 {% endblock %}
 
@@ -39,46 +108,67 @@
 
 <!-- Main content -->
 <section class="content">
+
     <!-- Google map -->
     <div class="row">
 
-        <div class="col-md-6" style="padding-right: 0px;">
-          <div id="map"></div>
+        <div class="col-xs-6" style="padding-right: 0px;">
+          <div id="map" data-spy="affix"></div>
         </div>
 
-        <div class="col-md-6" style="height: 77vh; overflow-x: auto;">
+        <div id="crisis_instruction_wrapper" class="col-md-6">
 
           {% for ci in crisis_instructions %}
-          <div class="box box-success collapsed-box">
-                      <div class="box-header with-border">
-                        <h3 class="box-title">{{ci.crisis.title}}</h3>
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 col-xs-3">
-                              Google Place Image
-                            </div>
-                            <div class="col-md-9 col-sm-9 col-xs-9">
-                              {{ci.crisis.description}}
-                            </div>
-                        </div>
-                      </div>
+          <div id="crisis_id_{{ ci.crisis.id }}" class="box box-success">
 
-                      <div class="box-header">
-                        <h3 class="box-title">Instructions</h3>
+            <div class="box-header with-border">
+              <h3 class="box-title crisis-title" role="button">{{ci.crisis.title}}</h3> {% get_humanize_datetime ci.crisis.created_datetime %}
+              <div class="location_list">
+              {% for loc in ci.crisis.affected_locations.all %}
+              <input type="hidden" value="{{ loc.lat }},{{ loc.lng }}" />
+              {% endfor %}
+              </div>
+              <div class="row">
+                  <div class="col-md-3 col-sm-3 col-xs-3">
+                    Google Place Image
+                  </div>
+                  <div class="col-md-9 col-sm-9 col-xs-9">
+                    {{ci.crisis.description}}
+                  </div>
+              </div>
+            </div>
+            <div class="box-header" style="background-color: #f7f7f9;">
+              <a data-toggle="collapse" href="#crisis_id_{{ ci.crisis.id }}_instructions" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
+                <i class="fa fa-plus"></i> <h3 class="box-title">Instructions</h3>
+              </a>
+            </div>
+            <div id="crisis_id_{{ ci.crisis.id }}_instructions" class="collapse crisis_instruction">
+            <ul class="nav nav-pills nav-stacked">
+            {% for instr in ci.instructions %}
 
-                        <div class="box-tools pull-right">
-                          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div>
+            <li role="button">
+              <div class="collapsible_text_item">
+                  {{instr.text}}
+              </div>
+              <div class="collapsible_text_meta">
+                  <span class="lat">{{instr.force_lat}}</span>
+                  <span role="presentation" aria-hidden="true"> , </span>
+                  <span class="lng">{{instr.force_lng}}</span>
+                  <span role="presentation" aria-hidden="true"> · </span>
+                  {% get_humanize_datetime instr.created_datetime %}
 
-                      {% for instr in ci.instructions %}
-                      <div id="instruction_id_{{instr.id}}" class="box-body" style="display: none;">
-                          {{instr.text}}
-                      </div>
-                      {% endfor %}
+              </div>
 
-                    </div>
+            </li>
+
+
+            {% endfor %}
+            </ul>
+            </div>
+          </div>
           {% endfor %}
+
+
 
 
         </div>

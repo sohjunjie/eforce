@@ -106,6 +106,9 @@ class GroupInstruction(models.Model):
     def __str__(self):
         return str(self.id)
 
+    class Meta:
+        ordering = ['-created_datetime']
+
 
 class InstructionGroupAssoc(models.Model):
     instruction = models.ForeignKey(GroupInstruction)
