@@ -60,9 +60,7 @@ def go_to_homepage(request):
     else:
         render_page = 'home/ef_assets/main.html'
         crisis_instructions = get_user_group_crisis_instructions(request.user)
-        unread_instructions = []
-        context = {'crisis_instructions': crisis_instructions,
-                   'unread_instructions': unread_instructions}
+        context = {'crisis_instructions': crisis_instructions}
 
     return render(request, render_page, context)
 
