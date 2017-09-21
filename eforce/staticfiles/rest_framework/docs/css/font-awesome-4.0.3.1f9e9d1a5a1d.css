@@ -7,7 +7,7 @@
 @font-face {
   font-family: 'FontAwesome';
   src: url("../fonts/fontawesome-webfont.8b27bc96115c.eot?v=4.0.3");
-  src: url("../fonts/fontawesome-webfont.8b27bc96115c.eot?#iefix&v=4.0.3") format('embedded-opentype'), url("../fonts/fontawesome-webfont.3293616ec0c6.woff?v=4.0.3") format('woff'), url("../fonts/fontawesome-webfont.dcb26c7239d8.ttf?v=4.0.3") format('truetype'), url("../fonts/fontawesome-webfont.b526f0637e91.svg?v=4.0.3#fontawesomeregular") format('svg');
+  src: url("../fonts/fontawesome-webfont.8b27bc96115c.eot?#iefix&v=4.0.3") format('embedded-opentype'), url("../fonts/fontawesome-webfont.3293616ec0c6.woff?v=4.0.3") format('woff'), url("../fonts/fontawesome-webfont.dcb26c7239d8.ttf?v=4.0.3") format('truetype'), url("../fonts/fontawesome-webfont.0a799148a50b.svg?v=4.0.3#fontawesomeregular") format('svg');
   font-weight: normal;
   font-style: normal;
 }

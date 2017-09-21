@@ -93,6 +93,9 @@ class CrisisUpdate(models.Model):
     known_dead = models.IntegerField(default=0, null=False)
     for_crisis = models.ForeignKey(Crisis, null=True, related_name="ef_assets_updates")
 
+    class Meta:
+        ordering = ['-created_datetime']
+
 
 class GroupInstruction(models.Model):
     for_strategy = models.ForeignKey(CombatStrategy, null=True, related_name="instructions")

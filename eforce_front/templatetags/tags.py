@@ -24,6 +24,12 @@ def ef_assets_user_instructions(user):
 
 
 @register.simple_tag
+def get_unread_hq_crisises():
+    from eforce_front.views.get_context_views import get_unread_crisises
+    return get_unread_crisises()
+
+
+@register.simple_tag
 def get_humanize_datetime(datetime):
     import humanize
     from django.utils import timezone
