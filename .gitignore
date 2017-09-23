@@ -1,4 +1,4 @@
-**/__pycache__/*
-/.env/
+.env
 *.pyc
-eforce_api/__pycache__/*
+**/__pycache__/*
+eforce/staticfiles/*

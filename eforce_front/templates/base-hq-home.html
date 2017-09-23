@@ -8,6 +8,7 @@
 {% url 'home' as home_url %}
 {% url 'hq-dispatch-ef' as hq_dispatch_ef_url %}
 {% url 'hq-manage-crisis' as hq_manage_crisis_url %}
+{% url 'hq-update-cmo' as hq_update_cmo_url %}
 {% url 'logout' as logout_url %}
 
 {% get_unread_hq_crisises as new_hq_crisis_notifications %}
@@ -228,6 +229,12 @@
         <li class="{% active request hq_dispatch_ef_url %}">
           <a href="{{ hq_dispatch_ef_url }}">
             <i class="fa fa-group"></i> <span>Dispatch EF</span>
+          </a>
+        </li>
+
+        <li class="{% active request hq_update_cmo_url %}">
+          <a href="{{ hq_update_cmo_url }}">
+            <i class="fa fa-paper-plane"></i> <span>Update CMO</span>
           </a>
         </li>
 

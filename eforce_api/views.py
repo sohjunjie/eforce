@@ -1,13 +1,72 @@
 from django.db import IntegrityError
+from django.db.models import Q
 from django.shortcuts import render
 
 from eforce_api.utils import get_request_body_param
-from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy
+from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy, CrisisUpdate, UserGroup
+from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, CrisisUpdateSerializer, UserGroupImageSerializer
+
+from rest_framework import generics
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+
+
+class UserGroupImageUploadView(APIView):
+
+    permission_classes = (AllowAny, )
+
+    def put(self, request, pk):
+
+        usergroup = UserGroup.objects.get(pk=pk)
+        serializer = UserGroupImageSerializer(usergroup, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CrisisCaseUnreadSearchView(generics.ListAPIView):
+
+    permission_classes = (AllowAny, )
+    serializer_class = CrisisSerializer
+
+    def get_queryset(self):
+        search = self.request.query_params.get('q', None)
+        crisis = Crisis.objects.filter(resolve=False, has_read=False)
+        if search is not None and search is not '':
+            crisis = crisis.filter(title__icontains=search)
+        return crisis
+
+
+class CrisisCaseDetailView(APIView):
+
+    permission_classes = (AllowAny, )
+
+    def get(self, request, pk):
+        try:
+            crisis = Crisis.objects.get(pk=pk)
+        except DoesNotExist:
+            return Response({'success': False}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = CrisisDetailSerializer(crisis)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+class CrisisUpdateListView(generics.ListAPIView):
+    queryset = CrisisUpdate.objects.all()
+    serializer_class = CrisisUpdateSerializer
+    permission_classes = (AllowAny,)
+
+    def list(self, request, pk):
+        queryset = self.get_queryset().filter(for_crisis__id=pk)
+        serializer = CrisisUpdateSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+"""         CMO API VIEW            """
 
 
 class CrisisStrategyView(APIView):
