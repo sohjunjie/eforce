@@ -10,23 +10,49 @@
 
 {% block page_plugins_css %}
 <link rel="stylesheet" href="{% static "pages/ef_hq/update_cmo.style.css" %}">
+<link rel="stylesheet" href="{% static "bower_components/select2/select2.min.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
 <script src="{% static "plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" %}"></script>
 <script src="{% static "plugins/jvectormap/jquery-jvectormap-world-mill-en.js" %}"></script>
+<script src="{% static "plugins/jquery-tmpl/jquery.tmpl.min.js" %}"></script>
+<script src="{% static "bower_components/select2/select2.min.js" %}"></script>
+<script src="{% static "bower_components/moment/moment.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
+<script src="{% static "pages/ef_hq/update_cmo.script.js" %}"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
+<script id="crisisDetailTemplate" type="text/x-jQuery-tmpl">
+<div class="box-header">
+  <h3 class="box-title" role="button" style="padding-bottom: 10px;">${crisisTitle}</h3>
+  <span class="text-muted pull-right">${crisisDatetime}</span>
+
+  <div class="row">
+      <div id="crisis-description" class="col-md-12 col-sm-12 col-xs-12">
+      ${crisisDescription}
+      </div>
+  </div>
+  <div class="pull-right">Scale: ${crisisScale}</div>
+</div>
+</script>
+<script id="crisisUpdateTemplate" type="text/x-jQuery-tmpl">
+<div class="box-comment">
+    <img class="img-circle" src="${crisisImageUrl}" />
+    <div class="comment-text">
+        <span class="username">${crisisByUserGroup}
+          <span class="text-muted pull-right">${crisisUpdateDatetime}</span>
+        </span>
+          ${crisisUpdateDescription}
+    </div>
+</div>
+</script>
+
 <script>
-
-  var markers = [];
-  var sgmap;
-
   function initMap() {
     var sgloc = {lat: 1.3553794, lng: 103.8677444};
-    sgmap = new google.maps.Map(document.getElementById('map'), {
+    var sgmap = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: sgloc,
       mapTypeControl: false,
@@ -34,16 +60,48 @@
 			fullscreenControl: false
     });
 
-    addMarker(sgloc);
+    var marker = new google.maps.Marker({
+      draggable:true,
+      position: sgloc,
+      map: sgmap,
+    });
+
+    var inputFormattedAddress = document.getElementById('inputForceFormattedAddress');
+    sgmap.controls[google.maps.ControlPosition.TOP_LEFT].push(inputFormattedAddress);
+
+		var geocoder = new google.maps.Geocoder;
+    var infowindow = new google.maps.InfoWindow({
+		    content: "Drag pin to specify estimate location of EF forces"
+		});
+    document.getElementById('inputForceLat').value = marker.position.lat();
+    document.getElementById('inputForceLng').value = marker.position.lng();
+    geocodeLatLng(geocoder, marker);
+
+    marker.addListener('dragend', function() {
+	    	document.getElementById('inputForceLat').value = this.position.lat();
+	    	document.getElementById('inputForceLng').value = this.position.lng();
+	    	geocodeLatLng(geocoder, this);
+	   	});
+    marker.addListener('click', function() {
+        infowindow.setContent(marker.position.lat() + ", " + marker.position.lng())
+        infowindow.open(sgmap, this);
+    	});
 
   }
 
-  function addMarker(location) {
-    var marker = new google.maps.Marker({
-      position: location,
-      map: sgmap
+  function geocodeLatLng(geocoder, markerloc) {
+    var latlng = {lat: markerloc.position.lat(), lng: markerloc.position.lng()};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          document.getElementById('inputForceFormattedAddress').value = results[0].formatted_address;
+          } else {
+            document.getElementById('inputForceFormattedAddress').value = "Location cannot be identified";
+          }
+      } else {
+        document.getElementById('inputForceFormattedAddress').value = "Location cannot be identified due to: " + status;
+      }
     });
-    markers.push(marker);
   }
 
 </script>
@@ -55,55 +113,84 @@
 
       <div class="col-xs-6 crisis-update-wrapper" style="padding-right: 0px;">
 
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Updates of crisis</h3> </div>
+
+            <div class="box-body">
+              <div class="form-group">
+                <label for="unresolvedCrisisSelect2" class="control-label">Select crisis</label>
+                <select id="unresolvedCrisisSelect2" class="form-control" name="unresolved_crisis_select_2">
+                </select>
+              </div>
+
+              <div id="crisis_detail_viewer"></div>
+
+            </div>
+
+            <div id="crisis_update_viewer" class="box-footer box-comments">
+
+
+            </div>
+
+        </div>
+
+
       </div>
 
       <div class="col-xs-6">
-
-
 
         <div class="box box-info">
             <div class="box-header with-border">
                 <h3 class="box-title">Send summarized updates to CMO</h3></div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form>
+                    <form id="formUpdateCMO">
                       <div class="box-body">
+
                         <div class="form-group">
                           <label for="inputUpdateTitle" class="control-label">Title</label>
                           <input id="inputUpdateTitle" class="form-control" name="sum_update_title" placeholder="Summary update title">
                         </div>
 
                         <div class="form-group">
-                          <label for="inputUpdateDesc" class="control-label">Details</label>
-                          <textarea id="inputUpdateDesc" class="form-control" name="sum_update_desc"></textarea>
+                          <label for="inputUpdateDesc" class="control-label">Description</label>
+                          <textarea id="inputUpdateDesc" class="form-control" name="sum_update_desc" placeholder="Brief description of crisis updates"></textarea>
                         </div>
 
                         <div class="form-group">
-                          <label for="inputForceSize" class="control-label">Force size</label>
-                          <input id="inputForceSize" type="number" class="form-control" name="sum_update_force_size">
+                          <label for="map" class="control-label">Select EF current location</label>
+                          <input id="inputForceFormattedAddress" type="text" style="width:200px;" disabled/>
+                          <div id="map" style="height:200px;"></div>
                         </div>
 
-                        <div class="form-group">
-                          <label for="inputForceCasualty" class="control-label">Force casualty</label>
-                          <input id="inputForceCasualty" type="number" class="form-control" name="sum_update_force_casualty">
+                        <input id="inputForceLat" name="sum_update_force_lat" type="hidden" disabled />
+                        <input id="inputForceLng" name="sum_update_force_lng" type="hidden" disabled/ >
+
+                        <div class="form-group col-xs-6" style="padding-left: 0px;">
+                          <label for="inputForceSize" class="control-label">Force size</label> </br>
+                          <input id="inputForceSize" type="number" name="sum_update_force_size" min="0" value=0>
                         </div>
 
-                        <div class="form-group">
-                          <label for="inputKnownCasualty" class="control-label">Known casualty</label>
-                          <input id="inputKnownCasualty" type="number" class="form-control" name="sum_update_known_casualty">
+                        <div class="form-group col-xs-6" style="padding-left: 0px;">
+                          <label for="inputForceCasualty" class="control-label">Force casualty</label> </br>
+                          <input id="inputForceCasualty" type="number" name="sum_update_force_casualty" min="0" value=0>
                         </div>
 
-                        <div class="form-group">
-                          <label for="inputKnownCasualty" class="control-label">Known dead</label>
-                          <input id="inputKnownDead" type="number" class="form-control" name="sum_update_known_dead">
+                        <div class="form-group col-xs-6" style="padding-left: 0px;">
+                          <label for="inputKnownCasualty" class="control-label">Civlian casualty</label> </br>
+                          <input id="inputKnownCasualty" type="number" name="sum_update_known_casualty" min="0" value=0 >
                         </div>
 
+                        <div class="form-group col-xs-6" style="padding-left: 0px;">
+                          <label for="inputKnownCasualty" class="control-label">Civilian dead</label> </br>
+                          <input id="inputKnownDead" type="number" name="sum_update_known_dead" min="0" value=0>
+                        </div>
 
                       </div>
                       <!-- /.box-body -->
                       <div class="box-footer">
-                        <button type="submit" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-info pull-right">Sign in</button>
+                        <button type="submit" class="btn btn-info pull-right">Submit</button>
                       </div>
                       <!-- /.box-footer -->
                     </form>
@@ -114,7 +201,6 @@
             force_lng = models.DecimalField(max_digits=18, decimal_places=13, default=0)
             for_crisis = models.ForeignKey(Crisis, null=True, related_name="summarized_updates") -->
 
-          <div id="map" style="height:200px;"></div>
 
       </div>
 

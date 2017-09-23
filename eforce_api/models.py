@@ -7,7 +7,12 @@ def user_avatar_directory_path(instance, filename):
     return 'user/{0}/{1}'.format(instance.id, filename)
 
 
+def group_image_directory_path(instance, filename):
+    return 'usergroup/{0}/{1}'.format(instance.id, filename)
+
+
 class UserGroup(models.Model):
+    image = models.ImageField(upload_to=group_image_directory_path, blank=True, null=True)
     rolename = models.TextField(max_length=100, blank=False, null=False)
     instruction = models.ManyToManyField(
         'GroupInstruction',
@@ -82,7 +87,6 @@ class SummmarizedCrisisUpdate(models.Model):
 
 
 class CrisisUpdate(models.Model):
-    title = models.TextField(max_length=200, null=False)
     description = models.TextField(max_length=1000, null=True)
     created_datetime = models.DateTimeField(auto_now_add=True)
     force_lat = models.DecimalField(max_digits=18, decimal_places=13, default=0)
@@ -92,6 +96,10 @@ class CrisisUpdate(models.Model):
     known_casualty = models.IntegerField(default=0, null=False)
     known_dead = models.IntegerField(default=0, null=False)
     for_crisis = models.ForeignKey(Crisis, null=True, related_name="ef_assets_updates")
+    by_group = models.ForeignKey(UserGroup, null=True, related_name="updates_sent")
+
+    def get_readable_sent_by(self):
+        return self.by_group.rolename.replace('_', ' ')
 
     class Meta:
         ordering = ['-created_datetime']

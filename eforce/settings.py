@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 if os.environ.get('SELF_HOSTING'):
     MEDIA_ROOT = "/var/www/media"
-    MEDIA_URL = os.environ.get('MEDIA_ADDRESS', 'http://localhost:8000/media/')
+    MEDIA_URL = "/media/"
 else:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
@@ -91,7 +91,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ],
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 20
 }
 
 ROOT_URLCONF = 'eforce.urls'
