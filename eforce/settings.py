@@ -187,3 +187,4 @@ BOOTSTRAP4 = {
 
 # eforceapp constant
 EF_HQ_ROLENAME = 'EF_HQ'
+CONST_CMO_DOMAIN = "http://220.255.94.107:628/"
