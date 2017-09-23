@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $("#unresolvedCrisisSelect2").select2({ placeholder: 'Select a crisis' });
+    $("#unresolvedCrisisSelect2").select2();
 
     event_getUnreadCrisisSelect2();
 
@@ -13,6 +13,7 @@ function event_getUnresolvedCrisisSelect2Details(){
     $("#unresolvedCrisisSelect2").on("change", function (e) {
 
       var crisisSelected = $("#unresolvedCrisisSelect2").select2('data')[0];
+      $("#inputForCrisis").val(crisisSelected.id);
       $.ajax({
         type: "GET",
         dataType: 'json',
@@ -60,8 +61,6 @@ function event_getUnresolvedCrisisSelect2Details(){
                 });
             });
 
-            console.log(crisisEFUpdates);
-
             $("#crisis_update_viewer").empty();
             $("#crisisUpdateTemplate").tmpl(crisisEFUpdates).appendTo("#crisis_update_viewer");
 
@@ -104,6 +103,6 @@ function event_getUnreadCrisisSelect2(){
             cache: true
         },
         escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-        minimumInputLength: 1
+        minimumInputLength: 0
     });
 }

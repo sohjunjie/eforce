@@ -1,4 +1,15 @@
-  #map {
-    width: 100%;
-    height: 100%;
-  }
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.crisis-detail-container {
+  margin-left: 40px;
+}
+
+.crisis-detail-container .title{
+  color: #444;
+  display: block !important;
+  font-size: 16px;
+  font-weight: 600;
+}
