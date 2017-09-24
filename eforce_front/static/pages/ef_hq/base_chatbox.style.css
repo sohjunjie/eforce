@@ -1,0 +1,25 @@
+#cmo_chat_box {
+  width: 300px;
+  position:fixed;
+  bottom:0;
+  right:0;
+  margin: 10px;
+}
+
+.emptyChatContentMessage{
+    text-align: center;
+    display:block;
+    color: #cabcbc;
+    font-size: 7px;
+}
+.emptyChatContentMessage > .msgContent {
+	height: inherit;
+    display:table-cell;
+    vertical-align:middle;
+}
+.emptyChatContentMessage > .msgContent > span{
+	font-size: 3em;
+}
+.emptyChatContentMessage > .msgContent > i{
+	font-size: 8em;
+}

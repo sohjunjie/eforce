@@ -40,7 +40,11 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{% static "eforce_theme/home/css/skins/_all-skins.min.css" %}">
 
+  <link rel="stylesheet" href="{% static "pages/ef_hq/base_chatbox.style.css" %}">
+
   <script src="{% static "plugins/jquery-tmpl/jquery.tmpl.min.js" %}"></script>
+
+  <script src="{% static "plugins/jquery.scrollto/jquery.scrollTo.min.js" %}"></script>
 
   <!-- AdminLTE App -->
   <script src="{% static "eforce_theme/home/js/adminlte.min.js" %}"></script>
@@ -48,7 +52,9 @@
   <!-- AdminLTE for demo purposes -->
   <script src="{% static "eforce_theme/home/js/demo.js" %}"></script>
 
-  <script src="{% static "pages/ef_hq/main.script.js" %}"></script>
+  <script src="{% static "pages/ef_hq/base.script.js" %}"></script>
+
+  <script src="{% static "pages/ef_hq/base_chatbox.script.js" %}"></script>
 
   <script id="pushNotificationTemplate" type="text/x-jQuery-tmpl">
   <div class="alert alert-info alert-dismissable" style="border-radius: 0px; margin-bottom: 5px;">
@@ -58,6 +64,47 @@
           {% endverbatim myblock %}
   </div>
   </script>
+
+  <script id="crisisChatItemTemplate" type="text/x-jQuery-tmpl">
+  <li id="cmo_crisis_id_${cmoCrisisId}" class="cmo-crisis-list-item" onclick="load_chatbox_crisis_conversation(${cmoCrisisId})">
+    <a href="#">
+      <div class="contacts-list-info">
+            <span class="contacts-list-name">${crisisDescription}
+              <small class="contacts-list-date pull-right">${crisisDate}</small>
+            </span>
+        <span class="contacts-list-msg">
+            Scale ${crisisScale} <span role="presentation" aria-hidden="true"> @ </span>
+            ${crisisLocAddress}
+        </span>
+      </div>
+    </a>
+  </li>
+  </script>
+
+  <script id="crisisChatMsgLeftTemplate" type="text/x-jQuery-tmpl">
+      <div class="direct-chat-msg" id="crisis_id_${cmoCrisisId}_msg_id_${crisisMsgId}">
+          <div class="direct-chat-info clearfix">
+            <span class="direct-chat-name pull-left">${crisisChatSender}</span>
+            <span class="direct-chat-timestamp pull-right">${crisisChatDate}</span>
+          </div>
+          <div class="direct-chat-text">
+              ${crisisChatMsg}
+          </div>
+      </div>
+  </script>
+
+<script id="crisisChatMsgRightTemplate" type="text/x-jQuery-tmpl">
+    <div class="direct-chat-msg right">
+      <div class="direct-chat-info clearfix">
+        <span class="direct-chat-name pull-right">${crisisChatSender}</span>
+        <span class="direct-chat-timestamp pull-left">${crisisChatDate}</span>
+      </div>
+      <div class="direct-chat-text">
+        ${crisisChatMsg}
+      </div>
+    </div>
+</script>
+
 
   <!-- BEGIN PAGE LEVEL PLUGINS -->
   {% block page_plugins_css %}
@@ -153,36 +200,9 @@
           </li>
           <!-- Tasks: style can be found in dropdown.less -->
           <li class="dropdown tasks-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <a href="#" onclick="toggle_chatbox_display()">
               <i class="fa fa-comments-o"></i>
-              <span class="label label-danger">1</span>
             </a>
-            <ul class="dropdown-menu">
-              <li class="header">1 new task</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li><!-- Task item -->
-                    <a href="#">
-                      <h3>
-                        Make beautiful transitions
-                        <small class="pull-right">80%</small>
-                      </h3>
-                      <div class="progress xs">
-                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar"
-                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                          <span class="sr-only">80% Complete</span>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <!-- end task item -->
-                </ul>
-              </li>
-              <li class="footer">
-                <a href="#">View all tasks</a>
-              </li>
-            </ul>
           </li>
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
@@ -274,9 +294,56 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+  <div id="cmo_chat_box" style=" display: none;">
+
+    <div class="box box-info direct-chat direct-chat-info direct-chat-contacts-open">
+      <div class="box-header with-border">
+        <h3 class="box-title">Direct Chat</h3>
+
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+          </button>
+          <button id="chatItemAndMsgToggler" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Crisises">
+            <i class="fa fa-space-shuttle"></i></button>
+        </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <!-- Conversations are loaded here -->
+        <div id="cmo_chat_crisis_messages_lists" class="direct-chat-messages">
+
+          <div class="emptyChatContentMessage" style="height: 100%;">
+            <br/><br/><br/><br/>
+            <div class="msgContent">
+              <i class="fa fa-smile-o"></i><br/>
+              <span>Select a crisis to start viewing conversation.</span>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="direct-chat-contacts">
+          <ul id="cmo_chat_crisis_lists" class="contacts-list"></ul>
+        </div>
+        <!-- /.direct-chat-pane -->
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        <form id="send_chat_msg_form" action="#" method="post">
+          <div class="input-group">
+            <input id="msg_for_crisis_id" type=hidden value="" disabled/>
+            <input id="msg_to_send" type="text" name="message" placeholder="Type Message ..." class="form-control">
+            <span class="input-group-btn">
+                  <button type="submit" class="btn btn-info btn-flat">Send</button>
+                </span>
+          </div>
+        </form>
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+
+  </div>
 
 </div>
 <!-- ./wrapper -->
