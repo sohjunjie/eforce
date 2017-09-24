@@ -4,6 +4,13 @@ var CONST_THIS_READABLE_USER_GROUP = "EF HQ";
 
 $(document).ready(function() {
   socket = new WebSocket("ws://" + window.location.host + "/efhq/");
+
+  if(location.protocol == 'https:'){
+    socket = new WebSocket("wss://" + window.location.host + "/efhq/");
+  }else{
+    socket = new WebSocket("ws://" + window.location.host + "/efhq/");
+  }
+
   socket.onmessage = function(e) {
 
       var msg = push_django_msg_notification(JSON.parse(e.data));

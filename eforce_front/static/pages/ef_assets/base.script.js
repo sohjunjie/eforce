@@ -1,5 +1,11 @@
 $(document).ready(function() {
-  socket = new WebSocket("ws://" + window.location.host + "/efassets/");
+
+  if(location.protocol == 'https:'){
+    socket = new WebSocket("wss://" + window.location.host + "/efassets/");
+  }else{
+    socket = new WebSocket("ws://" + window.location.host + "/efassets/");
+  }
+
   socket.onmessage = function(e) {
 
       var msg = push_django_msg_notification(JSON.parse(e.data));
