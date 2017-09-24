@@ -41,9 +41,11 @@ INSTALLED_APPS = [
     'django_nose',
     'eforce_api',
     'eforce_front',
+    'sw_layer',
     'rest_framework',
     'bootstrap3',
     'storages',
+    'channels',
 ]
 
 if os.environ.get('SELF_HOSTING'):
@@ -184,6 +186,25 @@ BOOTSTRAP4 = {
     'include_jquery': True,
     'javascript_in_head': True,
 }
+
+# channels settings
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+        "ROUTING": "eforce.routing.channel_routing",
+    },
+}
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "asgiref.inmemory.ChannelLayer",
+#         "ROUTING": "eforce.routing.channel_routing",
+#     },
+# }
+
 
 # eforceapp constant
 EF_HQ_ROLENAME = 'EF_HQ'

@@ -16,8 +16,9 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
   <title>{% block top_title_text %}{% endblock %}</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
   <!-- Font Awesome -->
@@ -35,11 +36,24 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="{% static "eforce_theme/home/css/skins/_all-skins.min.css" %}">
 
+  <script src="{% static "plugins/jquery-tmpl/jquery.tmpl.min.js" %}"></script>
+
   <!-- AdminLTE App -->
   <script src="{% static "eforce_theme/home/js/adminlte.min.js" %}"></script>
 
   <!-- AdminLTE for demo purposes -->
   <script src="{% static "eforce_theme/home/js/demo.js" %}"></script>
+
+  <script src="{% static "pages/ef_assets/main.script.js" %}"></script>
+
+  <script id="pushNotificationTemplate" type="text/x-jQuery-tmpl">
+  <div class="alert alert-info alert-dismissable" style="border-radius: 0px; margin-bottom: 5px;">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {% verbatim myblock %}
+            {{html notificationDesc}}
+          {% endverbatim myblock %}
+  </div>
+  </script>
 
   <!-- BEGIN PAGE LEVEL PLUGINS -->
   {% block page_plugins_css %}
@@ -186,7 +200,7 @@
         </div>
         <div class="pull-left info">
           <p>{{ user.username }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> {{ user.userprofile.get_readable_groupname }}</a>
+          <a id="user-group-name" href="#"><i class="fa fa-circle text-success"></i>{{ user.userprofile.get_readable_groupname }}</a>
         </div>
       </div>
       <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -213,8 +227,10 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
 
-    {% block main_body %}
-    {% endblock %}
+      <div id="efassets_notification_wrapper"></div>
+
+      {% block main_body %}
+      {% endblock %}
 
   </div>
   <!-- /.content-wrapper -->
