@@ -23,6 +23,9 @@ class UserGroup(models.Model):
     def __str__(self):
         return self.rolename
 
+    def get_readable_rolename(self):
+        return self.rolename.replace('_', ' ')
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="userprofile")
