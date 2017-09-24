@@ -50,6 +50,18 @@ def send_and_create_cmo_sum_update(request):
     if r.text.strip() == '1':
         send_update_success = True
 
+    if sum_update_crisis_resolved:
+        sum_update_desc = sum_update_desc + '\n' + "The crisis was resolvd."
+
+    api_url = "cmowebservice/responseincidentchat.aspx"
+    payload = {'Incident_ID': sum_update_cmo_crisis_id,
+               'Sender': request.user.userprofile.get_readable_groupname(),
+               'Description': sum_update_desc
+               }
+
+    r = requests.get(CONST_CMO_DOMAIN + api_url, data=payload)
+    print("'" + r.text + "'")
+
     try:
         with transaction.atomic():
             if send_update_success and sum_update_crisis_resolved:
@@ -68,12 +80,3 @@ def send_and_create_cmo_sum_update(request):
             )
     except IntegrityError as e:
         raise UpdateCrisisCMOError(error="Something very bad has just happen.")
-
-    # api_url = "cmowebservice/responseincidentchat.aspx"
-    # payload = {'Incident_ID': sum_update_cmo_crisis_id,
-    #            'Sender': request.user.userprofile.get_readable_groupname(),
-    #            'Description': sum_update_desc
-    #            }
-    #
-    # r = requests.get(CONST_CMO_DOMAIN + api_url, data=payload)
-    # print("'" + r.text + "'")
