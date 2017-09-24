@@ -4,9 +4,8 @@ $(document).ready(function() {
 
       var msg = push_django_msg_notification(JSON.parse(e.data));
 
-      alert(msg);
       if(msg != ''){
-        var notificationDesc = {notificationDesc: msg}
+        var notificationDesc = {notificationDesc: msg + "<br/> Please refresh!"}
         $("#pushNotificationTemplate").tmpl(notificationDesc).prependTo("#efhq_notification_wrapper");
       }
 
