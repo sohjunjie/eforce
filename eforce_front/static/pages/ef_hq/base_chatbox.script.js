@@ -1,12 +1,14 @@
+var poll_crisis_chat_interval;
+
 $(document).ready(function() {
 
   init_chatbox_crisis_list();
 
-  event_send_chat_msg();
+  event_on_send_chat_msg();
 
 });
 
-function event_send_chat_msg(){
+function event_on_send_chat_msg(){
 
   $( "#send_chat_msg_form" ).submit(function( e ) {
 
@@ -46,6 +48,56 @@ function event_send_chat_msg(){
 }
 
 
+function event_start_poll_on_select_chat_crisis(){
+
+  clearInterval(poll_crisis_chat_interval);
+  poll_crisis_chat_interval = setInterval(poll_chatbox_conversation, 8000);
+}
+
+
+function poll_chatbox_conversation(){
+
+  console.log('a');
+
+  var cmo_crisis_id = $("#msg_for_crisis_id").val();
+  var api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
+
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: api_url,
+    success: function(data, status){
+
+        var crisisChatMsgDetail;
+        $("#cmo_chat_crisis_messages_lists").empty();
+
+        $.each(data, function(i, item){
+                crisisChatMsgDetail = {
+                  cmoCrisisId: cmo_crisis_id,
+                  crisisMsgId: item.ID,
+                  crisisChatSender: item.Sender,
+                  crisisChatDate: item.Date,
+                  crisisChatMsg: item.Description
+                };
+
+                if(item.Sender != CONST_THIS_READABLE_USER_GROUP){
+                  $("#crisisChatMsgLeftTemplate").tmpl(crisisChatMsgDetail).appendTo("#cmo_chat_crisis_messages_lists");
+                }else{
+                  $("#crisisChatMsgRightTemplate").tmpl(crisisChatMsgDetail).appendTo("#cmo_chat_crisis_messages_lists");
+                }
+        });
+
+        $("#cmo_chat_crisis_messages_lists").scrollTo($("#cmo_chat_crisis_messages_lists").children().last());
+
+    },
+    error: function(err) {
+        console.log('error');
+    }
+
+  });
+
+}
+
 
 function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
 
@@ -82,6 +134,8 @@ function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
         }
 
         $("#cmo_chat_crisis_messages_lists").scrollTo($("#cmo_chat_crisis_messages_lists").children().last());
+
+        event_start_poll_on_select_chat_crisis();
 
     },
     error: function(err) {
