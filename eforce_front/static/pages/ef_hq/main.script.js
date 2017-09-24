@@ -2,8 +2,9 @@ $(document).ready(function() {
   socket = new WebSocket("ws://" + window.location.host + "/efhq/");
   socket.onmessage = function(e) {
 
-      var msg = push_django_msg_notification(e.data);
+      var msg = push_django_msg_notification(JSON.parse(e.data));
 
+      alert(msg);
       if(msg != ''){
         var notificationDesc = {notificationDesc: msg}
         $("#pushNotificationTemplate").tmpl(notificationDesc).prependTo("#efhq_notification_wrapper");
