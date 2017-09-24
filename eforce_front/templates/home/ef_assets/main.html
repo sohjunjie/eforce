@@ -124,7 +124,7 @@ $( document ).ready(function() {
         <div id="crisis_instruction_wrapper" class="col-md-6">
 
           {% for ci in crisis_instructions %}
-          <div id="crisis_id_{{ ci.crisis.id }}" class="box box-success">
+          <div id="crisis_id_{{ ci.crisis.id }}" class="box box-info">
 
             <div class="box-header with-border">
               <h3 class="box-title crisis-title" role="button">{{ci.crisis.title}}</h3> {% get_humanize_datetime ci.crisis.created_datetime %}
@@ -170,6 +170,23 @@ $( document ).ready(function() {
             </ul>
             </div>
           </div>
+
+          {% empty %}
+
+          <div class="box box-info" style="height: 100%;">
+            <div class="box-header with-border">
+
+              <div class="emptyContentMessage">
+                <br/><br/><br/><br/>
+                <div class="msgContent">
+                  <i class="fa fa-smile-o"></i><br/>
+                  <span>Hooray! No more crisis!</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
           {% endfor %}
 
 

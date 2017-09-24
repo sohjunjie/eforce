@@ -16,3 +16,19 @@
 .crisis_instruction > .nav-stacked > li {
   padding: 10px;
 }
+
+.emptyContentMessage{
+    text-align: center;
+    display:block;
+	   color: #cabcbc;
+}
+.emptyContentMessage > .msgContent {
+	  height: inherit;
+    vertical-align:middle;
+}
+.emptyContentMessage > .msgContent > span{
+	font-size: 3em;
+}
+.emptyContentMessage > .msgContent > i{
+	font-size: 8em;
+}
