@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from eforce_api.utils import get_request_body_param
 from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy, CrisisUpdate, UserGroup
-from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, CrisisUpdateSerializer, UserGroupImageSerializer
+from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, CrisisUpdateSerializer, UserGroupImageSerializer, UserGroupSerializer
 
 from rest_framework import generics
 from rest_framework import status
@@ -12,6 +12,17 @@ from rest_framework.exceptions import NotFound
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+
+
+class ThisUserGroupRoleView(APIView):
+
+    def get(self, request):
+
+        user = request.user
+        usergroup = user.userprofile.usergroup
+
+        serializer = UserGroupSerializer(usergroup)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
 class UserGroupImageUploadView(APIView):

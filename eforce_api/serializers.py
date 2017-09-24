@@ -20,7 +20,7 @@ class UserGroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserGroup
-        fields = ('rolename', 'image_url', )
+        fields = ('id', 'rolename', 'image_url', )
 
     def get_image_url(self, user_group):
         if not user_group.image:
