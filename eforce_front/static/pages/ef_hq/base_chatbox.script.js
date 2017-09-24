@@ -47,17 +47,13 @@ function event_on_send_chat_msg(){
 
 }
 
-
 function event_start_poll_on_select_chat_crisis(){
 
   clearInterval(poll_crisis_chat_interval);
   poll_crisis_chat_interval = setInterval(poll_chatbox_conversation, 8000);
 }
 
-
 function poll_chatbox_conversation(){
-
-  console.log('a');
 
   var cmo_crisis_id = $("#msg_for_crisis_id").val();
   var api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
@@ -97,7 +93,6 @@ function poll_chatbox_conversation(){
   });
 
 }
-
 
 function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
 
