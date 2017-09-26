@@ -1,0 +1,27 @@
+{% extends "base-assets-home.html" %}
+{% load staticfiles %}
+{% load tags %}
+
+{% load bootstrap3 %}
+{% bootstrap_javascript jquery=1 %}
+{% bootstrap_css %}
+
+{% block top_title_text %}Home | SG-EF{% endblock %}
+
+{% block page_plugins_css %}
+{% endblock %}
+
+{% block page_plugins_js %}
+<script src="{% static "bower_components/moment/moment.js" %}"></script>
+{% endblock %}
+
+{% block page_scripts %}
+{% endblock %}
+
+{% block main_body %}
+<!-- Main content -->
+<section class="content">
+
+</section>
+<!-- /.content -->
+{% endblock %}

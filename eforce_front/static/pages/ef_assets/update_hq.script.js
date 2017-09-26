@@ -38,31 +38,26 @@ function event_getUnresolvedCrisisSelect2Details(){
 
       });
 
+      // GET EF HQ INSTRUCTIONS
       $.ajax({
         type: "GET",
         dataType: 'json',
-        url: "api/v1.0/crisis/case/" + crisisSelected.id + "/ef/update/",
+        url: "api/v1.0/crisis/case/" + crisisSelected.id + "/ef/group/instruction/",
         success: function(data, status){
             data = data.data
 
-            var crisisEFUpdates = [];
+            var EFHQInstructions = [];
             $.each(data, function(i, item) {
-                crisisEFUpdates.push({
-                  crisisByUserGroup: item.get_readable_sent_by,
-                  crisisUpdateDatetime: moment(item.created_datetime).format('DD MMM YYYY h:mm a'),
-                  crisisUpdateDescription: item.description,
-                  crisisUpdateForceCasualty: item.force_casualty,
-                  crisisUpdateForceLat: item.force_lat,
-                  crisisUpdateForceLng: item.force_lng,
-                  crisisUpdateForceSize: item.force_size,
-                  crisisUpdateKnownCasualty: item.known_casualty,
-                  crisisUpdateKnownDead: item.known_dead,
-                  crisisUserGroupImageUrl: item.by_group.image_url
+                EFHQInstructions.push({
+                  instructionDetails: item.text,
+                  instructionSentDateTime: moment(item.created_datetime).format('DD MMM YYYY h:mm a'),
+                  instructionForceLat: item.force_lat,
+                  instructionForceLng: item.force_lng,
                 });
             });
 
-            $("#crisis_update_viewer").empty();
-            $("#crisisUpdateTemplate").tmpl(crisisEFUpdates).appendTo("#crisis_update_viewer");
+            $("#crisis_instruction_viewer").empty();
+            $("#crisisInstructionTemplate").tmpl(EFHQInstructions).appendTo("#crisis_instruction_viewer");
 
         },
         error: function(err) {

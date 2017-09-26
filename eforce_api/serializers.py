@@ -43,3 +43,9 @@ class UserGroupImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGroup
         fields = ('image', )
+
+
+class InstructionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GroupInstruction
+        fields = ('text', 'force_lat', 'force_lng', 'created_datetime', 'created_by')

@@ -34,3 +34,8 @@ def get_humanize_datetime(datetime):
     import humanize
     from django.utils import timezone
     return humanize.naturaltime(timezone.now() - datetime)
+
+
+@register.simple_tag
+def google_map_page_link():
+    return "https://www.google.com.sg/maps/dir//"

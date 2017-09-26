@@ -14,8 +14,6 @@
 {% endblock %}
 
 {% block page_plugins_js %}
-<script src="{% static "plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" %}"></script>
-<script src="{% static "plugins/jvectormap/jquery-jvectormap-world-mill-en.js" %}"></script>
 <script src="{% static "bower_components/select2/select2.min.js" %}"></script>
 <script src="{% static "bower_components/moment/moment.js" %}"></script>
 {% endblock %}
@@ -41,7 +39,7 @@
 
 <script id="crisisUpdateTemplate" type="text/x-jQuery-tmpl">
 <div class="box-comment">
-    <img class="img-circle" src="${crisisImageUrl}" />
+    <img class="img-circle" src="${crisisUserGroupImageUrl}" />
     <div class="comment-text">
         <span class="username">${crisisByUserGroup}
           <span class="text-muted pull-right">${crisisUpdateDatetime}</span>
@@ -211,12 +209,6 @@
                       <!-- /.box-footer -->
                     </form>
                   </div>
-
-
-            <!-- force_lat = models.DecimalField(max_digits=18, decimal_places=13, default=0)
-            force_lng = models.DecimalField(max_digits=18, decimal_places=13, default=0)
-            for_crisis = models.ForeignKey(Crisis, null=True, related_name="summarized_updates") -->
-
 
       </div>
 
