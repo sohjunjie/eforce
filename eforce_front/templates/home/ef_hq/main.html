@@ -155,6 +155,21 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                   </div>
 
                 </div>
+
+                {% empty %}
+                <div class="box box-info" style="height: 100%;">
+                  <div class="box-header">
+
+                    <div class="emptyContentMessage">
+                      <br/><br/><br/><br/>
+                      <div class="msgContent">
+                        <i class="fa fa-smile-o"></i><br/>
+                        <span>Hooray! No more crisis!</span>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
                 {% endfor %}
 
         </div>

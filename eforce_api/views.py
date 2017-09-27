@@ -1,10 +1,10 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.db.models import Q
 from django.shortcuts import render
 
-from eforce_api.utils import get_request_body_param
-from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy, \
-    CrisisUpdate, UserGroup
+from eforce_api.utils import get_request_body_param, PermissionManager
+from eforce_api.models import *
 from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, \
     CrisisUpdateSerializer, UserGroupImageSerializer, UserGroupSerializer, \
     InstructionSerializer
@@ -88,6 +88,21 @@ class CrisisInstructionListView(generics.ListAPIView):
         queryset = usergroup.instruction.filter(for_strategy__crisis__id=pk)
         serializer = InstructionSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+class MarkAsReadCrisisInstruction(APIView):
+
+    def post(self, request, pk):
+
+        try:
+            iga = InstructionGroupAssoc.objects.get(instruction__id=pk, to_group=request.user.userprofile.usergroup)
+            iga.has_read = True
+            iga.save()
+        except ObjectDoesNotExist:
+            return Response({'detail': "Unable to find instruction with id %s" % pk},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        return Response({'data': 'success'}, status=status.HTTP_200_OK)
 
 
 """         CMO API VIEW            """
