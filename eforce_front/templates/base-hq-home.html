@@ -207,14 +207,21 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              {% if user.userprofile.avatar %}
+              <img src="{{ user.userprofile.avatar.url }}" class="user-image" alt="User Image">
+              {% else %}
               <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="user-image" alt="User Image">
+              {% endif %}
               <span class="hidden-xs">{{ user.last_name }} {{ user.first_name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
+                {% if user.userprofile.avatar %}
+                <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
+                {% else %}
                 <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-
+                {% endif %}
                 <p>
                   {{ user.last_name }} {{ user.first_name }} - {{ user.userprofile.get_readable_groupname }}
                 </p>
@@ -243,7 +250,11 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
+          {% if user.userprofile.avatar %}
+          <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
+          {% else %}
           <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
+          {% endif %}
         </div>
         <div class="pull-left info">
           <p>{{ user.username }}</p>

@@ -3,8 +3,11 @@ from django.db.models import Q
 from django.shortcuts import render
 
 from eforce_api.utils import get_request_body_param
-from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy, CrisisUpdate, UserGroup
-from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, CrisisUpdateSerializer, UserGroupImageSerializer, UserGroupSerializer
+from eforce_api.models import Crisis, CrisisAffectedLocation, CombatStrategy, \
+    CrisisUpdate, UserGroup
+from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, \
+    CrisisUpdateSerializer, UserGroupImageSerializer, UserGroupSerializer, \
+    InstructionSerializer
 
 from rest_framework import generics
 from rest_framework import status
@@ -39,14 +42,14 @@ class UserGroupImageUploadView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CrisisCaseUnreadSearchView(generics.ListAPIView):
+class CrisisCaseUnresolvedSearchView(generics.ListAPIView):
 
     permission_classes = (AllowAny, )
     serializer_class = CrisisSerializer
 
     def get_queryset(self):
         search = self.request.query_params.get('q', None)
-        crisis = Crisis.objects.filter(resolve=False, has_read=False)
+        crisis = Crisis.objects.filter(resolve=False)
         if search is not None and search is not '':
             crisis = crisis.filter(title__icontains=search)
         return crisis
@@ -74,6 +77,16 @@ class CrisisUpdateListView(generics.ListAPIView):
     def list(self, request, pk):
         queryset = self.get_queryset().filter(for_crisis__id=pk)
         serializer = CrisisUpdateSerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+class CrisisInstructionListView(generics.ListAPIView):
+    serializer_class = InstructionSerializer
+
+    def list(self, request, pk):
+        usergroup = request.user.userprofile.usergroup
+        queryset = usergroup.instruction.filter(for_strategy__crisis__id=pk)
+        serializer = InstructionSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 

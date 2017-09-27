@@ -1,8 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction, IntegrityError
 
-from eforce_api.models import SummmarizedCrisisUpdate, Crisis
-from eforce_front.exceptions import UpdateCrisisCMOError
+from eforce_api.models import SummmarizedCrisisUpdate, Crisis, CrisisUpdate
+from eforce_front.exceptions import UpdateCrisisCMOError, UpdateCrisisEFHQError
 from eforce.settings import CONST_CMO_DOMAIN
 
 import requests
@@ -80,3 +80,36 @@ def send_and_create_cmo_sum_update(request):
             )
     except IntegrityError as e:
         raise UpdateCrisisCMOError(error="Something very bad has just happen.")
+
+
+def send_and_create_efhq_ground_update(request):
+
+    efassets_update_desc = request.POST.get('efassets_update_desc', '')
+    efassets_update_force_lat = request.POST.get('efassets_update_force_lat', 0)
+    efassets_update_force_lng = request.POST.get('efassets_update_force_lng', 0)
+    efassets_update_force_size = request.POST.get('efassets_update_force_size', 0)
+    efassets_update_force_casualty = request.POST.get('efassets_update_force_casualty', 0)
+    efassets_update_known_casualty = request.POST.get('efassets_update_known_casualty', 0)
+    efassets_update_known_dead = request.POST.get('efassets_update_known_dead', 0)
+    efassets_update_for_crisis = request.POST.get('efassets_update_for_crisis', None)
+
+    if efassets_update_for_crisis.strip() == '':
+        raise UpdateCrisisEFHQError(error="Crisis not selected when sending CMO update.")
+    if not efassets_update_desc:
+        raise UpdateCrisisEFHQError(error="Crisis update description must not be empty.")
+
+    try:
+        for_crisis = Crisis.objects.get(pk=efassets_update_for_crisis)
+    except ObjectDoesNotExist:
+        raise UpdateCrisisEFHQError(error="The crisis selected does not exist.")
+
+    CrisisUpdate.objects.create(description=efassets_update_desc,
+                                force_lat=efassets_update_force_lat,
+                                force_lng=efassets_update_force_lng,
+                                force_size=efassets_update_force_size,
+                                force_casualty=efassets_update_force_casualty,
+                                known_casualty=efassets_update_known_casualty,
+                                known_dead=efassets_update_known_dead,
+                                for_crisis=for_crisis,
+                                by_group=request.user.userprofile.usergroup
+                                )
