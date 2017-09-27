@@ -1,6 +1,8 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from eforce_api.models import Crisis, InstructionGroupAssoc, CrisisUpdate
+from eforce_api.models import *
 import operator
+
+import json
 
 
 class CrisisInstructions():
@@ -20,16 +22,18 @@ def get_EF_HQ_crisis():
 
 
 def get_user_group_crisis_instructions(user):
+
     crisis_instructions = {}
-    instructions = user.userprofile.get_group_instruction_notification()
-    for instr in instructions:
-        crisis_pk = instr.for_strategy.crisis.pk
+    igas = InstructionGroupAssoc.objects.filter(to_group=user.userprofile.usergroup)
+
+    for iga in igas:
+        crisis_pk = iga.instruction.for_strategy.crisis.pk
         if not crisis_instructions.__contains__(crisis_pk):
-            newCrisisInstructions = CrisisInstructions(crisis=instr.for_strategy.crisis)
-            newCrisisInstructions.add_instruction(instr)
+            newCrisisInstructions = CrisisInstructions(crisis=iga.instruction.for_strategy.crisis)
+            newCrisisInstructions.add_instruction(iga)
             crisis_instructions[crisis_pk] = newCrisisInstructions
         else:
-            crisis_instructions[crisis_pk].add_instruction(instr)
+            crisis_instructions[crisis_pk].add_instruction(iga)
 
     return (sorted(crisis_instructions.values(), key=operator.attrgetter('datetime'), reverse=True))
 

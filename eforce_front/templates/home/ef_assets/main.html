@@ -17,21 +17,11 @@
 {% endblock %}
 
 {% block page_scripts %}
+<script src="{% static "pages/ef_assets/main.script.js" %}"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 <script>
 
 $( document ).ready(function() {
-
-  // scroll to and expand crisis boxes automatically when navigating url with #crisis_id
-  if(window.location.hash) {
-      $("#crisis_instruction_wrapper").scrollTo(window.location.hash);
-      $(window.location.hash + "_instructions").collapse('toggle');
-  }
-
-  // set has_read = true on instruction when click
-  $('body').on('click', '.instruction-header', function(event) {
-      var instr = $(this).siblings('.crisis_instruction').find('.nav > li');
-  });
 
 
   // show marker on google map for crisis affected locations
@@ -151,16 +141,29 @@ $( document ).ready(function() {
             <ul class="nav nav-pills nav-stacked">
             {% for instr in ci.instructions %}
 
-            <li id="instruction_id_{{ instr.id }}" role="button">
+            <li id="instruction_id_{{ instr.instruction.id }}" role="button">
+              <div class="pull-right">
+
+                {% if instr.has_read %}
+                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
+                        <i class="fa fa-check"></i>
+                </button>
+                {% else %}
+                <button onclick="mark_instruction_as_read({{instr.instruction.id}})" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
+                        <i class="fa fa-circle-o"></i>
+                </button>
+                {% endif %}
+
+              </div>
               <div class="collapsible_text_item">
-                  {{instr.text}}
+                  {{instr.instruction.text}}
               </div>
               <div class="collapsible_text_meta">
-                  <span class="lat">{{instr.force_lat}}</span>
+                  <span class="lat">{{instr.instruction.force_lat}}</span>
                   <span role="presentation" aria-hidden="true"> , </span>
-                  <span class="lng">{{instr.force_lng}}</span>
+                  <span class="lng">{{instr.instruction.force_lng}}</span>
                   <span role="presentation" aria-hidden="true"> · </span>
-                  {% get_humanize_datetime instr.created_datetime %}
+                  {% get_humanize_datetime instr.instruction.created_datetime %}
               </div>
 
             </li>
