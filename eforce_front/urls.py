@@ -12,6 +12,6 @@ urlpatterns = [
     url(r'^(?i)hq/update/cmo/$', views.go_to_update_cmo_page, name="hq-update-cmo"),
 
     url(r'^(?i)efassets/update/hq/$', views.go_to_update_hq_page, name="assets-update-hq"),
-    url(r'^(?i)efassets/view/sent/update/$', views.go_to_efassets_sent_groundupdate_page, name="assets-sent-updates"),
+    url(r'^(?i)efassets/view/sent/update/$', views.go_to_efassets_view_sent_update_page, name="assets-sent-updates"),
 
 ]

@@ -1,8 +1,9 @@
 from .auth_views import try_login_user
-from .get_context_views import get_user_group_crisis_instructions
+from .get_context_views import get_user_group_crisis_instructions, get_this_efasset_usergroup_sent_updates_by_page
 from .cmo_comm_api_views import send_and_create_cmo_sum_update, send_and_create_efhq_ground_update
 
 from eforce_api.models import Crisis
+from eforce_api.utils import PermissionManager
 from eforce_front.exceptions import AuthenticationError, UpdateCrisisCMOError, UpdateCrisisEFHQError
 
 from django.contrib import messages
@@ -39,16 +40,19 @@ def go_to_signin(request, redirect_field_name=REDIRECT_FIELD_NAME):
 
 
 @login_required
+@PermissionManager.EF_HQ_required
 def go_to_dispatch_ef_page(request):
     return render(request, 'home/ef_hq/dispatch_ef.html')
 
 
 @login_required
+@PermissionManager.EF_HQ_required
 def go_to_manage_crisis_page(request):
     return render(request, 'home/ef_hq/manage_crisis.html')
 
 
 @login_required
+@PermissionManager.EF_HQ_required
 def go_to_update_cmo_page(request):
 
     if not request.POST:
@@ -64,9 +68,9 @@ def go_to_update_cmo_page(request):
 
 
 # https://maps.googleapis.com/maps/api/staticmap?center={lat},{lng}&zoom=14&size=400x400&key={api_key}
-# https://www.google.com.sg/maps/dir//1.3526699,103.8206117/@1.3486369,103.8144319,13z
 
 @login_required
+@PermissionManager.EF_Assets_required
 def go_to_update_hq_page(request):
 
     if not request.POST:
@@ -82,11 +86,14 @@ def go_to_update_hq_page(request):
 
 
 @login_required
-def go_to_efassets_sent_groundupdate_page(request):
-    return render(request, 'home/ef_assets/view_sent_groundupdate.html')
+@PermissionManager.EF_Assets_required
+def go_to_efassets_view_sent_update_page(request):
+    paged_sent_updates = get_this_efasset_usergroup_sent_updates_by_page(request)
+    return render(request, 'home/ef_assets/view_sent_groundupdate.html', {'sent_updates': paged_sent_updates})
 
 
 @login_required
+@PermissionManager.usergroup_required
 def go_to_homepage(request):
 
     if request.user.userprofile.is_EF_HQ_user():

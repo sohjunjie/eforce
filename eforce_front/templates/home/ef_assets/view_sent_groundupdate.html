@@ -22,6 +22,27 @@
 <!-- Main content -->
 <section class="content">
 
+  <div class="efassets-sent-updates">
+    {% for update in sent_updates %}
+      <div class="infinite-item" >{{ update.description }}</div>
+    {% endfor %}
+  </div>
+
+  <div class="row" style="margin-left: 50%; margin-right: 50%;">
+    <ul class="pagination nav navbar-nav">
+       {% if sent_updates.has_previous %}
+               <li><a href="?page={{ sent_updates.previous_page_number }}">Prev</a></li>
+       {% endif %}
+       {% for page in sent_updates.paginator.page_range %}
+           <li class="{% if sent_updates.number == page  %}active{% endif %}"><a href="?page={{ page }}">{{ page }}</a></li>
+       {% endfor %}
+
+       {% if sent_updates.has_next %}
+           <li> <a href="?page={{ objects.next_page_number }}">Next</a></li>
+       {% endif %}
+    </ul>
+  </div>
+
 </section>
 <!-- /.content -->
 {% endblock %}

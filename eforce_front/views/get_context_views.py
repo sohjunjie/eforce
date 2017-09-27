@@ -1,4 +1,5 @@
-from eforce_api.models import Crisis, InstructionGroupAssoc
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from eforce_api.models import Crisis, InstructionGroupAssoc, CrisisUpdate
 import operator
 
 
@@ -44,3 +45,18 @@ def get_user_group_unread_instructions(user):
 def get_unread_crisises():
     i = Crisis.objects.filter(has_read=False)
     return i
+
+
+def get_this_efasset_usergroup_sent_updates_by_page(request):
+    efassets_updates = CrisisUpdate.objects.filter(by_group=request.user.userprofile.usergroup)
+    page = request.GET.get('page', 1)
+    paginator = Paginator(efassets_updates, 20)
+
+    try:
+        sent_updates = paginator.page(page)
+    except PageNotAnInteger:
+        sent_updates = paginator.page(1)
+    except EmptyPage:
+        sent_updates = paginator.page(paginator.num_pages)
+
+    return sent_updates
