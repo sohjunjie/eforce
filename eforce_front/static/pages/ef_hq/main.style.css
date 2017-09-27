@@ -1,18 +1,33 @@
-  #map {
-    width: 100%;
-    height: 85vh;
-  }
+#map {
+  width: 100%;
+  height: 85vh;
+}
 
-  #crisis_notification_wrapper {
-    height: 85vh;
-    overflow-x: auto;
-  }
+#crisis_notification_wrapper {
+  height: 85vh;
+  overflow-x: auto;
+}
 
-  .collapsible_text_item, .collapsible_text_meta {
-    /*position: relative;*/
-    display: block;
-  }
+.collapsible_text_item, .collapsible_text_meta {
+  display: block;
+}
 
 .crisis_meta_text > .nav-stacked > li {
-    padding: 10px;
-  }
+  padding: 10px;
+}
+
+.emptyContentMessage{
+  text-align: center;
+  display:block;
+  color: #cabcbc;
+}
+.emptyContentMessage > .msgContent {
+  height: inherit;
+  vertical-align:middle;
+}
+.emptyContentMessage > .msgContent > span{
+  font-size: 3em;
+}
+.emptyContentMessage > .msgContent > i{
+  font-size: 8em;
+}
