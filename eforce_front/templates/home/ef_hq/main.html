@@ -18,17 +18,55 @@
 
 {% block page_scripts %}
 <script>
+
+$( document ).ready(function() {
+
+  $('body').on('click', '.crisis_efassets_updates > .nav-stacked > li', function(event) {
+
+      var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
+      var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
+
+      clearMarkers();
+
+      pos = {lat: pos_lat, lng: pos_lng};
+      addMarker(pos);
+      sgmap.setCenter(pos);
+
+
+  });
+
+});
+
+</script>
+<script>
+var markers = [];
+var sgmap;
+
   function initMap() {
     var sgloc = {lat: 1.349914, lng: 103.830071};
-    var map = new google.maps.Map(document.getElementById('map'), {
+    sgmap = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: sgloc
     });
-    var marker = new google.maps.Marker({
-      position: sgloc,
-      map: map
-    });
+    addMarker(sgloc);
+
   }
+
+  function addMarker(location) {
+    var marker = new google.maps.Marker({
+      position: location,
+      map: sgmap
+    });
+    markers.push(marker);
+  }
+
+  function clearMarkers() {
+    for (var j = 0; j < markers.length; j++) {
+      markers[j].setMap(null);
+    }
+    markers = [];
+  }
+
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpEHFVr5vF8&callback=initMap">
@@ -93,7 +131,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                       <h3 class="box-title">EF Assets Update</h3>
                     </a>
                   </div>
-                  <div id="crisis_id_{{ crisis.id }}_efupdates" class="collapse crisis_meta_text">
+                  <div id="crisis_id_{{ crisis.id }}_efupdates" class="collapse crisis_meta_text crisis_efassets_updates">
                   <ul class="nav nav-pills nav-stacked">
 
                   {% for efupdate in crisis.ef_assets_updates.all %}
@@ -101,6 +139,13 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                   <li role="button">
                     <div class="collapsible_text_item">
                         {{efupdate.description}}
+                    </div>
+                    <div class="collapsible_text_meta">
+                        <span class="lat">{{efupdate.force_lat}}</span>
+                        <span role="presentation" aria-hidden="true"> , </span>
+                        <span class="lng">{{efupdate.force_lng}}</span>
+                        <span role="presentation" aria-hidden="true"> · </span>
+                        {% get_humanize_datetime efupdate.created_datetime %}
                     </div>
                   </li>
 

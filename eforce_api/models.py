@@ -100,6 +100,7 @@ class CrisisUpdate(models.Model):
     known_dead = models.IntegerField(default=0, null=False)
     for_crisis = models.ForeignKey(Crisis, null=True, related_name="ef_assets_updates")
     by_group = models.ForeignKey(UserGroup, null=True, related_name="updates_sent")
+    has_read = models.BooleanField(default=False)
 
     def get_readable_sent_by(self):
         return self.by_group.rolename.replace('_', ' ')
