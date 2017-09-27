@@ -136,7 +136,7 @@
               {% else %}
               <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="user-image" alt="User Image">
               {% endif %}
-              <span class="hidden-xs">{{ user.last_name }} {{ user.first_name }}</span>
+              <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -147,7 +147,7 @@
                 <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
                 {% endif %}
                 <p>
-                  {{ user.last_name }} {{ user.first_name }} - {{ user.userprofile.get_readable_groupname }}
+                  {{ user.first_name }} {{ user.last_name }} - {{ user.userprofile.get_readable_groupname }}
                 </p>
               </li>
               <!-- Menu Footer-->
