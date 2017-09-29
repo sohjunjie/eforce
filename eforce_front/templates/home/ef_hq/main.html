@@ -107,7 +107,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
 
                   <div class="box-header" style="background-color: #f7f7f9;">
                     <a data-toggle="collapse" href="#crisis_id_{{ crisis.id }}_strategies" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
-                      <h3 class="box-title">Combat Strategy</h3>
+                      <h3 class="box-title">Combat Strategy</h3> ({{crisis.strategies.count}})
                     </a>
                   </div>
                   <div id="crisis_id_{{ crisis.id }}_strategies" class="collapse crisis_meta_text">
@@ -128,7 +128,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
 
                   <div class="box-header" style="background-color: #f7f7f9;">
                     <a data-toggle="collapse" href="#crisis_id_{{ crisis.id }}_efupdates" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
-                      <h3 class="box-title">EF Assets Update</h3>
+                      <h3 class="box-title">EF Assets Update</h3> ({{crisis.ef_assets_updates.count}})
                     </a>
                   </div>
                   <div id="crisis_id_{{ crisis.id }}_efupdates" class="collapse crisis_meta_text crisis_efassets_updates">
