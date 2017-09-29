@@ -23,9 +23,51 @@
 <section class="content">
 
   <div class="efassets-sent-updates">
+    <!-- List of sent updates also showing EF HQ read or not read -->
     {% for update in sent_updates %}
-      <div class="infinite-item" >{{ update.description }}</div>
+
+    <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <span>{{update.description}}</span><span class="text-muted"> on {{update.created_datetime}}</span>
+                    <span class="description" style="margin-left:0px;">
+                      <a href="{% google_map_page_link %}{{update.force_lat}},{{update.force_lng}}" target="_blank">
+                        <i class="fa fa-map-marker"></i>
+                        {{update.force_lat}} <span role="presentation" aria-hidden="true"> , </span>
+                        {{update.force_lng}} <span role="presentation" aria-hidden="true">
+                      </a>
+                      <span role="presentation" aria-hidden="true"> · </span>
+                      Force size {{update.force_size}}
+                      <span role="presentation" aria-hidden="true"> · </span>
+                      Force casualty {{update.force_casualty}}
+                      <span role="presentation" aria-hidden="true"> · </span>
+                      Civilian dead {{update.known_dead}}
+                      <span role="presentation" aria-hidden="true"> · </span>
+                      Civilian casualty {{update.known_casualty}}
+
+                    </span>
+                  </div>
+                  <div class="box-tools">
+                    {% if update.has_read %}
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
+                      <i class="fa fa-check"></i></button>
+                    {% else %}
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Not read">
+                      <i class="fa fa-circle-o"></i></button>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="box-body">
+                  <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="For crisis">
+                    <i class="fa fa-arrow-right"></i></button>
+                    <a href="/home/#crisis_id_{{update.for_crisis.id}}">{{update.for_crisis.title}}</a>
+                </div>
+
+    </div>
+
+
     {% endfor %}
+
   </div>
 
   <div class="row" style="margin-left: 50%; margin-right: 50%;">
@@ -36,9 +78,8 @@
        {% for page in sent_updates.paginator.page_range %}
            <li class="{% if sent_updates.number == page  %}active{% endif %}"><a href="?page={{ page }}">{{ page }}</a></li>
        {% endfor %}
-
        {% if sent_updates.has_next %}
-           <li> <a href="?page={{ objects.next_page_number }}">Next</a></li>
+           <li> <a href="?page={{ sent_updates.next_page_number }}">Next</a></li>
        {% endif %}
     </ul>
   </div>
