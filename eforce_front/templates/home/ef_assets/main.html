@@ -124,17 +124,14 @@ $( document ).ready(function() {
               {% endfor %}
               </div>
               <div class="row">
-                  <div class="col-md-3 col-sm-3 col-xs-3">
-                    Google Place Image
-                  </div>
-                  <div class="col-md-9 col-sm-9 col-xs-9">
+                  <div class="col-md-12 col-sm-9 col-xs-9">
                     {{ci.crisis.description}}
                   </div>
               </div>
             </div>
             <div class="box-header instruction-header" style="background-color: #f7f7f9;">
               <a data-toggle="collapse" href="#crisis_id_{{ ci.crisis.id }}_instructions" aria-expanded="true" aria-controls="collapseOne" style="color: black;">
-                <h3 class="box-title">Instructions</h3>
+                <h3 class="box-title">Instructions</h3> ({{ci.instructions|length}})
               </a>
             </div>
             <div id="crisis_id_{{ ci.crisis.id }}_instructions" class="collapse crisis_instruction">
