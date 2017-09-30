@@ -30,6 +30,18 @@ def get_unread_hq_crisises():
 
 
 @register.simple_tag
+def get_unread_crisis_updates():
+    from eforce_front.views.get_context_views import get_unread_efassets_updates
+    return get_unread_efassets_updates()
+
+
+@register.simple_tag
+def get_unread_combat_strategies():
+    from eforce_front.views.get_context_views import get_unread_cmo_combat_strategies
+    return get_unread_cmo_combat_strategies()
+
+
+@register.simple_tag
 def get_humanize_datetime(datetime):
     import humanize
     from django.utils import timezone

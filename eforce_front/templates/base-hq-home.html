@@ -12,7 +12,8 @@
 {% url 'logout' as logout_url %}
 
 {% get_unread_hq_crisises as new_hq_crisis_notifications %}
-
+{% get_unread_crisis_updates as new_efassets_notifications %}
+{% get_unread_combat_strategies as new_hq_combat_strat_notifications %}
 
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
@@ -140,8 +141,8 @@
       <!-- Navbar Right Menu -->
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
+          <!-- Crisis Alert Notifications -->
+          <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <i class="fa fa-space-shuttle"></i>
               {% if new_hq_crisis_notifications %}
@@ -149,56 +150,82 @@
               {% endif %}
             </a>
             <ul class="dropdown-menu">
-              <li class="header">{{ new_hq_crisis_notifications|length }} new instruction{{ new_hq_crisis_notifications|pluralize }} from CMO</li>
+              <li class="header">{{ new_hq_crisis_notifications|length }} new crisis alert{{ new_hq_crisis_notifications|pluralize }} from CMO</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
-
                 {% for crisis_notify in new_hq_crisis_notifications %}
-
                 <li>
-                  <a href="{{ home_url }}#crisis_id_{{ crisis_notify.id }}" data-toggle="collapse" data-target="#crisis_id_{{ crisis_notify.id }}">
+                  <a href="{{ home_url }}#crisis_id_{{ crisis_notify.id }}">
                     <i class="fa fa-user text-red"></i> {{ crisis_notify.title }}
                   </a>
                 </li>
                 {% empty %}
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> No new crisis
-                  </a>
-                </li>
-
+                <li><i class="fa fa-user text-red"></i> No new crisis</li>
                 {% endfor %}
-
-
                 </ul>
               </li>
               <li class="footer"><a href="/crisis/manage/">See All Crisis</a></li>
             </ul>
           </li>
 
-          <!-- Notifications: style can be found in dropdown.less -->
+          <!-- Combat Strategies Notifications -->
           <li class="dropdown notifications-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">1</span>
+              <i class="fa fa-bullhorn"></i>
+              {% if new_hq_combat_strat_notifications %}
+              <span class="label label-warning">{{ new_hq_combat_strat_notifications|length }}</span>
+              {% endif %}
             </a>
             <ul class="dropdown-menu">
-              <li class="header">1 update from EF Assets</li>
+              <li class="header">{{ new_hq_combat_strat_notifications|length }} new combat strateg{{ new_hq_combat_strat_notifications|pluralize:"y,ies" }} from CMO</li>
               <li>
                 <!-- inner menu: contains the actual data -->
                 <ul class="menu">
+                  {% for strategy in new_hq_combat_strat_notifications %}
                   <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> New update coming up
+                    <a href="{{ home_url }}#crisis_id_{{ strategy.crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ strategy.crisis.id }}_strategies">
+                      <i class="fa fa-user text-red"></i> {{ strategy.detail }}
                     </a>
                   </li>
+                  {% empty %}
+                  <li><i class="fa fa-user text-red"></i> No new combat strategies</li>
+                  {% endfor %}
                 </ul>
               </li>
-              <li class="footer"><a href="#">View all</a></li>
+              <li class="footer"><a href="{{home_url}}">View all</a></li>
             </ul>
           </li>
-          <!-- Tasks: style can be found in dropdown.less -->
+
+          <!-- EF Assets Updates Notifications -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              {% if new_efassets_notifications %}
+              <span class="label label-warning">{{ new_efassets_notifications|length }}</span>
+              {% endif %}
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">{{ new_efassets_notifications|length }} update{{ new_efassets_notifications|pluralize }} from EF Assets</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  {% for efassets_notify in new_efassets_notifications %}
+                  <li>
+                    <a href="{{ home_url }}#crisis_id_{{ efassets_notify.for_crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ efassets_notify.for_crisis.id }}_efupdates">
+                      <i class="fa fa-user text-red"></i> {{ efassets_notify.description }}
+                    </a>
+                  </li>
+                  {% empty %}
+                  <li><i class="fa fa-user text-red"></i> No new updates</li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li class="footer"><a href="{{home_url}}">View all</a></li>
+            </ul>
+          </li>
+
+          <!-- Chat Toggler -->
           <li class="dropdown tasks-menu">
             <a href="#" onclick="toggle_chatbox_display()">
               <i class="fa fa-comments-o"></i>
