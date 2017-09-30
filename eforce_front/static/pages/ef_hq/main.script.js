@@ -11,7 +11,6 @@ $( document ).ready(function() {
       $("#crisis_instruction_wrapper").scrollTo(window.location.hash);
       var queryParams = $.getQueryParameters(location.search);
       $(window.location.hash + "_" + queryParams["target"]).collapse('toggle');
-      $(window.location.hash + "_" + queryParams["target"]).collapse('toggle');
   }
 
 });
@@ -67,7 +66,7 @@ function mark_combat_strategy_as_read(combat_strategy_id){
 }
 
 // TODO: ADD API FOR MARK EFASSETS UPDATE READ
-function mark_combat_strategy_as_read(efassets_update_id){
+function mark_efassets_update_as_read(efassets_update_id){
 
 
   $.ajax({
