@@ -6,12 +6,6 @@ $( document ).ready(function() {
       $(window.location.hash + "_instructions").collapse('toggle');
   }
 
-  // set has_read = true on instruction when click
-  $('body').on('click', '.instruction-header', function(event) {
-      var instr = $(this).siblings('.crisis_instruction').find('.nav > li');
-  });
-
-
 });
 
 
