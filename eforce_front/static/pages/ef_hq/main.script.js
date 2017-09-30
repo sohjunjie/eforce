@@ -1,10 +1,17 @@
 $( document ).ready(function() {
 
+  jQuery.extend({
+    getQueryParameters : function(str) {
+  	  return (str || document.location.search).replace(/(^\?)/,'').split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+    }
+  });
+
   // scroll to and expand crisis boxes automatically when navigating url with #crisis_id
   if(window.location.hash) {
       $("#crisis_instruction_wrapper").scrollTo(window.location.hash);
-      $(window.location.hash + "_efupdates").collapse('toggle');
-      $(window.location.hash + "_strategies").collapse('toggle');
+      var queryParams = $.getQueryParameters(location.search);
+      $(window.location.hash + "_" + queryParams["target"]).collapse('toggle');
+      $(window.location.hash + "_" + queryParams["target"]).collapse('toggle');
   }
 
 });

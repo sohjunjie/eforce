@@ -184,7 +184,7 @@
                 <ul class="menu">
                   {% for strategy in new_hq_combat_strat_notifications %}
                   <li>
-                    <a href="{{ home_url }}#crisis_id_{{ strategy.crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ strategy.crisis.id }}_strategies">
+                    <a href="{{ home_url }}?target=strategies#crisis_id_{{ strategy.crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ strategy.crisis.id }}_strategies">
                       <i class="fa fa-user text-red"></i> {{ strategy.detail }}
                     </a>
                   </li>
@@ -212,7 +212,7 @@
                 <ul class="menu">
                   {% for efassets_notify in new_efassets_notifications %}
                   <li>
-                    <a href="{{ home_url }}#crisis_id_{{ efassets_notify.for_crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ efassets_notify.for_crisis.id }}_efupdates">
+                    <a href="{{ home_url }}?target=efupdates#crisis_id_{{ efassets_notify.for_crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ efassets_notify.for_crisis.id }}_efupdates">
                       <i class="fa fa-user text-red"></i> {{ efassets_notify.description }}
                     </a>
                   </li>
