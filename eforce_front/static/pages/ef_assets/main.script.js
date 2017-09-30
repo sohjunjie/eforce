@@ -21,8 +21,8 @@ function mark_instruction_as_read(instr_id){
     },
     success: function(data, status){
 
-      $("#instruction_id_6").find("i").removeClass('fa-circle-o');
-      $("#instruction_id_6").find("i").addClass('fa-check');
+      $("#instruction_id_" + instr_id).find("i").removeClass('fa-circle-o');
+      $("#instruction_id_" + instr_id).find("i").addClass('fa-check');
 
     },
     error: function(err) {
