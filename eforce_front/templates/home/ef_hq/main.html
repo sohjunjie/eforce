@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block page_scripts %}
+<script src="{% static "pages/ef_hq/main.script.js" %}"></script>
 <script>
 
 $( document ).ready(function() {
@@ -89,7 +90,20 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                 <div id="crisis_id_{{ crisis.id }}" class="box box-info">
 
                   <div class="box-header with-border">
-                    <h3 class="box-title crisis-title" role="button">{{crisis.title}}</h3> {% get_humanize_datetime crisis.created_datetime %}
+
+                    <div class="box-tools">
+                      {% if crisis.has_read %}
+                      <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
+                              <i class="fa fa-check"></i>
+                      </button>
+                      {% else %}
+                      <button onclick="mark_crisis_as_read({{crisis.id}})" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
+                              <i class="fa fa-circle-o"></i>
+                      </button>
+                      {% endif %}
+                    </div>
+
+                    <h3 class="box-title crisis-title" role="button">{{crisis.title}}</h3> {{ crisis.created_datetime }}
                     <div class="location_list">
                     {% for loc in crisis.affected_locations.all %}
                     <input type="hidden" value="{{ loc.lat }},{{ loc.lng }}" />
@@ -116,9 +130,19 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                   {% for cs in crisis.strategies.all %}
 
                   <li role="button">
-                    <div class="collapsible_text_item">
-                        {{cs.detail}}
+                    <div class="pull-right">
+                      {% if cs.has_read %}
+                      <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
+                              <i class="fa fa-check"></i>
+                      </button>
+                      {% else %}
+                      <button onclick="mark_combat_strategy_as_read({{cs.id}})" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
+                              <i class="fa fa-circle-o"></i>
+                      </button>
+                      {% endif %}
                     </div>
+                    <div class="collapsible_text_item">{{cs.detail}}</div>
+                    <div class="collapsible_text_meta">{% get_humanize_datetime cs.created_datetime %}</div>
                   </li>
 
                   {% endfor %}
@@ -137,6 +161,17 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
                   {% for efupdate in crisis.ef_assets_updates.all %}
 
                   <li role="button">
+                    <div class="pull-right">
+                      {% if efupdate.has_read %}
+                      <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
+                              <i class="fa fa-check"></i>
+                      </button>
+                      {% else %}
+                      <button onclick="mark_efassets_update_as_read({{efupdate.id}})" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
+                              <i class="fa fa-circle-o"></i>
+                      </button>
+                      {% endif %}
+                    </div>
                     <div class="collapsible_text_item">
                         {{efupdate.description}}
                     </div>

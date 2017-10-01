@@ -6,12 +6,6 @@ $( document ).ready(function() {
       $(window.location.hash + "_instructions").collapse('toggle');
   }
 
-  // set has_read = true on instruction when click
-  $('body').on('click', '.instruction-header', function(event) {
-      var instr = $(this).siblings('.crisis_instruction').find('.nav > li');
-  });
-
-
 });
 
 
@@ -27,8 +21,8 @@ function mark_instruction_as_read(instr_id){
     },
     success: function(data, status){
 
-      $("#instruction_id_6").find("i").removeClass('fa-circle-o');
-      $("#instruction_id_6").find("i").addClass('fa-check');
+      $("#instruction_id_" + instr_id).find("i").removeClass('fa-circle-o');
+      $("#instruction_id_" + instr_id).find("i").addClass('fa-check');
 
     },
     error: function(err) {

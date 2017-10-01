@@ -117,7 +117,7 @@ $( document ).ready(function() {
           <div id="crisis_id_{{ ci.crisis.id }}" class="box box-info">
 
             <div class="box-header with-border">
-              <h3 class="box-title crisis-title" role="button">{{ci.crisis.title}}</h3> {% get_humanize_datetime ci.crisis.created_datetime %}
+              <h3 class="box-title crisis-title" role="button">{{ci.crisis.title}}</h3> {{ci.crisis.created_datetime}}
               <div class="location_list">
               {% for loc in ci.crisis.affected_locations.all %}
               <input type="hidden" value="{{ loc.lat }},{{ loc.lng }}" />

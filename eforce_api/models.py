@@ -68,6 +68,7 @@ class CombatStrategy(models.Model):
     detail = models.TextField(max_length=1000, null=False)
     created_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
+    has_read = models.BooleanField(default=False)
 
 
 class CrisisAffectedLocation(models.Model):

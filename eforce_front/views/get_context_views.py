@@ -47,8 +47,18 @@ def get_user_group_unread_instructions(user):
 
 
 def get_unread_crisises():
-    i = Crisis.objects.filter(has_read=False)
-    return i
+    unread_crisis = Crisis.objects.filter(has_read=False)
+    return unread_crisis
+
+
+def get_unread_efassets_updates():
+    unread_crisis_updates = CrisisUpdate.objects.filter(has_read=False)
+    return unread_crisis_updates
+
+
+def get_unread_cmo_combat_strategies():
+    unread_combat_strategies = CombatStrategy.objects.filter(has_read=False)
+    return unread_combat_strategies
 
 
 def get_this_efasset_usergroup_sent_updates_by_page(request):

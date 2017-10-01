@@ -12,352 +12,309 @@
 {% url 'logout' as logout_url %}
 
 {% get_unread_hq_crisises as new_hq_crisis_notifications %}
-
+{% get_unread_crisis_updates as new_efassets_notifications %}
+{% get_unread_combat_strategies as new_hq_combat_strat_notifications %}
 
 {% load bootstrap3 %}
 {% bootstrap_javascript jquery=1 %}
 {% bootstrap_css %}
 
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-  <title>{% block top_title_text %}{% endblock %}</title>
-  <link rel="icon" href="{% static "eforce_theme/favicon-96x96.png" %}" type="image/x-icon">
+    <title>{% block top_title_text %}{% endblock %}</title>
+    <link rel="icon" href="{% static "eforce_theme/favicon-96x96.png" %}" type="image/x-icon">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
-  <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="{% static "eforce_theme/home/css/AdminLTE.min.css" %}">
+    <link rel="stylesheet" href="{% static "eforce_theme/home/css/skins/_all-skins.min.css" %}">
+    <link rel="stylesheet" href="{% static "plugins/font-awesome/css/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "pages/ef_hq/base_chatbox.style.css" %}">
 
-  <!-- FastClick -->
-  <script src="{% static "bower_components/fastclick/lib/fastclick.js" %}"></script>
+    <script src="{% static "eforce_theme/home/js/adminlte.min.js" %}"></script>
+    <script src="{% static "plugins/jquery-tmpl/jquery.tmpl.min.js" %}"></script>
+    <script src="{% static "plugins/jquery.scrollto/jquery.scrollTo.min.js" %}"></script>
+    <script src="{% static "pages/ef_hq/base.script.js" %}"></script>
+    <script src="{% static "pages/ef_hq/base_chatbox.script.js" %}"></script>
 
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static "eforce_theme/home/css/AdminLTE.min.css" %}">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="{% static "eforce_theme/home/css/skins/_all-skins.min.css" %}">
-
-  <link rel="stylesheet" href="{% static "pages/ef_hq/base_chatbox.style.css" %}">
-
-  <script src="{% static "plugins/jquery-tmpl/jquery.tmpl.min.js" %}"></script>
-
-  <script src="{% static "plugins/jquery.scrollto/jquery.scrollTo.min.js" %}"></script>
-
-  <!-- AdminLTE App -->
-  <script src="{% static "eforce_theme/home/js/adminlte.min.js" %}"></script>
-
-  <!-- AdminLTE for demo purposes -->
-  <script src="{% static "eforce_theme/home/js/demo.js" %}"></script>
-
-  <script src="{% static "pages/ef_hq/base.script.js" %}"></script>
-
-  <script src="{% static "pages/ef_hq/base_chatbox.script.js" %}"></script>
-
-  <script id="pushNotificationTemplate" type="text/x-jQuery-tmpl">
-  <div class="alert alert-info alert-dismissable" style="border-radius: 0px; margin-bottom: 5px;">
+    <script id="pushNotificationTemplate" type="text/x-jQuery-tmpl">
+    <div class="alert alert-info alert-dismissable" style="border-radius: 0px; margin-bottom: 5px;">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
           {% verbatim myblock %}
             {{html notificationDesc}}
           {% endverbatim myblock %}
-  </div>
-  </script>
+    </div>
+    </script>
 
-  <script id="crisisChatItemTemplate" type="text/x-jQuery-tmpl">
-  <li id="cmo_crisis_id_${cmoCrisisId}" class="cmo-crisis-list-item" onclick="load_chatbox_crisis_conversation(${cmoCrisisId})">
+    <script id="crisisChatItemTemplate" type="text/x-jQuery-tmpl">
+    <li id="cmo_crisis_id_${cmoCrisisId}" class="cmo-crisis-list-item" onclick="load_chatbox_crisis_conversation(${cmoCrisisId})">
     <a href="#">
-      <div class="contacts-list-info">
+        <div class="contacts-list-info">
             <span class="contacts-list-name">${crisisDescription}
-              <small class="contacts-list-date pull-right">${crisisDate}</small>
+                <small class="contacts-list-date pull-right">${crisisDate}</small>
             </span>
         <span class="contacts-list-msg">
             Scale ${crisisScale} <span role="presentation" aria-hidden="true"> @ </span>
             ${crisisLocAddress}
         </span>
-      </div>
+        </div>
     </a>
-  </li>
-  </script>
+    </li>
+    </script>
 
-  <script id="crisisChatMsgLeftTemplate" type="text/x-jQuery-tmpl">
-      <div class="direct-chat-msg" id="crisis_id_${cmoCrisisId}_msg_id_${crisisMsgId}">
-          <div class="direct-chat-info clearfix">
+    <script id="crisisChatMsgLeftTemplate" type="text/x-jQuery-tmpl">
+    <div class="direct-chat-msg" id="crisis_id_${cmoCrisisId}_msg_id_${crisisMsgId}">
+        <div class="direct-chat-info clearfix">
             <span class="direct-chat-name pull-left">${crisisChatSender}</span>
             <span class="direct-chat-timestamp pull-right">${crisisChatDate}</span>
-          </div>
-          <div class="direct-chat-text">
-              ${crisisChatMsg}
-          </div>
-      </div>
-  </script>
-
-<script id="crisisChatMsgRightTemplate" type="text/x-jQuery-tmpl">
-    <div class="direct-chat-msg right">
-      <div class="direct-chat-info clearfix">
-        <span class="direct-chat-name pull-right">${crisisChatSender}</span>
-        <span class="direct-chat-timestamp pull-left">${crisisChatDate}</span>
-      </div>
-      <div class="direct-chat-text">
-        ${crisisChatMsg}
-      </div>
+        </div>
+        <div class="direct-chat-text">${crisisChatMsg}</div>
     </div>
-</script>
+    </script>
 
+    <script id="crisisChatMsgRightTemplate" type="text/x-jQuery-tmpl">
+    <div class="direct-chat-msg right">
+        <div class="direct-chat-info clearfix">
+            <span class="direct-chat-name pull-right">${crisisChatSender}</span>
+            <span class="direct-chat-timestamp pull-left">${crisisChatDate}</span>
+        </div>
+        <div class="direct-chat-text">${crisisChatMsg}</div>
+    </div>
+    </script>
 
-  <!-- BEGIN PAGE LEVEL PLUGINS -->
-  {% block page_plugins_css %}
-  {% endblock %}
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    {% block page_plugins_css %}
+    {% endblock %}
 
-  {% block page_plugins_js %}
-  {% endblock %}
+    {% block page_plugins_js %}
+    {% endblock %}
 
-  {% block page_scripts %}
-  {% endblock %}
-  <!-- END PAGE LEVEL PLUGINS -->
-
+    {% block page_scripts %}
+    {% endblock %}
+    <!-- END PAGE LEVEL PLUGINS -->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+    <div class="wrapper">
 
-  <header class="main-header">
+        <header class="main-header">
+            <a href="{{ home_url }}" class="logo">
+                <span class="logo-mini"><b>EF</b></span>
+                <span class="logo-lg"><b>SG</b> Emergency Force</span></a>
 
-    <!-- Logo -->
-    <a href="{{ home_url }}" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>EF</b></span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>SG</b> Emergency Force</span>
-    </a>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span></a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Crisis Alert Notifications -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-space-shuttle"></i>
+                                {% if new_hq_crisis_notifications %}
+                                <span class="label label-danger">{{ new_hq_crisis_notifications|length }}</span>
+                                {% endif %}</a>
+                            <ul class="dropdown-menu">
+                                <li class="header">{{ new_hq_crisis_notifications|length }} new crisis alert{{ new_hq_crisis_notifications|pluralize }} from CMO</li>
+                                <li>
+                                    <ul class="menu">
+                                        {% for crisis_notify in new_hq_crisis_notifications %}
+                                        <li>
+                                            <a href="{{ home_url }}#crisis_id_{{ crisis_notify.id }}">
+                                            <i class="fa fa-user text-red"></i> {{ crisis_notify.title }}
+                                            </a>
+                                        </li>
+                                        {% empty %}
+                                        <li><i class="fa fa-user text-red"></i> No new crisis</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="{{hq_manage_crisis_url}}">See All Crisis</a></li>
+                            </ul>
+                        </li>
+                        <!-- Combat Strategies Notifications -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bullhorn"></i>
+                                {% if new_hq_combat_strat_notifications %}
+                                <span class="label label-warning">{{ new_hq_combat_strat_notifications|length }}</span>
+                                {% endif %}</a>
+                            <ul class="dropdown-menu">
+                                <li class="header">{{ new_hq_combat_strat_notifications|length }} new combat strateg{{ new_hq_combat_strat_notifications|pluralize:"y,ies" }} from CMO</li>
+                                    <li>
+                                        <ul class="menu">
+                                            {% for strategy in new_hq_combat_strat_notifications %}
+                                            <li>
+                                                <a href="{{ home_url }}?target=strategies#crisis_id_{{ strategy.crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ strategy.crisis.id }}_strategies">
+                                                <i class="fa fa-user text-red"></i> {{ strategy.detail }}
+                                                </a>
+                                            </li>
+                                            {% empty %}
+                                            <li><i class="fa fa-user text-red"></i> No new combat strategies</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                <li class="footer"><a href="{{home_url}}">View all</a></li>
+                            </ul>
+                        </li>
+                        <!-- EF Assets Updates Notifications -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                {% if new_efassets_notifications %}
+                                <span class="label label-info">{{ new_efassets_notifications|length }}</span>
+                                {% endif %}</a>
+                            <ul class="dropdown-menu">
+                                <li class="header">{{ new_efassets_notifications|length }} update{{ new_efassets_notifications|pluralize }} from EF Assets</li>
+                                <li>
+                                    <ul class="menu">
+                                        {% for efassets_notify in new_efassets_notifications %}
+                                        <li>
+                                            <a href="{{ home_url }}?target=efupdates#crisis_id_{{ efassets_notify.for_crisis.id }}"  data-toggle="collapse" data-target="#crisis_id_{{ efassets_notify.for_crisis.id }}_efupdates">
+                                            <i class="fa fa-user text-red"></i> {{ efassets_notify.description }}</a>
+                                        </li>
+                                        {% empty %}
+                                        <li><i class="fa fa-user text-red"></i> No new updates</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="{{home_url}}">View all</a></li>
+                            </ul>
+                        </li>
+                        <!-- Chat Toggler -->
+                        <li class="dropdown tasks-menu">
+                            <a href="#" onclick="toggle_chatbox_display()">
+                            <i class="fa fa-comments-o"></i>
+                            </a>
+                        </li>
+                        <!-- User Profile Menu -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {% if user.userprofile.avatar %}
+                                <img src="{{ user.userprofile.avatar.url }}" class="user-image" alt="User Image">
+                                {% else %}
+                                <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="user-image" alt="User Image">
+                                {% endif %}
+                                <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span></a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    {% if user.userprofile.avatar %}
+                                    <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
+                                    {% else %}
+                                    <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
+                                    {% endif %}
+                                    <p>{{ user.first_name }} {{ user.last_name }} - {{ user.userprofile.get_readable_groupname }}</p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="{{ logout_url }}" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-      <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- Messages: style can be found in dropdown.less-->
-          <li class="dropdown messages-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-space-shuttle"></i>
-              {% if new_hq_crisis_notifications %}
-              <span class="label label-success">{{ new_hq_crisis_notifications|length }}</span>
-              {% endif %}
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">{{ new_hq_crisis_notifications|length }} new instruction{{ new_hq_crisis_notifications|pluralize }} from CMO</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        {% if user.userprofile.avatar %}
+                        <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
+                        {% else %}
+                        <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
+                        {% endif %}
+                    </div>
+                    <div class="pull-left info">
+                        <p>{{ user.username }}</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> {{ user.userprofile.get_readable_groupname }}</a>
+                    </div>
+                </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
 
-                {% for crisis_notify in new_hq_crisis_notifications %}
+                    <li class="{% active request home_url %}">
+                        <a href="{{ home_url }}">
+                            <i class="fa fa-home"></i> <span>Home</span></a>
+                    </li>
 
-                <li>
-                  <a href="{{ home_url }}#crisis_id_{{ crisis_notify.id }}" data-toggle="collapse" data-target="#crisis_id_{{ crisis_notify.id }}">
-                    <i class="fa fa-user text-red"></i> {{ crisis_notify.title }}
-                  </a>
-                </li>
-                {% empty %}
-                <li>
-                  <a href="#">
-                    <i class="fa fa-user text-red"></i> No new crisis
-                  </a>
-                </li>
+                    <li class="{% active request hq_dispatch_ef_url %}">
+                        <a href="{{ hq_dispatch_ef_url }}">
+                            <i class="fa fa-group"></i> <span>Dispatch EF</span></a>
+                    </li>
 
-                {% endfor %}
+                    <li class="{% active request hq_update_cmo_url %}">
+                        <a href="{{ hq_update_cmo_url }}">
+                            <i class="fa fa-paper-plane"></i> <span>Update CMO</span></a>
+                    </li>
 
+                    <li class="{% active request hq_manage_crisis_url %}">
+                        <a href="{{ hq_manage_crisis_url }}">
+                            <i class="fa fa-space-shuttle"></i> <span>Manage Crisis</span></a>
+                    </li>
 
                 </ul>
-              </li>
-              <li class="footer"><a href="/crisis/manage/">See All Crisis</a></li>
-            </ul>
-          </li>
+            </section>
+        <!-- /.sidebar -->
+        </aside>
 
-          <!-- Notifications: style can be found in dropdown.less -->
-          <li class="dropdown notifications-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-bell-o"></i>
-              <span class="label label-warning">1</span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="header">1 update from EF Assets</li>
-              <li>
-                <!-- inner menu: contains the actual data -->
-                <ul class="menu">
-                  <li>
-                    <a href="#">
-                      <i class="fa fa-user text-red"></i> New update coming up
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li class="footer"><a href="#">View all</a></li>
-            </ul>
-          </li>
-          <!-- Tasks: style can be found in dropdown.less -->
-          <li class="dropdown tasks-menu">
-            <a href="#" onclick="toggle_chatbox_display()">
-              <i class="fa fa-comments-o"></i>
-            </a>
-          </li>
-          <!-- User Account: style can be found in dropdown.less -->
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              {% if user.userprofile.avatar %}
-              <img src="{{ user.userprofile.avatar.url }}" class="user-image" alt="User Image">
-              {% else %}
-              <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="user-image" alt="User Image">
-              {% endif %}
-              <span class="hidden-xs">{{ user.first_name }} {{ user.last_name }}</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                {% if user.userprofile.avatar %}
-                <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
-                {% else %}
-                <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-                {% endif %}
-                <p>
-                  {{ user.first_name }} {{ user.last_name }} - {{ user.userprofile.get_readable_groupname }}
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+
+        <div class="content-wrapper">
+            <div id="efhq_notification_wrapper"></div>
+            {% block main_body %}
+            {% endblock %}
+        </div>
+
+        <div id="cmo_chat_box" style=" display: none;">
+            <div class="box box-info direct-chat direct-chat-info direct-chat-contacts-open">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Direct Chat</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button id="chatItemAndMsgToggler" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Crisises">
+                            <i class="fa fa-space-shuttle"></i></button>
+                    </div>
                 </div>
-                <div class="pull-right">
-                  <a href="{{ logout_url }}" class="btn btn-default btn-flat">Sign out</a>
+                <div class="box-body">
+                    <!-- Conversations for a specific crisis are loaded here -->
+                    <div id="cmo_chat_crisis_messages_lists" class="direct-chat-messages">
+                        <div class="emptyChatContentMessage" style="height: 100%;">
+                            <br/><br/><br/><br/>
+                            <div class="msgContent">
+                                <i class="fa fa-smile-o"></i><br/>
+                                <span>Select a crisis to start viewing conversation.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List of crisis conversation are load here -->
+                    <div class="direct-chat-contacts">
+                        <ul id="cmo_chat_crisis_lists" class="contacts-list"></ul>
+                    </div>
                 </div>
-              </li>
-            </ul>
-          </li>
-          <!-- Control Sidebar Toggle Button -->
-        </ul>
-      </div>
-
-    </nav>
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          {% if user.userprofile.avatar %}
-          <img src="{{ user.userprofile.avatar.url }}" class="img-circle" alt="User Image">
-          {% else %}
-          <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
-          {% endif %}
-        </div>
-        <div class="pull-left info">
-          <p>{{ user.username }}</p>
-          <a href="#"><i class="fa fa-circle text-success"></i> {{ user.userprofile.get_readable_groupname }}</a>
-        </div>
-      </div>
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-
-        <li class="{% active request home_url %}">
-          <a href="{{ home_url }}">
-            <i class="fa fa-home"></i> <span>Home</span>
-          </a>
-        </li>
-
-        <li class="{% active request hq_dispatch_ef_url %}">
-          <a href="{{ hq_dispatch_ef_url }}">
-            <i class="fa fa-group"></i> <span>Dispatch EF</span>
-          </a>
-        </li>
-
-        <li class="{% active request hq_update_cmo_url %}">
-          <a href="{{ hq_update_cmo_url }}">
-            <i class="fa fa-paper-plane"></i> <span>Update CMO</span>
-          </a>
-        </li>
-
-        <li class="{% active request hq_manage_crisis_url %}">
-          <a href="{{ hq_manage_crisis_url }}">
-            <i class="fa fa-space-shuttle"></i> <span>Manage Crisis</span>
-          </a>
-        </li>
-
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-
-      <div id="efhq_notification_wrapper"></div>
-
-      {% block main_body %}
-      {% endblock %}
-
-  </div>
-  <!-- /.content-wrapper -->
-
-  <div id="cmo_chat_box" style=" display: none;">
-
-    <div class="box box-info direct-chat direct-chat-info direct-chat-contacts-open">
-      <div class="box-header with-border">
-        <h3 class="box-title">Direct Chat</h3>
-
-        <div class="box-tools pull-right">
-          <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-          </button>
-          <button id="chatItemAndMsgToggler" type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Crisises">
-            <i class="fa fa-space-shuttle"></i></button>
-        </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body">
-        <!-- Conversations are loaded here -->
-        <div id="cmo_chat_crisis_messages_lists" class="direct-chat-messages">
-
-          <div class="emptyChatContentMessage" style="height: 100%;">
-            <br/><br/><br/><br/>
-            <div class="msgContent">
-              <i class="fa fa-smile-o"></i><br/>
-              <span>Select a crisis to start viewing conversation.</span>
+                <div class="box-footer">
+                    <form id="send_chat_msg_form" action="#" method="post">
+                        <div class="input-group">
+                            <input id="msg_for_crisis_id" type=hidden value="" disabled/>
+                            <input id="msg_to_send" type="text" name="message" placeholder="Type Message ..." class="form-control">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-info btn-flat">Send</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
-
-
         </div>
-        <div class="direct-chat-contacts">
-          <ul id="cmo_chat_crisis_lists" class="contacts-list"></ul>
-        </div>
-        <!-- /.direct-chat-pane -->
-      </div>
-      <!-- /.box-body -->
-      <div class="box-footer">
-        <form id="send_chat_msg_form" action="#" method="post">
-          <div class="input-group">
-            <input id="msg_for_crisis_id" type=hidden value="" disabled/>
-            <input id="msg_to_send" type="text" name="message" placeholder="Type Message ..." class="form-control">
-            <span class="input-group-btn">
-                  <button type="submit" class="btn btn-info btn-flat">Send</button>
-                </span>
-          </div>
-        </form>
-      </div>
-      <!-- /.box-footer-->
+
     </div>
-
-
-  </div>
-
-</div>
-<!-- ./wrapper -->
-
 </body>
 </html>
