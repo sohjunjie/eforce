@@ -16,7 +16,10 @@ urlpatterns = [
 
     url(r'api/v1.0/this/user/group/$', views.ThisUserGroupRoleView.as_view(), name="this-user-group"),
 
+    url(r'api/v1.0/crisis/(?P<pk>[0-9]+)/mark/read/$', views.MarkAsReadCMOCrisisCase.as_view(), name="mark-crisis-read"),
     url(r'api/v1.0/instruction/(?P<pk>[0-9]+)/mark/read/$', views.MarkAsReadCrisisInstruction.as_view(), name="mark-instruction-read"),
 
+    url(r'api/v1.0/strategy/(?P<pk>[0-9]+)/mark/read/$', views.MarkAsReadCombatStrategy.as_view(), name="mark-combat-strategy-read"),
+    url(r'api/v1.0/efassets/update/(?P<pk>[0-9]+)/mark/read/$', views.MarkAsReadEFAssetsUpdate.as_view(), name="mark-efassets-update-read"),
 
 ]

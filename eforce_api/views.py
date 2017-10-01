@@ -90,10 +90,20 @@ class CrisisInstructionListView(generics.ListAPIView):
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
-class MarkAsReadCrisisInstruction(APIView):
-
+class MarkAsReadCMOCrisisCase(APIView):
     def post(self, request, pk):
+        try:
+            crisis = Crisis.objects.get(pk=pk)
+            crisis.has_read = True
+            crisis.save()
+        except ObjectDoesNotExist:
+            return Response({'detail': "Unable to find crisis with id %s" % pk},
+                            status=status.HTTP_404_NOT_FOUND)
+        return Response({'data': 'success'}, status=status.HTTP_200_OK)
 
+
+class MarkAsReadCrisisInstruction(APIView):
+    def post(self, request, pk):
         try:
             iga = InstructionGroupAssoc.objects.get(instruction__id=pk, to_group=request.user.userprofile.usergroup)
             iga.has_read = True
@@ -101,7 +111,30 @@ class MarkAsReadCrisisInstruction(APIView):
         except ObjectDoesNotExist:
             return Response({'detail': "Unable to find instruction with id %s" % pk},
                             status=status.HTTP_404_NOT_FOUND)
+        return Response({'data': 'success'}, status=status.HTTP_200_OK)
 
+
+class MarkAsReadCombatStrategy(APIView):
+    def post(self, request, pk):
+        try:
+            cs = CombatStrategy.objects.get(pk=pk)
+            cs.has_read = True
+            cs.save()
+        except ObjectDoesNotExist:
+            return Response({'detail': "Unable to find combat strategy with id %s" % pk},
+                            status=status.HTTP_404_NOT_FOUND)
+        return Response({'data': 'success'}, status=status.HTTP_200_OK)
+
+
+class MarkAsReadEFAssetsUpdate(APIView):
+    def post(self, request, pk):
+        try:
+            efupdate = CrisisUpdate.objects.get(pk=pk)
+            efupdate.has_read = True
+            efupdate.save()
+        except ObjectDoesNotExist:
+            return Response({'detail': "Unable to find crisis update with id %s" % pk},
+                            status=status.HTTP_404_NOT_FOUND)
         return Response({'data': 'success'}, status=status.HTTP_200_OK)
 
 
