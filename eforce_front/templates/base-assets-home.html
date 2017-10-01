@@ -115,6 +115,7 @@
                                     <img src="{% static "eforce_theme/home/img/avatar.jpg" %}" class="img-circle" alt="User Image">
                                     {% endif %}
                                     <p>{{ user.first_name }} {{ user.last_name }} - {{ user.userprofile.get_readable_groupname }}</p>
+                                    <p><small>{{ user.username }}</small></p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
@@ -143,7 +144,7 @@
                     {% endif %}
                     </div>
                     <div class="pull-left info">
-                        <p>{{ user.username }}</p>
+                        <p>{{ user.first_name }} {{ user.last_name }}</p>
                         <a id="user-group-name" href="#"><i class="fa fa-circle text-success"></i>{{ user.userprofile.get_readable_groupname }}</a>
                     </div>
                 </div>
