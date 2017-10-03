@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    $("#unresolvedCrisisSelect2").select2();
-
     event_getSearchUnresolvedCrisisSelect2();
 
     event_getUnresolvedCrisisSelect2Details();
@@ -76,6 +74,7 @@ function event_getUnresolvedCrisisSelect2Details(){
 
 function event_getSearchUnresolvedCrisisSelect2(){
     $("#unresolvedCrisisSelect2").select2({
+        placeholder: "Select a crisis for sending CMO updates",
         ajax: {
             url: "/api/v1.0/crisis/unresolved/search/",
             dataType: 'json',

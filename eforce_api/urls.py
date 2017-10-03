@@ -9,10 +9,12 @@ urlpatterns = [
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/$', views.CrisisCaseDetailView.as_view(), name="crisis-case-view"),
     url(r'api/v1.0/crisis/unresolved/search/$', views.CrisisCaseUnresolvedSearchView.as_view(), name="crisis-case-unresolved-search"),
 
+    url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/strategy/$', views.CrisisCombatStrategyListView.as_view(), name="crisis-case-combat-strategy"),
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/ef/update/$', views.CrisisUpdateListView.as_view(), name="crisis-case-ef-updates"),
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/ef/group/instruction/$', views.CrisisInstructionListView.as_view(), name="crisis-case-group-instruction"),
 
     url(r'api/v1.0/user/group/(?P<pk>[0-9]+)/image/upload/$', views.UserGroupImageUploadView.as_view(), name="usergroup-image-upload"),
+    url(r'api/v1.0/user/group/search/$', views.EFAssetsGroupListView.as_view(), name="user-group-list"),
 
     url(r'api/v1.0/this/user/group/$', views.ThisUserGroupRoleView.as_view(), name="this-user-group"),
 
