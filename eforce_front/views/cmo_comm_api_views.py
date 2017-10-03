@@ -139,7 +139,7 @@ def send_and_create_dispatch_efassets_instruction(request):
     group_instr = GroupInstruction.objects.create(for_crisis=for_crisis,
                                                   text=dispatch_efassets_instruction,
                                                   force_lat=dispatch_efassets_force_lat,
-                                                  force_lat=dispatch_efassets_force_lng,
+                                                  force_lng=dispatch_efassets_force_lng,
                                                   created_by=request.user)
 
     for usergroup_id in dispatch_efassets_usergroup:
