@@ -110,7 +110,7 @@ class CrisisInstructionListView(generics.ListAPIView):
 
     def list(self, request, pk):
         usergroup = request.user.userprofile.usergroup
-        queryset = usergroup.instruction.filter(for_strategy__crisis__id=pk)
+        queryset = usergroup.instruction.filter(for_crisis__id=pk)
         serializer = InstructionSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 

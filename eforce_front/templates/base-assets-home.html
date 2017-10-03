@@ -82,7 +82,7 @@
                                     <ul class="menu">
                                         {% for instr in new_ef_assets_instrs %}
                                         <li>
-                                            <a href="{{ home_url }}#crisis_id_{{ instr.instruction.for_strategy.crisis.id }}" data-toggle="collapse" data-target="#crisis_id_{{ instr.instruction.for_strategy.crisis.id }}_instructions">
+                                            <a href="{{ home_url }}#crisis_id_{{ instr.instruction.for_crisis.id }}" data-toggle="collapse" data-target="#crisis_id_{{ instr.instruction.for_crisis.id }}_instructions">
                                                 <i class="fa fa-user text-red"></i> {{ instr.instruction.text }}
                                             </a>
                                         </li>

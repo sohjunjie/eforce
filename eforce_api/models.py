@@ -111,7 +111,7 @@ class CrisisUpdate(models.Model):
 
 
 class GroupInstruction(models.Model):
-    for_strategy = models.ForeignKey(CombatStrategy, null=True, related_name="instructions")
+    for_crisis = models.ForeignKey(Crisis, null=True, related_name="instructions")
     text = models.TextField(max_length=1000, null=False)
     force_lat = models.DecimalField(max_digits=18, decimal_places=13, default=0)
     force_lng = models.DecimalField(max_digits=18, decimal_places=13, default=0)
