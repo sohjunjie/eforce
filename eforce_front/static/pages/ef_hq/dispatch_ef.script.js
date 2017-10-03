@@ -81,6 +81,8 @@ function event_getSearchUnresolvedCrisisSelect2(){
 function event_getUnresolvedCrisisSelect2Details(){
     $("#unresolvedCrisisSelect2").on("change", function (e) {
 
+      // TODO: PUSH TO CRISISMARKERS
+
       var crisisSelected = $("#unresolvedCrisisSelect2").select2('data')[0];
       $("#inputForCrisis").val(crisisSelected.id);
       $.ajax({
@@ -95,6 +97,10 @@ function event_getUnresolvedCrisisSelect2Details(){
                                 crisisDatetime: moment(data.created_datetime).format('DD MMM YYYY h:mm a'),
                                 crisisScale: data.scale
                                 };
+
+            // $.each(data.affected_location, function(i, item) {
+            //   item.lat;
+            // });
 
             $("#crisis_detail_viewer").empty();
             $("#crisisDetailTemplate").tmpl(crisisDetail).appendTo("#crisis_detail_viewer");
