@@ -1,8 +1,9 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction, IntegrityError
 
-from eforce_api.models import SummmarizedCrisisUpdate, Crisis, CrisisUpdate
-from eforce_front.exceptions import UpdateCrisisCMOError, UpdateCrisisEFHQError
+from eforce_api.models import *
+from eforce_front.exceptions import UpdateCrisisCMOError, UpdateCrisisEFHQError, \
+    DispatchEFAssetsError
 from eforce.settings import CONST_CMO_DOMAIN
 
 import requests
@@ -113,3 +114,37 @@ def send_and_create_efhq_ground_update(request):
                                 for_crisis=for_crisis,
                                 by_group=request.user.userprofile.usergroup
                                 )
+
+
+def send_and_create_dispatch_efassets_instruction(request):
+
+    dispatch_efassets_usergroup = request.POST.get('dispatch_efassets_usergroup', [])
+    dispatch_efassets_instruction = request.POST.get('dispatch_efassets_instruction', '')
+    dispatch_efassets_for_crisis = request.POST.get('dispatch_efassets_for_crisis', None)
+    dispatch_efassets_force_lat = request.POST.get('dispatch_efassets_force_lat', 0)
+    dispatch_efassets_force_lng = request.POST.get('dispatch_efassets_force_lng', 0)
+
+    if dispatch_efassets_for_crisis.strip() == '':
+        raise DispatchEFAssetsError(error="Crisis for the dispatch of EF Assets not selected.")
+    if not dispatch_efassets_instruction.strip() == '':
+        raise DispatchEFAssetsError(error="Dispatch instructions must not be empty.")
+    if len(dispatch_efassets_usergroup) == 0:
+        raise DispatchEFAssetsError(error="At least 1 EF Assets group must be selected.")
+
+    try:
+        for_crisis = Crisis.objects.get(pk=dispatch_efassets_for_crisis)
+    except ObjectDoesNotExist:
+        raise DispatchEFAssetsError(error="The crisis selected does not exist.")
+
+    group_instr = GroupInstruction.objects.create(for_crisis=for_crisis,
+                                                  text=dispatch_efassets_instruction,
+                                                  force_lat=dispatch_efassets_force_lat,
+                                                  force_lat=dispatch_efassets_force_lng,
+                                                  created_by=request.user)
+
+    for usergroup_id in dispatch_efassets_usergroup:
+        try:
+            usergroup = UserGroup.objects.get(pk=usergroup_id)
+        except ObjectDoesNotExist:
+            pass
+        InstructionGroupAssoc.objects.create(instruction=group_instr, to_group=usergroup)
