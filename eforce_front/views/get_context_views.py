@@ -25,7 +25,6 @@ def get_user_group_crisis_instructions(user):
 
     crisis_instructions = {}
     igas = InstructionGroupAssoc.objects.filter(to_group=user.userprofile.usergroup)
-
     for iga in igas:
         crisis_pk = iga.instruction.for_crisis.pk
         if not crisis_instructions.__contains__(crisis_pk):

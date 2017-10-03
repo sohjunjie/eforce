@@ -1,7 +1,8 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.db.models import Q
 from django.shortcuts import render
+
+from eforce.settings import EF_HQ_ROLENAME
 
 from eforce_api.utils import get_request_body_param, PermissionManager
 from eforce_api.models import *
@@ -34,7 +35,7 @@ class EFAssetsGroupListView(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get('q', None)
-        usergroups = UserGroup.objects.all()
+        usergroups = UserGroup.objects.all().exclude(rolename=EF_HQ_ROLENAME)
         if search is not None and search is not '':
             search = search.replace(' ', '_')
             usergroups = usergroups.filter(rolename__icontains=search)
@@ -63,7 +64,8 @@ class CrisisCaseUnresolvedSearchView(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get('q', None)
-        crisis = Crisis.objects.filter(resolve=False)
+        filterResolve = self.request.query_params.get('resolve', False)
+        crisis = Crisis.objects.filter(resolve=filterResolve)
         if search is not None and search is not '':
             crisis = crisis.filter(title__icontains=search)
         return crisis
