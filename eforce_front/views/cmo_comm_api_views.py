@@ -118,7 +118,7 @@ def send_and_create_efhq_ground_update(request):
 
 def send_and_create_dispatch_efassets_instruction(request):
 
-    dispatch_efassets_usergroup = request.POST.get('dispatch_efassets_usergroup', [])
+    dispatch_efassets_usergroup = request.POST.get('dispatch_efassets_usergroup[]', [])
     dispatch_efassets_instruction = request.POST.get('dispatch_efassets_instruction', '')
     dispatch_efassets_for_crisis = request.POST.get('dispatch_efassets_for_crisis', None)
     dispatch_efassets_force_lat = request.POST.get('dispatch_efassets_force_lat', 0)
@@ -126,8 +126,9 @@ def send_and_create_dispatch_efassets_instruction(request):
 
     if dispatch_efassets_for_crisis.strip() == '':
         raise DispatchEFAssetsError(error="Crisis for the dispatch of EF Assets not selected.")
-    if not dispatch_efassets_instruction.strip() == '':
+    if dispatch_efassets_instruction.strip() == '':
         raise DispatchEFAssetsError(error="Dispatch instructions must not be empty.")
+    print(dispatch_efassets_usergroup)
     if len(dispatch_efassets_usergroup) == 0:
         raise DispatchEFAssetsError(error="At least 1 EF Assets group must be selected.")
 
