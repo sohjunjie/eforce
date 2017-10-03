@@ -6,6 +6,7 @@
 
 {% block page_plugins_css %}
 {% endblock %}
+<link rel="stylesheet" href="{% static "pages/ef_hq/manage_crisis.style.css" %}">
 
 {% block page_plugins_js %}
 {% endblock %}
@@ -15,6 +16,32 @@
 
 {% block main_body %}
 <section class="content">
+
+  <div class="row">
+
+  <div class="col-lg-3">
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-primary" style="width: 110px;">Currenrt Crisis</button>
+    <button type="button" class="btn btn-primary" style="width: 110px;">Past Crisis</button>
+  </div>
+  </div>
+
+  <div class="col-lg-9">
+  <div class="input-group">
+    <div class="input-group-btn search-panel">
+
+    </div>
+    <input type="hidden" name="search_param" value="all" id="search_param">
+    <input type="text" class="form-control" name="x" placeholder="Search crisis by name">
+    <span class="input-group-btn">
+    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+    </span>
+  </div>
+</div>
+
+
+  </div>
 
 </section>
 {% endblock %}
