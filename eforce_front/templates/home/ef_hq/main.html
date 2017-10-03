@@ -129,7 +129,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
 
                   {% for cs in crisis.strategies.all %}
 
-                  <li role="button">
+                  <li id="strategy_id_{{cs.id}}" role="button">
                     <div class="pull-right">
                       {% if cs.has_read %}
                       <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
@@ -160,7 +160,7 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBE0K5qcQfxR7eERAp3bvGnOpE
 
                   {% for efupdate in crisis.ef_assets_updates.all %}
 
-                  <li role="button">
+                  <li id="efupdate_id_{{efupdate.id}}" role="button">
                     <div class="pull-right">
                       {% if efupdate.has_read %}
                       <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Read">
