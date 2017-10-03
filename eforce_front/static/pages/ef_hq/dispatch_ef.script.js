@@ -92,15 +92,19 @@ function event_getUnresolvedCrisisSelect2Details(){
         success: function(data, status){
             data = data.data
 
+
             var crisisDetail = {crisisTitle: data.title,
                                 crisisDescription: data.description,
                                 crisisDatetime: moment(data.created_datetime).format('DD MMM YYYY h:mm a'),
                                 crisisScale: data.scale
                                 };
 
-            // $.each(data.affected_location, function(i, item) {
-            //   item.lat;
-            // });
+            clearCrisisMarker();
+            $.each(data.affected_locations, function(i, item) {
+              addCrisisMarker({lat: parseFloat(item.lat),
+                               lng: parseFloat(item.lng)
+                             });
+            });
 
             $("#crisis_detail_viewer").empty();
             $("#crisisDetailTemplate").tmpl(crisisDetail).appendTo("#crisis_detail_viewer");

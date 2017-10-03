@@ -52,10 +52,11 @@
 
   // TODO: GENERATE MARKERS
   var crisisMarkers = [];
+  var sgmap;
 
   function initMap() {
     var sgloc = {lat: 1.3553794, lng: 103.8677444};
-    var sgmap = new google.maps.Map(document.getElementById('map'), {
+    sgmap = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
       center: sgloc,
       mapTypeControl: false,
@@ -67,7 +68,9 @@
       draggable:true,
       position: sgloc,
       map: sgmap,
+
     });
+
 
     var inputFormattedAddress = document.getElementById('inputForceFormattedAddress');
     sgmap.controls[google.maps.ControlPosition.TOP_LEFT].push(inputFormattedAddress);
@@ -105,6 +108,23 @@
         document.getElementById('inputForceFormattedAddress').value = "Location cannot be identified due to: " + status;
       }
     });
+  }
+
+
+  function addCrisisMarker(location) {
+    var marker = new google.maps.Marker({
+      icon: "{% static "eforce_theme/google_map/crisis-marker3.png" %}",
+      position: location,
+      map: sgmap
+    });
+    crisisMarkers.push(marker);
+  }
+
+  function clearCrisisMarker() {
+    for (var j = 0; j < crisisMarkers.length; j++) {
+      crisisMarkers[j].setMap(null);
+    }
+    crisisMarkers = [];
   }
 
 </script>
@@ -158,7 +178,7 @@
                             <div class="form-group">
                               <label for="map" class="control-label">Select EF current location</label>
                               <input id="inputForceFormattedAddress" type="text" style="width:200px;" disabled/>
-                              <div id="map" style="height:200px;"></div>
+                              <div id="map" style="height:300px;"></div>
                             </div>
 
                             <input id="inputForCrisis" name="dispatch_efassets_for_crisis" type="hidden"  />
