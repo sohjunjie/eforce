@@ -90,7 +90,7 @@ def go_to_update_hq_page(request):
 
     try:
         send_and_create_efhq_ground_update(request)
-        messages.success(request, "Summary update has been successfully send to CMO.")
+        messages.success(request, "Summary update has been successfully send to HQ.")
     except UpdateCrisisEFHQError as e:
         messages.error(request, e.error)
 
