@@ -71,7 +71,7 @@ def send_client_group_instruction_notification(sender, instance=None, created=Fa
                 "to_group_name": instance.to_group.rolename,
                 "readable_to_group_name": instance.get_readable_rolename(),
                 "instruction_text": instance.instruction.text,
-                "for_crisis_title": instance.for_strategy.crisis.title,
-                "for_crisis_id": instance.for_strategy.crisis.id
+                "for_crisis_title": instance.for_crisis.title,
+                "for_crisis_id": instance.for_crisis.id
             })
         })

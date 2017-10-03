@@ -10,12 +10,12 @@
 
 {% block page_plugins_css %}
 <link rel="stylesheet" href="{% static "pages/ef_assets/update_hq.style.css" %}">
-<link rel="stylesheet" href="{% static "bower_components/select2/select2.min.css" %}">
+<link rel="stylesheet" href="{% static "plugins/select2/select2.min.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
-<script src="{% static "bower_components/select2/select2.min.js" %}"></script>
-<script src="{% static "bower_components/moment/moment.js" %}"></script>
+<script src="{% static "plugins/select2/select2.min.js" %}"></script>
+<script src="{% static "plugins/moment/moment.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
@@ -131,7 +131,6 @@
           <div class="box-body" style="padding: 0px;">
             <div class="form-group" style="margin: 10px !important;">
               <select id="unresolvedCrisisSelect2" class="form-control" name="unresolved_crisis_select_2">
-                <option id="-1">Select a crisis for sending HQ updates</option>
               </select>
             </div>
 

@@ -1,20 +1,181 @@
 {% extends "base-hq-home.html" %}
 {% load staticfiles %}
+{% load tags %}
+
 {% load bootstrap3 %}
+{% bootstrap_javascript jquery=1 %}
+{% bootstrap_css %}
 
 {% block top_title_text %}Home | SG-EF{% endblock %}
 
 {% block page_plugins_css %}
+<link rel="stylesheet" href="{% static "plugins/select2/select2.min.css" %}">
+<link rel="stylesheet" href="{% static "pages/ef_hq/dispatch_ef.style.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
+<script src="{% static "plugins/select2/select2.min.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
+<script src="{% static "pages/ef_hq/dispatch_ef.script.js" %}"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
+<script id="crisisDetailTemplate" type="text/x-jQuery-tmpl">
+<div class="box-header">
+
+  <img class="img-sm" src="{% static "eforce_theme/home/img/crisis-sender-avatar.jpg" %}" />
+  <div class="crisis-detail-container">
+      <span class="title">${crisisTitle}
+            <span style="font-size: 12px; font-weight: normal;" class="text-muted pull-right">${crisisDatetime}</span>
+      </span>
+      ${crisisDescription}
+  </div>
+  <div class="pull-right" style="display:block; font-size: 10px;">
+    Crisis scale ${crisisScale}
+  </div>
+</div>
+</script>
+
+<script id="crisisStrategyTemplate" type="text/x-jQuery-tmpl">
+<div class="box-comment">
+    <img class="img-circle" src="{% static "eforce_theme/home/img/crisis-sender-avatar.jpg" %}" />
+    <div class="comment-text">
+        <span class="username">THE CMO
+          <span class="text-muted pull-right">${strategyDatetime}</span>
+        </span>
+          ${strategyDetail}
+    </div>
+</div>
+</script>
+
+<script>
+  function initMap() {
+    var sgloc = {lat: 1.3553794, lng: 103.8677444};
+    var sgmap = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: sgloc,
+      mapTypeControl: false,
+			streetViewControl: false,
+			fullscreenControl: false
+    });
+
+    var marker = new google.maps.Marker({
+      draggable:true,
+      position: sgloc,
+      map: sgmap,
+    });
+
+    var inputFormattedAddress = document.getElementById('inputForceFormattedAddress');
+    sgmap.controls[google.maps.ControlPosition.TOP_LEFT].push(inputFormattedAddress);
+
+		var geocoder = new google.maps.Geocoder;
+    var infowindow = new google.maps.InfoWindow({
+		    content: "Drag pin to specify estimate location of EF forces"
+		});
+    document.getElementById('inputForceLat').value = marker.position.lat();
+    document.getElementById('inputForceLng').value = marker.position.lng();
+    geocodeLatLng(geocoder, marker);
+
+    marker.addListener('dragend', function() {
+	    	document.getElementById('inputForceLat').value = this.position.lat();
+	    	document.getElementById('inputForceLng').value = this.position.lng();
+	    	geocodeLatLng(geocoder, this);
+	   	});
+    marker.addListener('click', function() {
+        infowindow.setContent(marker.position.lat() + ", " + marker.position.lng())
+        infowindow.open(sgmap, this);
+    	});
+
+  }
+
+  function geocodeLatLng(geocoder, markerloc) {
+    var latlng = {lat: markerloc.position.lat(), lng: markerloc.position.lng()};
+    geocoder.geocode({'location': latlng}, function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          document.getElementById('inputForceFormattedAddress').value = results[0].formatted_address;
+          } else {
+            document.getElementById('inputForceFormattedAddress').value = "Location cannot be identified";
+          }
+      } else {
+        document.getElementById('inputForceFormattedAddress').value = "Location cannot be identified due to: " + status;
+      }
+    });
+  }
+
+</script>
 {% endblock %}
 
 {% block main_body %}
 <section class="content">
+
+    {% bootstrap_messages %}
+
+    <div class="row">
+        <div class="col-xs-6 crisis-strategy-wrapper" style="padding-right: 0px;">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Combat strategy to crisis</h3> </div>
+
+                <div class="box-body" style="padding: 0px;">
+                  <div class="form-group" style="margin: 10px !important;">
+                    <select id="unresolvedCrisisSelect2" class="form-control" name="unresolved_crisis_select_2">
+                    </select>
+                  </div>
+
+                  <div id="crisis_detail_viewer"></div>
+
+                </div>
+
+                <div id="crisis_strategy_viewer" class="box-footer box-comments"></div>
+
+            </div>
+        </div>
+
+        <div class="col-xs-6">
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Compose dispatch EF Assets instructions</h3></div>
+
+                        <form id="formDispatchEF" method="post"> {% csrf_token %}
+                          <div class="box-body">
+
+                            <div class="form-group">
+                              <label for="userGroupSelect2" class="control-label">To EF Assets</label>
+                              <select id="userGroupSelect2" class="form-control" name="dispatch_efassets_usergroup[]" multiple="multiple"></select>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="inputEFAssetsInstructions" class="control-label">Instruction details</label>
+                              <textarea id="inputEFAssetsInstructions" class="form-control" name="dispatch_efassets_instruction" placeholder="Brief description of crisis updates" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                              <label for="map" class="control-label">Select EF current location</label>
+                              <input id="inputForceFormattedAddress" type="text" style="width:200px;" disabled/>
+                              <div id="map" style="height:200px;"></div>
+                            </div>
+
+                            <input id="inputForCrisis" name="dispatch_efassets_for_crisis" type="hidden"  />
+                            <input id="inputForceLat" name="dispatch_efassets_force_lat" type="hidden"  />
+                            <input id="inputForceLng" name="dispatch_efassets_force_lng" type="hidden" / >
+
+                          </div>
+                          <!-- /.box-body -->
+                          <div class="box-footer">
+                            <button type="submit" class="btn btn-info pull-right">Submit</button>
+                          </div>
+                          <!-- /.box-footer -->
+                        </form>
+                    </div>
+
+
+
+        </div>
+
+    </div>
+
 
 </section>
 {% endblock %}

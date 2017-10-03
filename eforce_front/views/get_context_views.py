@@ -27,9 +27,9 @@ def get_user_group_crisis_instructions(user):
     igas = InstructionGroupAssoc.objects.filter(to_group=user.userprofile.usergroup)
 
     for iga in igas:
-        crisis_pk = iga.instruction.for_strategy.crisis.pk
+        crisis_pk = iga.instruction.for_crisis.pk
         if not crisis_instructions.__contains__(crisis_pk):
-            newCrisisInstructions = CrisisInstructions(crisis=iga.instruction.for_strategy.crisis)
+            newCrisisInstructions = CrisisInstructions(crisis=iga.instruction.for_crisis)
             newCrisisInstructions.add_instruction(iga)
             crisis_instructions[crisis_pk] = newCrisisInstructions
         else:

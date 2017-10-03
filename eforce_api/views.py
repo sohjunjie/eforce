@@ -7,7 +7,7 @@ from eforce_api.utils import get_request_body_param, PermissionManager
 from eforce_api.models import *
 from eforce_api.serializers import CrisisSerializer, CrisisDetailSerializer, \
     CrisisUpdateSerializer, UserGroupImageSerializer, UserGroupSerializer, \
-    InstructionSerializer
+    InstructionSerializer, CombatStrategySerializer
 
 from rest_framework import generics
 from rest_framework import status
@@ -26,6 +26,20 @@ class ThisUserGroupRoleView(APIView):
 
         serializer = UserGroupSerializer(usergroup)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
+class EFAssetsGroupListView(generics.ListAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = UserGroupSerializer
+
+    def get_queryset(self):
+        search = self.request.query_params.get('q', None)
+        usergroups = UserGroup.objects.all()
+        if search is not None and search is not '':
+            search = search.replace(' ', '_')
+            usergroups = usergroups.filter(rolename__icontains=search)
+
+        return usergroups
 
 
 class UserGroupImageUploadView(APIView):
@@ -69,6 +83,17 @@ class CrisisCaseDetailView(APIView):
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
+class CrisisCombatStrategyListView(generics.ListAPIView):
+    queryset = CombatStrategy.objects.all()
+    serializer_class = CombatStrategySerializer
+    permission_classes = (AllowAny,)
+
+    def list(self, request, pk):
+        queryset = self.get_queryset().filter(crisis__id=pk)
+        serializer = CombatStrategySerializer(queryset, many=True)
+        return Response({'data': serializer.data}, status=status.HTTP_200_OK)
+
+
 class CrisisUpdateListView(generics.ListAPIView):
     queryset = CrisisUpdate.objects.all()
     serializer_class = CrisisUpdateSerializer
@@ -85,7 +110,7 @@ class CrisisInstructionListView(generics.ListAPIView):
 
     def list(self, request, pk):
         usergroup = request.user.userprofile.usergroup
-        queryset = usergroup.instruction.filter(for_strategy__crisis__id=pk)
+        queryset = usergroup.instruction.filter(for_crisis__id=pk)
         serializer = InstructionSerializer(queryset, many=True)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 

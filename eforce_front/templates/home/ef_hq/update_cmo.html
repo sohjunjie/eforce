@@ -10,12 +10,11 @@
 
 {% block page_plugins_css %}
 <link rel="stylesheet" href="{% static "pages/ef_hq/update_cmo.style.css" %}">
-<link rel="stylesheet" href="{% static "bower_components/select2/select2.min.css" %}">
+<link rel="stylesheet" href="{% static "plugins/select2/select2.min.css" %}">
 {% endblock %}
 
 {% block page_plugins_js %}
-<script src="{% static "bower_components/select2/select2.min.js" %}"></script>
-<script src="{% static "bower_components/moment/moment.js" %}"></script>
+<script src="{% static "plugins/select2/select2.min.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
@@ -24,7 +23,7 @@
 <script id="crisisDetailTemplate" type="text/x-jQuery-tmpl">
 <div class="box-header">
 
-  <img class="img-sm" src="{% static "eforce_theme/home/img/avatar.jpg" %}" data-toggle="tooltip" data-original-title="disaster level">
+  <img class="img-sm" src="{% static "eforce_theme/home/img/crisis-sender-avatar.jpg" %}" />
   <div class="crisis-detail-container">
       <span class="title">${crisisTitle}
                 <span style="font-size: 12px; font-weight: normal;" class="text-muted pull-right">${crisisDatetime}</span>
@@ -129,7 +128,6 @@
             <div class="box-body" style="padding: 0px;">
               <div class="form-group" style="margin: 10px !important;">
                 <select id="unresolvedCrisisSelect2" class="form-control" name="unresolved_crisis_select_2">
-                  <option id="-1">Select a crisis for sending CMO updates</option>
                 </select>
               </div>
 
