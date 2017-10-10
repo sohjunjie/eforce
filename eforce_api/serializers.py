@@ -9,9 +9,12 @@ class CrisisAffectedLocationSerializer(serializers.ModelSerializer):
 
 
 class CrisisSerializer(serializers.ModelSerializer):
+
+    affected_locations = CrisisAffectedLocationSerializer(many=True)
+
     class Meta:
         model = Crisis
-        fields = ('id', 'title')
+        fields = ('id', 'title', 'description', 'scale', 'resolve', 'cmo_crisis_id', 'created_datetime', 'affected_locations')
 
 
 class CrisisDetailSerializer(serializers.ModelSerializer):
