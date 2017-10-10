@@ -17,7 +17,7 @@
 {% block main_body %}
 <section class="content">
 
-  <div class="row">
+  <div class="row" style="padding: 30px;">
 
   <div class="col-lg-3">
 
@@ -38,10 +38,42 @@
     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
     </span>
   </div>
-</div>
-
-
   </div>
+  </div>
+
+  <div class="box box-info">
+    <div class="row">
+        <div class="col-xs-6" style="padding-right: 0px;">
+
+              <!-- form start -->
+              <form id="formUpdateCMO" method="post"> {% csrf_token %}
+                <div class="box-body">
+
+
+                  <div class="form-group">
+                    <label for="map" class="control-label">Crisis Location</label>
+                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=%201.3483,103.6831&zoom=14&size=400x400&key=AIzaSyCzhxV2gszhUjb1NC0XkmtEJr8kCcJdejo"
+                  </div>
+
+
+
+                  <div class="form-group">
+                    <label for="inputUpdateTitle" class="control-label">Title</label>
+                    <input id="inputUpdateTitle" class="form-control" name="sum_update_title" placeholder="Summary update title" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="inputUpdateDesc" class="control-label">Description</label>
+                    <textarea id="inputUpdateDesc" class="form-control" name="sum_update_desc" placeholder="Brief description of crisis updates" required></textarea>
+                  </div>
+                </div>
+              </div>
+
+
+              </div>
+
+              </form>
+    </div>
 
 </section>
 {% endblock %}
