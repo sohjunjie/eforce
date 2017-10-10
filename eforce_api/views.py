@@ -57,7 +57,7 @@ class UserGroupImageUploadView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class CrisisCaseUnresolvedSearchView(generics.ListAPIView):
+class CrisisCaseSearchView(generics.ListAPIView):
 
     permission_classes = (AllowAny, )
     serializer_class = CrisisSerializer

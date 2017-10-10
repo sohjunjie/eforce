@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/new/strategy/$', views.CrisisStrategyView.as_view(), name="crisis-case-new-strategy"),
 
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/$', views.CrisisCaseDetailView.as_view(), name="crisis-case-view"),
-    url(r'api/v1.0/crisis/unresolved/search/$', views.CrisisCaseUnresolvedSearchView.as_view(), name="crisis-case-unresolved-search"),
+    url(r'api/v1.0/crisis/search/$', views.CrisisCaseSearchView.as_view(), name="crisis-case-unresolved-search"),
 
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/strategy/$', views.CrisisCombatStrategyListView.as_view(), name="crisis-case-combat-strategy"),
     url(r'api/v1.0/crisis/case/(?P<pk>[0-9]+)/ef/update/$', views.CrisisUpdateListView.as_view(), name="crisis-case-ef-updates"),

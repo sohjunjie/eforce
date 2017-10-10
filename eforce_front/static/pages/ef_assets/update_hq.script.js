@@ -71,7 +71,7 @@ function event_getSearchUnresolvedCrisisSelect2(){
     $("#unresolvedCrisisSelect2").select2({
         placeholder: "Select a crisis for sending HQ updates",
         ajax: {
-            url: "/api/v1.0/crisis/unresolved/search/",
+            url: "/api/v1.0/crisis/search/",
             dataType: 'json',
             delay: 250,
             data: function (params) {
