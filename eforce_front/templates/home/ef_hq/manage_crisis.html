@@ -1,78 +1,67 @@
 {% extends "base-hq-home.html" %}
 {% load staticfiles %}
-{% load bootstrap3 %}
+{% load tags %}
 
+{% load bootstrap3 %}
 {% block top_title_text %}Home | SG-EF{% endblock %}
 
 {% block page_plugins_css %}
-{% endblock %}
 <link rel="stylesheet" href="{% static "pages/ef_hq/manage_crisis.style.css" %}">
+{% endblock %}
+
 
 {% block page_plugins_js %}
+<script src="{% static "pages/ef_hq/manage_crisis.script.js" %}"></script>
 {% endblock %}
 
 {% block page_scripts %}
+<script id="manageCrisisItemTemplate" type="text/x-jQuery-tmpl">
+<li class="item">
+  <div class="crisis-img">
+    <img src="https://maps.googleapis.com/maps/api/staticmap?center=${crisisLat},${crisisLng}&zoom=14&size=240x200&key={% google_api_key %}" />
+  </div>
+  <div class="crisis-info">
+    <a href="javascript:void(0)" class="crisis-title">${crisisTitle}</a>
+      <span class="crisis-description">${crisisDescription}</span>
+  </div>
+</li>
+</script>
 {% endblock %}
 
 {% block main_body %}
 <section class="content">
 
-  <div class="row" style="padding: 30px;">
+    <div class="row" style="padding-bottom: 20px;">
+        <div class="col-xs-3">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary" style="width: 110px;">Past Crisis</button>
+                <button type="button" class="btn btn-primary" style="width: 110px;">Current Crisis</button>
+            </div>
+        </div>
 
-  <div class="col-lg-3">
-
-  <div class="btn-group">
-    <button type="button" class="btn btn-primary" style="width: 110px;">Currenrt Crisis</button>
-    <button type="button" class="btn btn-primary" style="width: 110px;">Past Crisis</button>
-  </div>
-  </div>
-
-  <div class="col-lg-9">
-  <div class="input-group">
-    <div class="input-group-btn search-panel">
-
+        <div class="col-xs-9">
+            <div class="input-group">
+            <input type="text" class="form-control" name="x" placeholder="Search crisis by name">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+            </div>
+        </div>
     </div>
-    <input type="hidden" name="search_param" value="all" id="search_param">
-    <input type="text" class="form-control" name="x" placeholder="Search crisis by name">
-    <span class="input-group-btn">
-    <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-    </span>
-  </div>
-  </div>
-  </div>
 
-  <div class="box box-info">
-    <div class="row">
-        <div class="col-xs-6" style="padding-right: 0px;">
-
-              <!-- form start -->
-              <form id="formUpdateCMO" method="post"> {% csrf_token %}
-                <div class="box-body">
-
-
-                  <div class="form-group">
-                    <label for="map" class="control-label">Crisis Location</label>
-                    <img src="https://maps.googleapis.com/maps/api/staticmap?center=%201.3483,103.6831&zoom=14&size=400x400&key=AIzaSyCzhxV2gszhUjb1NC0XkmtEJr8kCcJdejo"
-                  </div>
+    <div class="box box-primary">
+        <div class="box-body">
+          <ul id="manageCrisisWrapper" class="products-list product-list-in-box">
 
 
 
-                  <div class="form-group">
-                    <label for="inputUpdateTitle" class="control-label">Title</label>
-                    <input id="inputUpdateTitle" class="form-control" name="sum_update_title" placeholder="Summary update title" required>
-                  </div>
+          </ul>
+        </div>
 
-                  <div class="form-group">
-                    <label for="inputUpdateDesc" class="control-label">Description</label>
-                    <textarea id="inputUpdateDesc" class="form-control" name="sum_update_desc" placeholder="Brief description of crisis updates" required></textarea>
-                  </div>
-                </div>
-              </div>
+        <div class="box-footer text-center">
+          <a href="javascript:void(0)" class="uppercase">View More Products</a>
+        </div>
 
-
-              </div>
-
-              </form>
     </div>
 
 </section>

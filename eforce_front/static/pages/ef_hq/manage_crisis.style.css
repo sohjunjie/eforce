@@ -1,0 +1,21 @@
+.crisis-img {
+  float: left;
+}
+
+.products-list .crisis-info {
+  margin-left: 250px;
+}
+
+.products-list .crisis-title {
+    font-weight: 600;
+    font-size: 21px;
+    color: black;
+}
+
+.products-list .crisis-description {
+    display: block;
+    color: #999;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
