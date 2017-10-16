@@ -34,16 +34,16 @@
     <div class="row" style="padding-bottom: 20px;">
         <div class="col-xs-3">
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" style="width: 110px;">Past Crisis</button>
-                <button type="button" class="btn btn-primary" style="width: 110px;">Current Crisis</button>
+                <button id="searchPresentCrisis" type="button" class="btn btn-primary active" style="width: 110px;">Present Crisis</button>
+                <button id="searchPastCrisis" type="button" class="btn btn-primary" style="width: 110px;">Past Crisis</button>
             </div>
         </div>
 
         <div class="col-xs-9">
             <div class="input-group">
-            <input type="text" class="form-control" name="x" placeholder="Search crisis by name">
+            <input id="searchCrisisInput" type="text" class="form-control" placeholder="Search crisis by name">
             <span class="input-group-btn">
-                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                <button id="searchCrisisBtn" class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
             </span>
             </div>
         </div>
@@ -53,13 +53,11 @@
         <div class="box-body">
           <ul id="manageCrisisWrapper" class="products-list product-list-in-box">
 
-
-
           </ul>
         </div>
 
         <div class="box-footer text-center">
-          <a href="javascript:void(0)" class="uppercase">View More Products</a>
+          <a href="javascript:load_next_crisis()" class="uppercase">View More Crisis</a>
         </div>
 
     </div>
