@@ -64,7 +64,9 @@ class CrisisCaseSearchView(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get('q', None)
-        filterResolve = self.request.query_params.get('resolve', False)
+        filterResolve = self.request.query_params.get('resolve', "false")
+        filterResolve = False if filterResolve == 'false' else True
+
         crisis = Crisis.objects.filter(resolve=filterResolve)
         if search is not None and search is not '':
             crisis = crisis.filter(title__icontains=search)
