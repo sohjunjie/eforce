@@ -34,11 +34,13 @@ function get_efupdate_crisis_details(crisisId){
     url: api_url,
     success: function(data, status){
       $('#crisis-detail-timeline').empty();
+      clearMarkersAndLine();
 
       data = data.data;
       let eforce_locs = {};
       let thisCrisisUpdateDate = null;
 
+      // construct timeline
       $.each(data, function(i, item) {
         let crisisEfUpdateDetail = {
             crisisTimehhmm: moment(item.created_datetime).format('hh:mm'),
@@ -50,22 +52,52 @@ function get_efupdate_crisis_details(crisisId){
             crisisForceSizeSent: item.force_size,
             crisisForceCasualty: item.force_casualty
         };
-
-        if(!(item.get_readable_sent_by in eforce_locs)){
-          eforce_locs[item.get_readable_sent_by] = [];
-        }
-        eforce_locs[item.get_readable_sent_by].push({
-          forceLatLng: {lat: item.force_lat, lng: item.force_lng},
-          crisisEFAssetImageUrl: item.by_group.image_url
-        })
-
+        // construct timeline date
         if(thisCrisisUpdateDate != moment("2017-09-26T14:37:34.512425Z").format('DD MMM. YYYY')){
           thisCrisisUpdateDate = moment("2017-09-26T14:37:34.512425Z").format('DD MMM. YYYY');
           $("#manageCrisisTimelineDateItemTemplate").tmpl({crisisUpdateDate: thisCrisisUpdateDate}).appendTo("#crisis-detail-timeline");
         }
-
+        // construct timeline item
         $("#manageCrisisTimelineItemTemplate").tmpl(crisisEfUpdateDetail).appendTo("#crisis-detail-timeline");
       });
+
+      // construct lat lng for movement tracking
+      $.each(data, function(i, item) {
+        if(!(item.get_readable_sent_by in eforce_locs)){
+          eforce_locs[item.get_readable_sent_by] = {
+            crisisEFAssetImageUrl: item.by_group.image_url,
+            forceLatLng: []
+          };
+        }
+        eforce_locs[item.get_readable_sent_by]['forceLatLng'].push({lat: parseFloat(item.force_lat), lng: parseFloat(item.force_lng)});
+      });
+
+      let dirService = new directionsServiceLib();
+      for(let efasset in eforce_locs){
+        let efassetMarker = addMarker(sgloc, eforce_locs[efasset].crisisEFAssetImageUrl);
+        let efassetLocArray = eforce_locs[efasset]['forceLatLng'];
+        if(efassetLocArray.length <= 1) { continue; }
+
+        console.log(efassetLocArray);
+
+        // get coordinate and move marker
+        for(let i=0; i < efassetLocArray.length-1; i++){
+          let origin = efassetLocArray[i];
+          let destination = efassetLocArray[i+1];
+          var googlePathRequest = {
+              origin: efassetLocArray[i],
+              destination: efassetLocArray[i+1],
+              travelMode: google.maps.TravelMode.DRIVING //"DRIVING"
+          };
+          dirService.route(googlePathRequest, function(result, status) {
+              if (status == google.maps.DirectionsStatus.OK) {
+                  animateEFMovementMarker(efassetMarker, result.routes[0].overview_path);
+              }
+          });
+
+        }
+
+      }
 
     },
     error: function(err) {

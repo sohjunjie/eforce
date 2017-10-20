@@ -54,62 +54,79 @@
 
 <script>
 var sgmap;
+var sgloc;
 var markers = [];
-var line;
+var polyLines = [];
+var directionsServiceLib;
+var polyLineLib;
 
 function initMap() {
-  var sgloc = {lat: 1.349914, lng: 103.830071};
+
+  directionsServiceLib = google.maps.DirectionsService;
+  polyLineLib = google.maps.Polyline;
+  sgloc = {lat: 1.349914, lng: 103.830071};
   sgmap = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: sgloc
   });
 
-  var lineSymbol = {
-    path: google.maps.SymbolPath.CIRCLE,
-    scale: 8,
-    strokeColor: '#393'
-  };
+  addMarker(sgloc, null);
 
-  line = drawGMapPolyLine([{lat:1.34890815, lng:103.79400096}, {lat:1.33706677, lng:103.80876384}], lineSymbol, sgmap);
-  animateCircle(line);
 }
 
-function drawGMapPolyLine(latLngArray, animateIcon, map) {
-    let line =  new google.maps.Polyline({
-      path: latLngArray,
-      icons: [{
-        icon: animateIcon,
-        offset: '100%'
-      }],
+function animateEFMovementMarker(marker, pathCoords) {
+    let route = drawGMapPolyLine(sgmap);
+    for (i = 0; i < pathCoords.length; i++) {
+        setTimeout(function(coords) {
+            route.getPath().push(coords);
+            moveMarker(sgmap, marker, coords);
+        }, 100 * i, pathCoords[i]);
+    }
+}
+
+function drawGMapPolyLine(map) {
+    let line =  new polyLineLib({
+      path: [],
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+      geodesic : true,
       map: map
     });
+    polyLines.push(line);
     return line;
 }
 
-function animateCircle(line) {
-    var count = 0;
-    window.setInterval(function() {
-      count = (count + 1) % 200;
-
-      var icons = line.get('icons');
-      icons[0].offset = (count / 2) + '%';
-      line.set('icons', icons);
-  }, 20);
+function moveMarker(map, marker, latlng) {
+    marker.setPosition(latlng);
+    map.panTo(latlng);
 }
 
-function addMarker(location) {
-  var marker = new google.maps.Marker({
+function addMarker(location, icon) {
+  if(icon == null){
+    icon = 'http://maps.google.com/mapfiles/ms/micons/blue.png';
+  }
+  let image = {
+    url: icon,
+    scaledSize: new google.maps.Size(32, 32)
+  }
+  let marker = new google.maps.Marker({
     position: location,
-    map: sgmap
+    map: sgmap,
+    icon:image
   });
   markers.push(marker);
+  return marker;
 }
 
-function clearMarkers() {
-  for (var j = 0; j < markers.length; j++) {
+function clearMarkersAndLine() {
+  for (let j = 0; j < markers.length; j++) {
     markers[j].setMap(null);
   }
+  for (let j = 0; j < polyLines.length; j++) {
+    polyLines[j].setMap(null);
+  }
   markers = [];
+  polyLines = [];
 }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
