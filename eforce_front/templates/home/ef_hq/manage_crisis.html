@@ -15,17 +15,104 @@
 {% endblock %}
 
 {% block page_scripts %}
+<script id="manageCrisisTimelineItemTemplate" type="text/x-jQuery-tmpl">
+<li>
+  <img class="fa img-circle" src="${crisisEFAssetImageUrl}" />
+  <div class="timeline-item">
+    <span class="time"><i class="fa fa-clock-o"></i> ${crisisTimehhmm}</span>
+    <h3 class="timeline-header"><a href="#">${crisisEFAssetName}</a> dispatch ${crisisForceSizeSent}, ${crisisForceCasualty} down </h3>
+    <div class="timeline-body margin">
+    ${crisisUpdateDescription}
+    </div>
+  </div>
+</li>
+</script>
+
+<script id="manageCrisisTimelineDateItemTemplate" type="text/x-jQuery-tmpl">
+<li class="time-label">
+    <span class="bg-red">
+        ${crisisUpdateDate}
+        </span>
+</li>
+</script>
+
 <script id="manageCrisisItemTemplate" type="text/x-jQuery-tmpl">
 <li class="item">
   <div class="crisis-img">
     <img src="https://maps.googleapis.com/maps/api/staticmap?center=${crisisLat},${crisisLng}&zoom=14&size=240x200&key={% google_api_key %}" />
   </div>
   <div class="crisis-info">
-    <a href="javascript:void(0)" class="crisis-title">${crisisTitle}</a>
+    <a href="javascript:void(0)" class="crisis-title">${crisisTitle}
+        <button id="crisis-id-${crisisId}" type="button" class="btn btn-default crisis-modal-launcher pull-right" data-toggle="modal" data-target="#crisis-detail-modal">
+            Details
+            </button>
+        </a>
       <span class="crisis-description">${crisisDescription}</span>
   </div>
 </li>
 </script>
+
+<script>
+var sgmap;
+var markers = [];
+var line;
+
+function initMap() {
+  var sgloc = {lat: 1.349914, lng: 103.830071};
+  sgmap = new google.maps.Map(document.getElementById('map'), {
+    zoom: 12,
+    center: sgloc
+  });
+
+  var lineSymbol = {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 8,
+    strokeColor: '#393'
+  };
+
+  line = drawGMapPolyLine([{lat:1.34890815, lng:103.79400096}, {lat:1.33706677, lng:103.80876384}], lineSymbol, sgmap);
+  animateCircle(line);
+}
+
+function drawGMapPolyLine(latLngArray, animateIcon, map) {
+    let line =  new google.maps.Polyline({
+      path: latLngArray,
+      icons: [{
+        icon: animateIcon,
+        offset: '100%'
+      }],
+      map: map
+    });
+    return line;
+}
+
+function animateCircle(line) {
+    var count = 0;
+    window.setInterval(function() {
+      count = (count + 1) % 200;
+
+      var icons = line.get('icons');
+      icons[0].offset = (count / 2) + '%';
+      line.set('icons', icons);
+  }, 20);
+}
+
+function addMarker(location) {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: sgmap
+  });
+  markers.push(marker);
+}
+
+function clearMarkers() {
+  for (var j = 0; j < markers.length; j++) {
+    markers[j].setMap(null);
+  }
+  markers = [];
+}
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 {% endblock %}
 
 {% block main_body %}
@@ -63,4 +150,62 @@
     </div>
 
 </section>
+
+<div class="modal fade" id="crisis-detail-modal" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 id="crisis-detail-modal-title" class="modal-title">Crisis Title</h4>
+          </div>
+          <div id="crisis-detail-modal-body" class="modal-body">
+            <div id="map"></div>
+            <div class="row">
+                    <div class="col-md-12">
+
+                      <ul id="crisis-detail-timeline" class="timeline">
+                        <!-- timeline time label -->
+                        <li class="time-label">
+                            <span class="bg-red">
+                                10 Feb. 2014
+                                </span>
+                        </li>
+
+                        <!-- timeline item -->
+                        <li>
+                          <i class="fa fa-envelope bg-blue"></i>
+
+                          <div class="timeline-item">
+                            <span class="time"><i class="fa fa-clock-o"></i> 12:05</span>
+
+                            <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                <img src="http://placehold.it/150x100" alt="..." class="margin">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="timeline-body margin">
+                                      Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                                      weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                                      jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                                      quora plaxo ideeli hulu weebly balihoo...
+                                    </div>
+                                </div>
+                            </div>
+
+                          </div>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <!-- /.col -->
+                  </div>
+
+          </div>
+        </div>
+
+    </div>
+</div>
 {% endblock %}
