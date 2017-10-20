@@ -53,8 +53,8 @@ function get_efupdate_crisis_details(crisisId){
             crisisForceCasualty: item.force_casualty
         };
         // construct timeline date
-        if(thisCrisisUpdateDate != moment("2017-09-26T14:37:34.512425Z").format('DD MMM. YYYY')){
-          thisCrisisUpdateDate = moment("2017-09-26T14:37:34.512425Z").format('DD MMM. YYYY');
+        if(thisCrisisUpdateDate != moment(item.created_datetime).format('DD MMM. YYYY')){
+          thisCrisisUpdateDate = moment(item.created_datetime).format('DD MMM. YYYY');
           $("#manageCrisisTimelineDateItemTemplate").tmpl({crisisUpdateDate: thisCrisisUpdateDate}).appendTo("#crisis-detail-timeline");
         }
         // construct timeline item
@@ -77,8 +77,6 @@ function get_efupdate_crisis_details(crisisId){
         let efassetMarker = addMarker(sgloc, eforce_locs[efasset].crisisEFAssetImageUrl);
         let efassetLocArray = eforce_locs[efasset]['forceLatLng'];
         if(efassetLocArray.length <= 1) { continue; }
-
-        console.log(efassetLocArray);
 
         // get coordinate and move marker
         for(let i=0; i < efassetLocArray.length-1; i++){
