@@ -73,6 +73,7 @@ function get_efupdate_crisis_details(crisisId){
       });
 
       let dirService = new directionsServiceLib();
+      var j = 0;
       for(let efasset in eforce_locs){
         let efassetMarker = addMarker(sgloc, eforce_locs[efasset].crisisEFAssetImageUrl);
         let efassetLocArray = eforce_locs[efasset]['forceLatLng'];
@@ -87,14 +88,17 @@ function get_efupdate_crisis_details(crisisId){
               destination: efassetLocArray[i+1],
               travelMode: google.maps.TravelMode.DRIVING //"DRIVING"
           };
-          dirService.route(googlePathRequest, function(result, status) {
+
+          (function(index){
+            dirService.route(googlePathRequest, function(result, status) {
               if (status == google.maps.DirectionsStatus.OK) {
-                  animateEFMovementMarker(efassetMarker, result.routes[0].overview_path);
+                  animateEFMovementMarker(efassetMarker, result.routes[0].overview_path, index);
               }
-          });
+            });
+          })(j);
 
         }
-
+        j += 1;
       }
 
     },

@@ -74,8 +74,8 @@ function initMap() {
 
 }
 
-function animateEFMovementMarker(marker, pathCoords) {
-    let route = drawGMapPolyLine(sgmap);
+function animateEFMovementMarker(marker, pathCoords, colorIndex) {
+    let route = drawGMapPolyLine(sgmap, colorIndex);
     for (i = 0; i < pathCoords.length; i++) {
         setTimeout(function(coords) {
             route.getPath().push(coords);
@@ -84,10 +84,11 @@ function animateEFMovementMarker(marker, pathCoords) {
     }
 }
 
-function drawGMapPolyLine(map) {
+function drawGMapPolyLine(map, colorIndex) {
     let line =  new polyLineLib({
       path: [],
       strokeOpacity: 1.0,
+      strokeColor: getAlternateColor.getColor(colorIndex),
       strokeWeight: 2,
       geodesic : true,
       map: map
@@ -127,6 +128,14 @@ function clearMarkersAndLine() {
   }
   markers = [];
   polyLines = [];
+}
+
+var getAlternateColor = new function() {
+    this.colorList = ['#000000', '#0000FF', '#FF0000', '#FFFF00', '#008000', '#00FFFF', '#800080', '#808080', '#008080', '#FF00FF'];
+    this.getColor = function (index) {
+        let getColorIndex = index % this.colorList.length;
+        return this.colorList[getColorIndex];
+    };
 }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
