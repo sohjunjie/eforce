@@ -44,11 +44,8 @@ def ws_disconnect_efassets(message):
 # FOR AIRLINEAPP
 @channel_session
 def ws_connect_airlinechat(message):
+    message.reply_channel.send({"accept": True})
     Group("airlineapp").add(message.reply_channel)
-    message.reply_channel.send({
-        "type": "accept",
-        "accept": True
-    })
 
 
 @channel_session
