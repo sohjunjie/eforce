@@ -45,14 +45,13 @@ var sgmap;
 
   function initMap() {
     var sgloc = {lat: 1.349914, lng: 103.830071};
-    sgmap = new google.maps.Map(document.getElementById('map'), {
+    sgmap = new google.maps.Map(document.getElementById("map"), {
       zoom: 12,
       center: sgloc
     });
     addMarker(sgloc);
 
   }
-  google.maps.event.addDomListener(window, "load", initMap);
 
   function addMarker(location) {
     var marker = new google.maps.Marker({
