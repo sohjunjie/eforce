@@ -48,6 +48,7 @@ def ws_connect_airlinechat(message):
     numPeople = len(Group("airlineapp").channel_layer.group_channels("airlineapp"))
     Group("airlineapp").send({
         "text": json.dumps({
+            "type": "usersConnected",
             "usersConnected": numPeople
         })
     })
@@ -60,6 +61,7 @@ def ws_receive_airlinechat(message):
     AIRLINEAPP_TRACKER[sessKey] = chatUser
     Group("airlineapp").send({
         "text": json.dumps({
+            "type": "chatUsersDetails",
             "chatUsersDetails": AIRLINEAPP_TRACKER
         })
     })
@@ -74,6 +76,7 @@ def ws_disconnect_airlinechat(message):
     numPeople = len(Group("airlineapp").channel_layer.group_channels("airlineapp"))
     Group("airlineapp").send({
         "text": json.dumps({
-            "peopleConnected": numPeople
+            "type": "usersConnected",
+            "usersConnected": numPeople
         })
     })
