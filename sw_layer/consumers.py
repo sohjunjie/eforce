@@ -68,7 +68,10 @@ def ws_receive_airlinechat(message):
 def ws_disconnect_airlinechat(message):
     sessKey = message.channel_session.session_key
     Group('airlineapp').discard(message.reply_channel)
-    del AIRLINEAPP_TRACKER[sessKey]
+    try:
+        del AIRLINEAPP_TRACKER[sessKey]
+    except KeyError:
+        pass
 
     Group("airlineapp").send({
         "text": json.dumps({
