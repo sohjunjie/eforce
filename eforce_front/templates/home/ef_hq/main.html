@@ -52,7 +52,7 @@ var sgmap;
     addMarker(sgloc);
 
   }
-  google.maps.event.addDomListener(window, "load", initialize);
+  google.maps.event.addDomListener(window, "load", initMap);
 
   function addMarker(location) {
     var marker = new google.maps.Marker({
