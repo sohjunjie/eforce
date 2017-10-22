@@ -45,12 +45,9 @@ def ws_disconnect_efassets(message):
 @channel_session
 def ws_connect_airlinechat(message):
     Group("airlineapp").add(message.reply_channel)
-    numPeople = len(Group("airlineapp").channel_layer.group_channels("airlineapp"))
-    Group("airlineapp").send({
-        "text": json.dumps({
-            "type": "usersConnected",
-            "usersConnected": numPeople
-        })
+    message.reply_channel.send({
+        "type": "accept",
+        "accept": True
     })
 
 
@@ -73,10 +70,9 @@ def ws_disconnect_airlinechat(message):
     Group('airlineapp').discard(message.reply_channel)
     del AIRLINEAPP_TRACKER[sessKey]
 
-    numPeople = len(Group("airlineapp").channel_layer.group_channels("airlineapp"))
     Group("airlineapp").send({
         "text": json.dumps({
-            "type": "usersConnected",
-            "usersConnected": numPeople
+            "type": "chatUsersDetails",
+            "chatUsersDetails": AIRLINEAPP_TRACKER
         })
     })
