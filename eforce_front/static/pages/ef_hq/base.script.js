@@ -17,6 +17,7 @@ $(document).ready(function() {
       if(msg != ''){
         var notificationDesc = {notificationDesc: msg + "<br/> Please refresh!"}
         $("#pushNotificationTemplate").tmpl(notificationDesc).prependTo("#efhq_notification_wrapper");
+        play_notification_sound();
       }
 
   }
@@ -61,4 +62,9 @@ function create_combat_strategy_alert_msg(data){
     return_msg += "<b>" + data.for_crisis_title + "</b><br/>";
     return_msg += "Combat Strategy Update: " + data.detail;
     return return_msg;
+}
+
+function play_notification_sound(){
+  let audio = new Audio(static_url + 'sounds/alert2.mp3');
+  audio.play();
 }
