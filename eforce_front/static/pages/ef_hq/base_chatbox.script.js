@@ -1,10 +1,15 @@
 var poll_crisis_chat_interval;
+var poll_chat_max_id_interval;
+var refresh_interval = 1000;
+var chatmaxid = 0;
 
 $(document).ready(function() {
 
   init_chatbox_crisis_list();
 
   event_on_send_chat_msg();
+
+  event_start_poll_chat_max_id();
 
 });
 
@@ -50,7 +55,7 @@ function event_on_send_chat_msg(){
 function event_start_poll_on_select_chat_crisis(){
 
   clearInterval(poll_crisis_chat_interval);
-  poll_crisis_chat_interval = setInterval(poll_chatbox_conversation, 8000);
+  poll_crisis_chat_interval = setInterval(poll_chatbox_conversation, refresh_interval);
 }
 
 function poll_chatbox_conversation(){
@@ -66,6 +71,9 @@ function poll_chatbox_conversation(){
 
         var crisisChatMsgDetail;
         $("#cmo_chat_crisis_messages_lists").empty();
+        if(data.length == 0) {
+          $("#NoChatMessageTemplate").tmpl().appendTo("#cmo_chat_crisis_messages_lists");
+        }
 
         $.each(data, function(i, item){
                 crisisChatMsgDetail = {
@@ -173,6 +181,19 @@ function init_chatbox_crisis_list(){
 
   });
 
+  var api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: api_maxchatid_url,
+    success: function(data, status){
+        chatmaxid = data[0].TotalChatCount;
+    },
+    error: function(err) {
+        console.log('error');
+    }
+
+  });
 
 }
 
@@ -183,4 +204,34 @@ function toggle_chatbox_display() {
     } else {
         x.style.display = 'none';
     }
+}
+
+function event_start_poll_chat_max_id(){
+  clearInterval(poll_chat_max_id_interval);
+  poll_chat_max_id_interval = setInterval(onchange_chatmaxid_create_toast, refresh_interval);
+}
+
+function onchange_chatmaxid_create_toast(){
+  var api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: api_maxchatid_url,
+    success: function(data, status){
+        if (chatmaxid != data[0].TotalChatCount) {
+          $.toast("You have a new message from NESIMS chat");
+          play_chat_notification_sound();
+        }
+        chatmaxid = data[0].TotalChatCount;
+    },
+    error: function(err) {
+        console.log('error');
+    }
+
+  });
+}
+
+function play_chat_notification_sound(){
+  let audio = new Audio(static_url + 'sounds/alert.mp3');
+  audio.play();
 }
