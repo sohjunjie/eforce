@@ -17,7 +17,6 @@ $(document).ready(function() {
       if(msg != ''){
         var notificationDesc = {notificationDesc: msg + "<br/> Please refresh!"}
         $("#pushNotificationTemplate").tmpl(notificationDesc).prependTo("#efhq_notification_wrapper");
-        play_notification_sound();
       }
 
   }
@@ -30,12 +29,15 @@ function push_django_msg_notification(data){
     switch(data.created_type) {
         case 'crisis':
             return_msg = create_crisis_alert_msg(data);
+            play_notification_sound('sounds/alert3.mp3')
             break;
         case 'crisis_update':
             return_msg = create_crisis_update_msg(data);
+            play_notification_sound('sounds/alert2.mp3')
             break;
         case 'combat_strategy':
             return_msg = create_combat_strategy_alert_msg(data);
+            play_notification_sound('sounds/alert2.mp3')
             break;
     }
 
@@ -64,7 +66,7 @@ function create_combat_strategy_alert_msg(data){
     return return_msg;
 }
 
-function play_notification_sound(){
-  let audio = new Audio(static_url + 'sounds/alert2.mp3');
+function play_notification_sound(soundpath){
+  let audio = new Audio(static_url + soundpath);
   audio.play();
 }

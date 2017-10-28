@@ -25,9 +25,11 @@ function push_django_msg_notification(data){
     switch(data.created_type) {
         case 'crisis':
             return_msg = create_crisis_alert_msg(data);
+            play_notification_sound('sounds/alert3.mp3')
             break;
         case 'group_instruction':
-
+            return_msg = create_group_instruction_msg(data);
+            play_notification_sound('sounds/alert2.mp3')
             break;
     }
 
@@ -64,4 +66,9 @@ function create_group_instruction_msg(data){
 
     return return_msg;
 
+}
+
+function play_notification_sound(soundpath){
+  let audio = new Audio(static_url + soundpath);
+  audio.play();
 }
