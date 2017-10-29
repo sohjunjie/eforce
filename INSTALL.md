@@ -32,4 +32,4 @@
 ```
         $ python manage.py runserver
 ```
-You can create your database objects such as users manually from http://127.0.0.1:8000/admin after running the server instance with ur local machine
+You can create your database objects such as users manually from http://127.0.0.1:8000/admin after running the server instance with ur local machine.

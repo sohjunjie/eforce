@@ -10,4 +10,5 @@ CZ3003 Project - SG Emergency Force System
 - Crisis Management System
 
 ## Installation guide
-[Install here](INSTALL.md)
+- [Setting up redis-server](IMPL-CHANNELS.md)
+- [Setting up the web application](INSTALL.md)
