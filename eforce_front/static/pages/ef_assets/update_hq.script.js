@@ -78,6 +78,7 @@ function event_getSearchUnresolvedCrisisSelect2(){
                 return {
                     q: params.term, // search term
                     page: params.page,
+                    thisusergroup: "true"
                 };
             },
             processResults: function (data, params) {

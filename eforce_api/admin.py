@@ -4,7 +4,7 @@ from .models import *
 
 class UserGroupAdmin(admin.ModelAdmin):
     model = UserGroup
-    list_display = ('rolename',)
+    list_display = ('rolename', 'image')
 
 
 class UserProfileAdmin(admin.ModelAdmin):
