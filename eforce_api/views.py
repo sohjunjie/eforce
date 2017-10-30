@@ -199,9 +199,9 @@ class CrisisStrategyView(APIView):
         if not strategy_detail:
             return Response({'detail': 'crisis strategy cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
 
-        CombatStrategy.objects.create(crisis=crisis, detail=strategy_detail)
+        cs = CombatStrategy.objects.create(crisis=crisis, detail=strategy_detail)
 
-        return Response({'data': 'success'}, status=status.HTTP_201_CREATED)
+        return Response({'data': 'success', 'created_cs_id': cs.id}, status=status.HTTP_201_CREATED)
 
 
 class CrisisCaseView(APIView):
@@ -246,4 +246,4 @@ class CrisisCaseView(APIView):
             except KeyError:
                 pass
 
-        return Response({'data': 'success'}, status=status.HTTP_201_CREATED)
+        return Response({'data': 'success', 'created_crisis_id': new_crisis.id}, status=status.HTTP_201_CREATED)

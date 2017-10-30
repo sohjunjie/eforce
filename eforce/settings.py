@@ -198,14 +198,6 @@ CHANNEL_LAYERS = {
     },
 }
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "asgiref.inmemory.ChannelLayer",
-#         "ROUTING": "eforce.routing.channel_routing",
-#     },
-# }
-
-
 # eforceapp constant
 EF_HQ_ROLENAME = 'EF_HQ'
 CONST_CMO_DOMAIN = "http://220.255.94.107:628/"
