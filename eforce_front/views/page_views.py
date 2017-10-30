@@ -79,8 +79,6 @@ def go_to_update_cmo_page(request):
     return render(request, 'home/ef_hq/update_cmo.html')
 
 
-# https://maps.googleapis.com/maps/api/staticmap?center={lat},{lng}&zoom=14&size=400x400&key={api_key}
-
 @login_required
 @PermissionManager.EF_Assets_required
 def go_to_update_hq_page(request):
