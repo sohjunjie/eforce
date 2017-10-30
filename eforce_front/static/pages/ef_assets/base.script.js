@@ -48,6 +48,8 @@ function create_group_instruction_msg(data){
 
     var psuedo_groupname = $("#user-group-name").text()
     if(psuedo_groupname.trim() != data.readable_to_group_name)
+      return_msg += "<b>" + data.for_crisis_title + "</b><br/>";
+      return_msg += "Instruction alert: " + data.instruction_text + "<br/>";
       return return_msg;
 
     $.ajax({
