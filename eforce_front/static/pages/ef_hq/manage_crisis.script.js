@@ -69,7 +69,7 @@ function get_efupdate_crisis_details(crisisId){
             forceLatLng: []
           };
         }
-        eforce_locs[item.get_readable_sent_by]['forceLatLng'].push({lat: parseFloat(item.force_lat), lng: parseFloat(item.force_lng)});
+        eforce_locs[item.get_readable_sent_by]['forceLatLng'].unshift({lat: parseFloat(item.force_lat), lng: parseFloat(item.force_lng)});
       });
 
       let dirService = new directionsServiceLib();
