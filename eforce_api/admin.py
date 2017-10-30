@@ -27,6 +27,11 @@ class CrisisAdmin(admin.ModelAdmin):
     list_display = ('cmo_crisis_id', 'title', 'scale', 'resolve')
 
 
+class CrisisUpdateAdmin(admin.ModelAdmin):
+    model = CrisisUpdate
+    list_display = ('id', 'by_group', 'for_crisis')
+
+
 admin.site.register(UserGroup, UserGroupAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(GroupInstruction, GroupInstructionAdmin)
