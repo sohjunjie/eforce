@@ -7,7 +7,29 @@ CZ3003 Project - SG Emergency Force System
 ## Stakeholders
 - Emergency Force HQ
 - EF Assets (Emergency Force HQ sub-divisions)
-- Crisis Management System
+- Crisis Management Office System
+
+## Key Features
+
+#### 1. EF Assets movement tracking
+
+
+#### 2. Chat interface with `NESIMS` stakeholders
+
+
+#### 3. Dynamic push notification for crisis alerts, combat strategy, EF updates
+
+
+#### 4. Google Map crisis tracking
+
+
+## Technology used
+- Websocket
+- JQuery
+- AJAX
+- CSS
+- Django Web Application
+- Django REST Framework
 
 ## Installation guide
 - [Setting up redis-server](IMPL-CHANNELS.md)
