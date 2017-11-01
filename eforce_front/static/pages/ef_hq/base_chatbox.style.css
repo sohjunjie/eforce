@@ -6,6 +6,13 @@
   margin: 10px;
 }
 
+#cmo_chat_box_crisis_title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 82%;
+  overflow: hidden
+}
+
 .emptyChatContentMessage{
     text-align: center;
     display:block;

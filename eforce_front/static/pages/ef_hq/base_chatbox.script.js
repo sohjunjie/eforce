@@ -60,8 +60,8 @@ function event_start_poll_on_select_chat_crisis(){
 
 function poll_chatbox_conversation(){
 
-  var cmo_crisis_id = $("#msg_for_crisis_id").val();
-  var api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
+  let cmo_crisis_id = $("#msg_for_crisis_id").val();
+  let api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
 
   $.ajax({
     type: "GET",
@@ -104,8 +104,10 @@ function poll_chatbox_conversation(){
 
 function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
 
-  var api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
+  let api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincidentchat.aspx?ID=" + cmo_crisis_id;
+  let cmo_crisis_title = $("#cmo_crisis_id_" + cmo_crisis_id + "_title").text();
   $("#msg_for_crisis_id").val(cmo_crisis_id);
+  $("#cmo_chat_box_crisis_title").text(cmo_crisis_title);
 
   $.ajax({
     type: "GET",
@@ -113,7 +115,7 @@ function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
     url: api_url,
     success: function(data, status){
 
-        var crisisChatMsgDetail;
+        let crisisChatMsgDetail;
         $("#cmo_chat_crisis_messages_lists").empty();
 
         $.each(data, function(i, item){
@@ -152,7 +154,7 @@ function load_chatbox_crisis_conversation(cmo_crisis_id, do_toggle=true){
 
 function init_chatbox_crisis_list(){
 
-  var api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincident.aspx?status=0";
+  let api_url = CONST_CMO_DOMAIN + "cmowebservice/viewincident.aspx?status=0";
 
   $.ajax({
     type: "GET",
@@ -181,7 +183,7 @@ function init_chatbox_crisis_list(){
 
   });
 
-  var api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
+  let api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
   $.ajax({
     type: "GET",
     dataType: 'json',
@@ -198,7 +200,7 @@ function init_chatbox_crisis_list(){
 }
 
 function toggle_chatbox_display() {
-    var x = document.getElementById('cmo_chat_box');
+    let x = document.getElementById('cmo_chat_box');
     if (x.style.display === 'none') {
         x.style.display = 'block';
     } else {
@@ -212,7 +214,7 @@ function event_start_poll_chat_max_id(){
 }
 
 function onchange_chatmaxid_create_toast(){
-  var api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
+  let api_maxchatid_url = CONST_CMO_DOMAIN + "cmowebservice/chatmaxid.aspx?ID=0";
   $.ajax({
     type: "GET",
     dataType: 'json',
