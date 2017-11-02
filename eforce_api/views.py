@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
 from django.shortcuts import render
 
-from eforce.settings import EF_HQ_ROLENAME
+from eforce.settings import EF_HQ_ROLENAME, CMO_AUTHENTICATION_KEY
 
 from eforce_api.utils import get_request_body_param, PermissionManager
 from eforce_api.models import *
@@ -189,15 +189,20 @@ class CrisisStrategyView(APIView):
         @body str detail: detail of strategy
         """
 
+        strategy_detail = get_request_body_param(request, 'detail', None).strip()
+        cmo_key = get_request_body_param(request, 'cmo_auth_key', CMO_AUTHENTICATION_KEY)
+
+        if cmo_key != CMO_AUTHENTICATION_KEY:
+            return Response({'detail': 'invalid cmo authentication key'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        if not strategy_detail:
+            return Response({'detail': 'crisis strategy cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             crisis = Crisis.objects.get(cmo_crisis_id=pk)
         except ObjectDoesNotExist:
             return Response({'detail': "Unable to find crisis with cmo crisis id %s" % cmo_crisis_id},
                             status=status.HTTP_404_NOT_FOUND)
-
-        strategy_detail = get_request_body_param(request, 'detail', None).strip()
-        if not strategy_detail:
-            return Response({'detail': 'crisis strategy cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
 
         cs = CombatStrategy.objects.create(crisis=crisis, detail=strategy_detail)
 
@@ -223,7 +228,10 @@ class CrisisCaseView(APIView):
         crisis_desc = get_request_body_param(request, 'description', '').strip()
         crisis_scale = get_request_body_param(request, 'scale', 0)
         locations = get_request_body_param(request, 'locations', [])
+        cmo_key = get_request_body_param(request, 'cmo_auth_key', CMO_AUTHENTICATION_KEY)
 
+        if cmo_key != CMO_AUTHENTICATION_KEY:
+            return Response({'detail': 'invalid cmo authentication'}, status=status.HTTP_401_UNAUTHORIZED)
         if not cmo_crisis_id:
             return Response({'detail': 'cmo crisis id cannot be empty'}, status=status.HTTP_400_BAD_REQUEST)
         if not crisis_title:

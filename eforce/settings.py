@@ -62,6 +62,7 @@ AWS_HEADERS = {
     'Cache-Control': 'max-age=86400',
 }
 GOOGLE_SERVICE_API_KEY = os.environ.get('GOOGLE_SERVICE_API_KEY')
+CMO_AUTHENTICATION_KEY = os.environ.get('CMO_AUTHENTICATION_KEY', 'VERY-SECRET-KEY')
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
