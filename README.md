@@ -13,14 +13,17 @@ CZ3003 Project - SG Emergency Force System
 
 #### 1. EF Assets movement tracking
 The software web application is able to perform movement tracking of EF Assets and represent their movement across the Singapore map through Google Map visualization for each crisis.
+
 ![alt text](_sample_image/efassets-movement-tracking.JPG)
 
 #### 2. Chat interface with `NESIMS` stakeholders
 Through real-time chat interface embedded into the application, the SG Emergency Force can communicate with `NESIMS` stakholders real-time, allowing the EF to be responsive to emerging crises.
+
 ![alt text](_sample_image/chat-interface.JPG)
 
 #### 3. Dynamic push notification for crisis alerts, combat strategy, EF updates
 Websocket technology improve the responsiveness of the SG Emergency Force by enforcing real-time push notifications and updates through an event-driven approach.
+
 ![alt text](_sample_image/push-notification-message.JPG)
 
 ## Technology used
