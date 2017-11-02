@@ -1,12 +1,13 @@
 # Emergency Force System
 
 ## Contents
-- [Installation and setup](#quick-installation-and-setup)
-- [Get the code](#get-the-sg-emergency-force-system-code)
-- [Create the database](#create-the-database)
-- [Sync code with database](#sync-code-with-database)
-- [Starting the server](#starting-the-server)
-- [Finally...](#finally...)
+- [Installation and setup](#1-quick-installation-and-setup)
+- [Get the code](#2-get-the-sg-emergency-force-system-code)
+- [Install dependencies](#3-install-dependencies)
+- [Create the database](#3-create-the-database)
+- [Sync code with database](#4-sync-code-with-database)
+- [Starting the server](#5-starting-the-server)
+- [Finally...](#6-finally...)
 
 #### 1. Quick installation and setup
 - Install postgres (pgadmin)
