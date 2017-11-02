@@ -37,3 +37,6 @@ Websocket technology improve the responsiveness of the SG Emergency Force by enf
 ## Installation guide
 - [Setting up redis-server](IMPL-CHANNELS.md)
 - [Setting up the web application](INSTALL.md)
+
+## Templates used
+https://github.com/almasaeed2010/AdminLTE.git
