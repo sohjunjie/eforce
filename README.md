@@ -1,5 +1,7 @@
 # SG-EF System
-CZ3003 Project - SG Emergency Force System
+CZ3003 Project - SG Emergency Force System. The web application created is for a NTU graded lab assignment and is in no way or form associated with any emergency force or system.
+
+Refer to this [pdf document](_docs/lab-manual-nesims-v01-cz3003.pdf) for more information about the project requirements and background.
 
 ## Overview
 `SG-EF`, also called the `SG Emergency Force System`, is a prototype Web app + RESTful API server app that the SG Emergency Force uses for communication of `crisis combat instructions` with its sub-divisions. The `SG-EF` system receives new `crisis` events and executive orders from the Crisis Management Office System and will be responsible for updating back to the CMO System real-time updates when situation about the crisis changes.

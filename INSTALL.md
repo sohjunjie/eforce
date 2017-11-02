@@ -1,4 +1,4 @@
-# Emergency Force System
+# Emergency Force System Installation guide
 
 ## Contents
 - [Installation and setup](#1-quick-installation-and-setup)
