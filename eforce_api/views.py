@@ -74,12 +74,15 @@ class CrisisCaseSearchView(generics.ListAPIView):
         crisises = Crisis.objects.all()
         if filterUserGroup:
             groupInstructions = self.request.user.userprofile.usergroup.instruction.all()
-            print(self.request.user.userprofile)
             crisises = crisises.filter(instructions__in=groupInstructions)
+            print('in filter user group', len(crisises))
 
         crisises = crisises.filter(resolve=filterResolve)
+        print('after filter user group', len(crisises))
         if search is not None and search is not '':
             crisises = crisises.filter(title__icontains=search)
+            print('in search part', len(crisises))
+
         return crisises
 
 
