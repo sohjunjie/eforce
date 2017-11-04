@@ -20,7 +20,6 @@
 
 {% block page_scripts %}
 <script src="{% static "pages/ef_assets/update_hq.script.js" %}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 <script id="crisisDetailTemplate" type="text/x-jQuery-tmpl">
 <div class="box-header">
 
@@ -208,4 +207,8 @@
 
 </section>
 <!-- /.content -->
+{% endblock %}
+
+{% block googlemap_script_block %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 {% endblock %}

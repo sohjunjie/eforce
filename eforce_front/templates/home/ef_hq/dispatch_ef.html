@@ -19,7 +19,6 @@
 
 {% block page_scripts %}
 <script src="{% static "pages/ef_hq/dispatch_ef.script.js" %}"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 <script id="crisisDetailTemplate" type="text/x-jQuery-tmpl">
 <div class="box-header">
 
@@ -50,12 +49,7 @@
 
 <script>
 
-$( document ).ready(function() {
-    initMap();
-});
 
-
-  // TODO: GENERATE MARKERS
   var crisisMarkers = [];
   var sgmap;
 
@@ -207,4 +201,9 @@ $( document ).ready(function() {
 
 
 </section>
+{% endblock %}
+
+
+{% block googlemap_script_block %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 {% endblock %}

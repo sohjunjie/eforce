@@ -54,10 +54,6 @@
 
 <script>
 
-$( document ).ready(function() {
-    initMap();
-});
-
 
 var sgmap;
 var sgloc;
@@ -144,7 +140,7 @@ var getAlternateColor = new function() {
     };
 }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
+
 {% endblock %}
 
 {% block main_body %}
@@ -207,4 +203,8 @@ var getAlternateColor = new function() {
 
     </div>
 </div>
+{% endblock %}
+
+{% block googlemap_script_block %}
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={% google_api_key %}&callback=initMap"></script>
 {% endblock %}
