@@ -108,7 +108,7 @@ def go_to_homepage(request):
 
     if request.user.userprofile.is_EF_HQ_user():
         render_page = 'home/ef_hq/main.html'
-        context = {'crisises': Crisis.objects.all()}
+        context = {'crisises': Crisis.objects.filter(resolve=False)}
     else:
         render_page = 'home/ef_assets/main.html'
         crisis_instructions = get_user_group_crisis_instructions(request.user)
