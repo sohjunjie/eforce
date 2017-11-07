@@ -74,7 +74,7 @@ class CrisisCaseSearchView(generics.ListAPIView):
         crisises = Crisis.objects.all()
         if filterUserGroup:
             groupInstructions = self.request.user.userprofile.usergroup.instruction.all()
-            crisises = crisises.filter(instructions__in=groupInstructions)
+            crisises = crisises.filter(instructions__in=groupInstructions).distinct('id')
 
         crisises = crisises.filter(resolve=filterResolve)
         if search is not None and search is not '':

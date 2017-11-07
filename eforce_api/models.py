@@ -31,7 +31,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name="userprofile")
     description = models.TextField(max_length=500, blank=True, null=True)
     avatar = models.ImageField(upload_to=user_avatar_directory_path, blank=True, null=True)
-    usergroup = models.OneToOneField(UserGroup, related_name='userprofile', null=True)
+    usergroup = models.ForeignKey(UserGroup, related_name='userprofile', null=True)
 
     def __str__(self):
         return self.user.username
