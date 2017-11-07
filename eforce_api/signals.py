@@ -24,13 +24,13 @@ def send_client_crisis_notification(sender, instance=None, created=False, **kwar
                 "title": instance.title
             })
         })
-        Group("efassets").send({
-            "text": json.dumps({
-                "created_type": "crisis",
-                "id": instance.id,
-                "title": instance.title
-            })
-        })
+        # Group("efassets").send({
+        #     "text": json.dumps({
+        #         "created_type": "crisis",
+        #         "id": instance.id,
+        #         "title": instance.title
+        #     })
+        # })
 
 
 @receiver(post_save, sender=CrisisUpdate)

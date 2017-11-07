@@ -25,11 +25,15 @@ function push_django_msg_notification(data){
     switch(data.created_type) {
         case 'crisis':
             return_msg = create_crisis_alert_msg(data);
-            play_notification_sound('sounds/alert3.mp3')
+            if (return_msg != "") {
+               play_notification_sound('sounds/alert3.mp3');
+            }
             break;
         case 'group_instruction':
             return_msg = create_group_instruction_msg(data);
-            play_notification_sound('sounds/alert2.mp3')
+            if (return_msg != "") {
+               play_notification_sound('sounds/alert2.mp3');
+            }
             break;
     }
 
@@ -47,24 +51,11 @@ function create_group_instruction_msg(data){
     var return_msg = "";
 
     var psuedo_groupname = $("#user-group-name").text()
-    if(psuedo_groupname.trim() != data.readable_to_group_name)
+    if(psuedo_groupname.trim() == data.readable_to_group_name) {
       return_msg += "<b>" + data.for_crisis_title + "</b><br/>";
       return_msg += "Instruction alert: " + data.instruction_text + "<br/>";
       return return_msg;
-
-    $.ajax({
-      type: "GET",
-      dataType: 'json',
-      url: "api/v1.0/this/user/group/",
-      success: function(ajax_data, status){
-          ajax_data = ajax_data.data
-          if(ajax_data.id == data.to_group_id){
-            return_msg += "<b>" + data.for_crisis_title + "</b><br/>";
-            return_msg += "Instruction alert: " + data.instruction_text + "<br/>";
-          }
-      },
-      error: function(err) {console.log('error');}
-    });
+    }
 
     return return_msg;
 
