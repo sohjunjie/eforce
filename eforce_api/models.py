@@ -89,6 +89,9 @@ class SummmarizedCrisisUpdate(models.Model):
     known_dead = models.IntegerField(default=0, null=False)
     for_crisis = models.ForeignKey(Crisis, null=True, related_name="summarized_updates")
 
+    class Meta:
+        ordering = ['-created_datetime']
+
 
 class CrisisUpdate(models.Model):
     description = models.TextField(max_length=1000, null=True)

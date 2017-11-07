@@ -74,3 +74,18 @@ def get_this_efasset_usergroup_sent_updates_by_page(request):
         sent_updates = paginator.page(paginator.num_pages)
 
     return sent_updates
+
+
+def get_this_efhq_sent_updates_by_page(request):
+    efhq_updates = SummmarizedCrisisUpdate.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(efhq_updates, 20)
+
+    try:
+        sent_updates = paginator.page(page)
+    except PageNotAnInteger:
+        sent_updates = paginator.page(1)
+    except EmptyPage:
+        sent_updates = paginator.page(paginator.num_pages)
+
+    return sent_updates

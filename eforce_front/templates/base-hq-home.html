@@ -9,7 +9,9 @@
 {% url 'hq-dispatch-ef' as hq_dispatch_ef_url %}
 {% url 'hq-manage-crisis' as hq_manage_crisis_url %}
 {% url 'hq-update-cmo' as hq_update_cmo_url %}
+{% url 'hq-sent-updates' as hq_sent_updates_url %}
 {% url 'logout' as logout_url %}
+
 
 {% get_unread_hq_crisises as new_hq_crisis_notifications %}
 {% get_unread_crisis_updates as new_efassets_notifications %}
@@ -278,6 +280,11 @@
                     <li class="{% active request hq_update_cmo_url %}">
                         <a href="{{ hq_update_cmo_url }}">
                             <i class="fa fa-paper-plane"></i> <span>Update CMO</span></a>
+                    </li>
+
+                    <li class="{% active request hq_sent_updates_url %}">
+                        <a href="{{ hq_sent_updates_url }}">
+                            <i class="fa fa-envelope-open-o"></i> <span>All sent CMO updates</span></a>
                     </li>
 
                     <li class="{% active request hq_manage_crisis_url %}">

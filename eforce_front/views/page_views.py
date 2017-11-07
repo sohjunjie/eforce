@@ -1,5 +1,6 @@
 from .auth_views import try_login_user
-from .get_context_views import get_user_group_crisis_instructions, get_this_efasset_usergroup_sent_updates_by_page
+from .get_context_views import get_user_group_crisis_instructions, \
+    get_this_efasset_usergroup_sent_updates_by_page, get_this_efhq_sent_updates_by_page
 from .cmo_comm_api_views import send_and_create_cmo_sum_update, \
     send_and_create_efhq_ground_update, send_and_create_dispatch_efassets_instruction
 
@@ -100,6 +101,13 @@ def go_to_update_hq_page(request):
 def go_to_efassets_view_sent_update_page(request):
     paged_sent_updates = get_this_efasset_usergroup_sent_updates_by_page(request)
     return render(request, 'home/ef_assets/view_sent_groundupdate.html', {'sent_updates': paged_sent_updates})
+
+
+@login_required
+@PermissionManager.EF_HQ_required
+def go_to_efhq_view_sent_update_page(request):
+    paged_sent_updates = get_this_efhq_sent_updates_by_page(request)
+    return render(request, 'home/ef_hq/view_sent_cmoupdate.html', {'sent_updates': paged_sent_updates})
 
 
 @login_required
