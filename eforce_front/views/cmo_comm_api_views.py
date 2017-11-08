@@ -68,17 +68,21 @@ def send_and_create_cmo_sum_update(request):
             if send_update_success and sum_update_crisis_resolved:
                 for_crisis.resolve = True
                 for_crisis.save()
-            SummmarizedCrisisUpdate.objects.create(
-                title=sum_update_title,
-                description=sum_update_desc,
-                force_lat=sum_update_force_lat,
-                force_lng=sum_update_force_lng,
-                force_size=sum_update_force_size,
-                force_casualty=sum_update_force_casualty,
-                known_casualty=sum_update_known_casualty,
-                known_dead=sum_update_known_dead,
-                for_crisis=for_crisis
-            )
+
+            if send_update_success:
+                SummmarizedCrisisUpdate.objects.create(
+                    title=sum_update_title,
+                    description=sum_update_desc,
+                    force_lat=sum_update_force_lat,
+                    force_lng=sum_update_force_lng,
+                    force_size=sum_update_force_size,
+                    force_casualty=sum_update_force_casualty,
+                    known_casualty=sum_update_known_casualty,
+                    known_dead=sum_update_known_dead,
+                    for_crisis=for_crisis
+                )
+            else:
+                raise UpdateCrisisCMOError(error="Unable to send summary update to CMO. Please try again.")
     except IntegrityError as e:
         raise UpdateCrisisCMOError(error="Something very bad has just happen.")
 
