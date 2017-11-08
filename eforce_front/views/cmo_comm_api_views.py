@@ -68,6 +68,7 @@ def send_and_create_cmo_sum_update(request):
             if send_update_success and sum_update_crisis_resolved:
                 for_crisis.resolve = True
                 for_crisis.save()
+                # set read as true
 
             if send_update_success:
                 SummmarizedCrisisUpdate.objects.create(
