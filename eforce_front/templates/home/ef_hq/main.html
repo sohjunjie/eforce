@@ -23,7 +23,20 @@
 
 $( document ).ready(function() {
 
-  $('body').on('click', '.crisis_efassets_updates > .nav-stacked > li', function(event) {
+//   $('body').on('click', '.crisis_efassets_updates > .nav-stacked > li', function(event) {
+//
+//       var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
+//       var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
+//
+//       clearMarkers();
+//
+//       pos = {lat: pos_lat, lng: pos_lng};
+//       addMarker(pos);
+//       sgmap.setCenter(pos);
+//
+//   });
+
+  $('body').on('click', 'div.box-header.with-border > h3', function(event) {
 
       var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
       var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
