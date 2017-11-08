@@ -23,20 +23,7 @@
 
 $( document ).ready(function() {
 
-//   $('body').on('click', '.crisis_efassets_updates > .nav-stacked > li', function(event) {
-//
-//       var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
-//       var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
-//
-//       clearMarkers();
-//
-//       pos = {lat: pos_lat, lng: pos_lng};
-//       addMarker(pos);
-//       sgmap.setCenter(pos);
-//
-//   });
-
-  $('body').on('click', 'div.box-header.with-border > h3', function(event) {
+  $('body').on('click', '.crisis_efassets_updates > .nav-stacked > li', function(event) {
 
       var pos_lat = Number($(this).find('.collapsible_text_meta > .lat').text());
       var pos_lng = Number($(this).find('.collapsible_text_meta > .lng').text());
@@ -46,6 +33,24 @@ $( document ).ready(function() {
       pos = {lat: pos_lat, lng: pos_lng};
       addMarker(pos);
       sgmap.setCenter(pos);
+
+  });
+
+  $('body').on('click', '#crisis_notification_wrapper > div > div > .crisis-title', function(event) {
+
+      locs = $(this).closest("div").find('.location_list > input');
+      clearMarkers();
+
+      for(i=0; i<locs.length; i++){
+        var loc_latlng = locs[i].value.split(",");
+        var pos_lat = Number(loc_latlng[0]);
+        var pos_lng = Number(loc_latlng[1]);
+
+        pos = {lat: pos_lat, lng: pos_lng};
+        addMarker(pos);
+        sgmap.setCenter(pos);
+
+      }
 
   });
 
