@@ -28,8 +28,8 @@ function mark_crisis_as_read(crisis_id){
     },
     success: function(data, status){
 
-      $("#crisis_id_" + crisis_id).closest("i").removeClass('fa-circle-o');
-      $("#crisis_id_" + crisis_id).closest("i").addClass('fa-check');
+      $("#crisis_id_" + crisis_id).find("div.box-tools").find("i").removeClass('fa-circle-o');
+      $("#crisis_id_" + crisis_id).find("div.box-tools").find("i").addClass('fa-check');
 
     },
     error: function(err) {
