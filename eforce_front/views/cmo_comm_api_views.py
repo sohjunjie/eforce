@@ -67,8 +67,12 @@ def send_and_create_cmo_sum_update(request):
         with transaction.atomic():
             if send_update_success and sum_update_crisis_resolved:
                 for_crisis.resolve = True
+                for_crisis.has_read = True
                 for_crisis.save()
-                # set read as true
+                # set all as READ when resolved
+                CombatStrategy.objects.filter(crisis=for_crisis).update(has_read=True)
+                CrisisUpdate.objects.filter(for_crisis=for_crisis).update(has_read=True)
+                InstructionGroupAssoc.objects.filter(instruction__for_crisis=for_crisis).update(has_read=True)
 
             if send_update_success:
                 SummmarizedCrisisUpdate.objects.create(
