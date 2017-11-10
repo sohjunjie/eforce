@@ -42,7 +42,7 @@ function push_django_msg_notification(data){
 
 function create_crisis_alert_msg(data){
     var return_msg = "";
-    return_msg += "Crisis Alert: " + data.title;
+    return_msg += "Crisis Alert: " + escape_html(data.title);
     return return_msg;
 }
 
@@ -52,8 +52,8 @@ function create_group_instruction_msg(data){
 
     var psuedo_groupname = $("#user-group-name").text()
     if(psuedo_groupname.trim() == data.readable_to_group_name) {
-      return_msg += "<b>" + data.for_crisis_title + "</b><br/>";
-      return_msg += "Instruction alert: " + data.instruction_text + "<br/>";
+      return_msg += "<b>" + escape_html(data.for_crisis_title) + "</b><br/>";
+      return_msg += "Instruction alert: " + escape_html(data.instruction_text) + "<br/>";
       return return_msg;
     }
 
@@ -64,4 +64,10 @@ function create_group_instruction_msg(data){
 function play_notification_sound(soundpath){
   let audio = new Audio(static_url + soundpath);
   audio.play();
+}
+
+function escape_html(str_to_escape) {
+
+  return str_to_escape.replace(/<\/?[^>]+(>|$)/g, "");
+
 }
