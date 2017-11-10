@@ -3,13 +3,16 @@ CZ3003 Project - SG Emergency Force System. The web application created is for a
 
 Refer to this [pdf document](_docs/lab-manual-nesims-v01-cz3003.pdf) for more information about the project requirements and background.
 
+
 ## Overview
 `SG-EF`, also called the `SG Emergency Force System`, is a prototype Web app + RESTful API server app that the SG Emergency Force uses for communication of `crisis combat instructions` with its sub-divisions. The `SG-EF` system receives new `crisis` events and executive orders from the Crisis Management Office System and will be responsible for updating back to the CMO System real-time updates when situation about the crisis changes.
+
 
 ## Stakeholders
 - Emergency Force HQ
 - EF Assets (Emergency Force HQ sub-divisions)
 - Crisis Management Office System
+
 
 ## Key Features
 
@@ -28,6 +31,12 @@ Websocket technology improve the responsiveness of the SG Emergency Force by enf
 
 ![alt text](_sample_image/push-notification-message.JPG)
 
+
+## Product Demo
+
+Link to our product demo here :point_right: https://www.youtube.com/watch?v=pQ2zexw5RXo&feature=youtu.be
+
+
 ## Technology used
 - Websocket
 - JQuery
@@ -36,9 +45,11 @@ Websocket technology improve the responsiveness of the SG Emergency Force by enf
 - Django Web Application
 - Django REST Framework
 
+
 ## Installation guide
 - [Setting up redis-server](IMPL-CHANNELS.md)
 - [Setting up the web application](INSTALL.md)
+
 
 ## Templates used
 https://github.com/almasaeed2010/AdminLTE.git
