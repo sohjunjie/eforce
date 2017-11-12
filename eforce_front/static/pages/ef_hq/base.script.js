@@ -1,7 +1,3 @@
-// DEFINE BASE EF HQ CONST
-var CONST_CMO_DOMAIN = "//220.255.94.107:628/";
-var CONST_THIS_READABLE_USER_GROUP = "EF HQ";
-
 $(document).ready(function() {
 
   if(location.protocol == 'https:'){
