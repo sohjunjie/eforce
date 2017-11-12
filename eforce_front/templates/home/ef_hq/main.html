@@ -196,6 +196,9 @@ var sgmap;
                         <span class="lng">{{efupdate.force_lng}}</span>
                         <span role="presentation" aria-hidden="true"> · </span>
                         {% get_humanize_datetime efupdate.created_datetime %}
+                        <span role="presentation" aria-hidden="true"> · </span>
+                        {{efupdate.get_readable_sent_by}}
+
                     </div>
                   </li>
 
