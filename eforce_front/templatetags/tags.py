@@ -18,6 +18,12 @@ def google_api_key():
 
 
 @register.simple_tag
+def cmo_api_url():
+    from eforce.settings import CONST_CMO_DOMAIN
+    return CONST_CMO_DOMAIN
+
+
+@register.simple_tag
 def ef_assets_user_instructions(user):
     from eforce_front.views.get_context_views import get_user_group_unread_instructions
     return get_user_group_unread_instructions(user)

@@ -201,4 +201,4 @@ CHANNEL_LAYERS = {
 
 # eforceapp constant
 EF_HQ_ROLENAME = 'EF_HQ'
-CONST_CMO_DOMAIN = "http://220.255.94.107:628/"
+CONST_CMO_DOMAIN = "http://" + os.environ.get('CMO_API_URL', '220.255.94.107:628') + "/"
