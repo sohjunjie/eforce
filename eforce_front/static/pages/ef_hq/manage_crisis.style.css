@@ -21,9 +21,9 @@
 .products-list .crisis-description {
     display: block;
     font-size: 15px;
-    overflow: hidden;
+    /*overflow: hidden;
     white-space: nowrap;
-    /*text-overflow: ellipsis;*/
+    text-overflow: ellipsis;*/
 }
 
 .modal-dialog {
