@@ -47,7 +47,7 @@ Link to our product demo here :point_right: https://www.youtube.com/watch?v=pQ2z
 
 
 ## Installation guide
-- [Setting up redis-server](IMPL-CHANNELS.md)
+- [Setting up redis-server](INSTALL-WEBSOCKET-SERVER.md)
 - [Setting up the web application](INSTALL.md)
 
 
