@@ -20,6 +20,7 @@ Refer to this [pdf document](_docs/lab-manual-nesims-v01-cz3003.pdf) for more in
 The software web application is able to perform movement tracking of EF Assets and represent their movement across the Singapore map through Google Map visualization for each crisis.
 
 ![alt text](_sample_image/efassets-movement-tracking.JPG)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsohjunjie%2Feforce.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsohjunjie%2Feforce?ref=badge_shield)
 
 #### 2. Chat interface with `NESIMS` stakeholders
 Through real-time chat interface embedded into the application, the SG Emergency Force can communicate with `NESIMS` stakholders real-time, allowing the EF to be responsive to emerging crises.
@@ -53,3 +54,7 @@ Link to our product demo here :point_right: https://www.youtube.com/watch?v=pQ2z
 
 ## Templates used
 https://github.com/almasaeed2010/AdminLTE.git
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fsohjunjie%2Feforce.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fsohjunjie%2Feforce?ref=badge_large)
