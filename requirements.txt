@@ -16,7 +16,7 @@ django-bootstrap3==9.0.0
 django-dotenv==1.4.1
 django-nose==1.4.4
 django-storages==1.6.5
-djangorestframework==3.6.3
+djangorestframework==3.11.2
 gunicorn==19.5.0
 humanize==0.5.1
 hyperlink==17.3.1
