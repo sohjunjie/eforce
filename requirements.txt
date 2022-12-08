@@ -4,7 +4,7 @@ attrs==17.2.0
 autobahn==17.9.2
 Automat==0.6.0
 boto==2.48.0
-certifi==2017.7.27.1
+certifi==2022.12.7
 channels==1.1.8
 chardet==3.0.4
 constantly==15.1.0
